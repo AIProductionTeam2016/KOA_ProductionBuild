@@ -13,6 +13,14 @@
 # a file called CHANGES (under the title of the new version
 # number) and create a GIT tag.
 
+# Verify you are running assetcheck from the correct directory
+currdir=${PWD##*/}
+reqdir='KOA_ProductionBuild'
+if [ "$currdir" != "$reqdir" ]; then
+	echo "INVALID ACCESS: change directory to KOA_ProductionBuild"
+	exit
+fi
+
 if [ -f VERSION ]; then
     BASE_STRING=`cat VERSION`
     BASE_LIST=(`echo $BASE_STRING | tr '.' ' '`)

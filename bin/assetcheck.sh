@@ -2,8 +2,8 @@
 
 # assetcheck.sh is a script that is ran against the 
 # Google Dropbox folder:  Assets_NewVersions_NeedPushToGit
-# TODO: FILL OUT DESCRIPTION
 
+# Verify you are running assetcheck from the correct directory
 currdir=${PWD##*/}
 reqdir='KOA_ProductionBuild'
 if [ "$currdir" != "$reqdir" ]; then

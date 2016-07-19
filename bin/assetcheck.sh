@@ -4,6 +4,17 @@
 # Google Dropbox folder:  Assets_NewVersions_NeedPushToGit
 # TODO: FILL OUT DESCRIPTION
 
+currdir=${PWD##*/}
+reqdir='KOA_ProductionBuild'
+if [ "$currdir" != "$reqdir" ]; then
+	echo "INVALID ACCESS: change directory to KOA_ProductionBuild"
+	exit
+fi
+
+# extract the simplified last commit
+LAST_COMMIT=$(git log -n 1 --pretty=format:"%h" 2>&1)
+echo $LAST_COMMIT
+
 # check to see if an error log exists; create if needed
 if [ -f assetcheck.ERRORLOG ]; then 
 	echo "assetcheck.ERRORLOG: found"
@@ -12,6 +23,8 @@ else
 	echo "Creating assetcheck.ERRORLOG"
 	echo -e "#assetcheck.ERRORLOG\n" > assetcheck.ERRORLOG
 fi
+
+
 
 #check to see if there is a new file log; create if needed
 if [ -f assetCheck.NEWFILES ]; then
@@ -50,7 +63,7 @@ if [ -d $Assets_NewVersions_NeedPushToGit ]; then
 	else "Assets_NewVersions_NeedPushToGit/ dir not found!"
 fi
 
-#pathToDir=${PWD#*/}
+#pathToDir=${PWD##*/}
 
 #ls c:/Users/Moses/Documents/_school/_CURRENT_SUMMER_2016/KOA_Production/_BackupProduction/Assets_NewVersions_NeedPushToGit
 

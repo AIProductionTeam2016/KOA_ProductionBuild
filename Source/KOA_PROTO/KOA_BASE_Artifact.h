@@ -95,6 +95,7 @@ public:
 	UKOA_BASE_Artifact();
 	virtual ~UKOA_BASE_Artifact();
 
+	void Tick(float DeltaTime) {}
 
 	virtual void PressAbilityQ();
 	virtual void PressAbilityW();

@@ -52,6 +52,13 @@ void AKOA_PROTO_Character::BeginPlay() {
 void AKOA_PROTO_Character::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
 
+	// Check to see if ability is pressed
+	// if (AbilityPressed != EAbilityID::NONE) {
+	// 	// Access the current artifact's tick function
+	// 	CurrentArtifact.Tick(DeltaTime);
+	// }
+
+
 	// If we are sliding down the wall
 	if (IsSlidingDownWall) {
 		FVector playerLocation = GetActorLocation();

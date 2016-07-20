@@ -13,7 +13,7 @@
 # a file called CHANGES (under the title of the new version
 # number) and create a GIT tag.
 
-# Verify you are running assetcheck from the correct directory
+# Verify you are running bumpversion from the correct directory
 currdir=${PWD##*/}
 reqdir='KOA_ProductionBuild'
 if [ "$currdir" != "$reqdir" ]; then

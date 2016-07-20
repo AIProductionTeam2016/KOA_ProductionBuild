@@ -236,6 +236,9 @@ public:
 	/****** ARTIFACTS ******/
 	void EquipDualDaggers();
 	void EquipFireGlove();
+	// void EquipLightningBow();
+	// void EquipMatterHammer();
+
 	bool SetCurrentArtifact(EArtifactID Artifact);
 
 	/****** ABILITIES ******/

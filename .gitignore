@@ -55,6 +55,9 @@ Saved/*
 # Compiled source files for the engine to use
 Intermediate/*
 
+# New asset transfer folder
+Assets_NewVersions_NeedPushToGit/*
+
 # Cache files for the editor to use
 DerivedDataCache/*
 

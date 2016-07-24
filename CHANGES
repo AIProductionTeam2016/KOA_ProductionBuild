@@ -1,3 +1,12 @@
+Version 0.1.2:
+ - Merge branch 'hotfix-0.1.1' into develop
+ - Corrected a comment in bumpversion.sh
+ - Moved bumpversion.sh to /bin as well as putting in a directory check. Updated assetcheck.sh comments for clarity
+ - Added a directory check to bin/assetcheck.sh to ensure the shell script is ONLY running from KOA_ProductionBuild.
+ - Added new bash script to check for new assets that need to be transfered.
+ - Updated .gitignore to the new asset transfer folder.
+ - Added TODO file for hotfix v0.1.1
+
 Version 0.1.1:
 
 

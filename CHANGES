@@ -1,3 +1,12 @@
+Version 0.1.4:
+ - Merge branch 'hotfix-0.1.4'
+ - Removed TODO for this hotfix as the hotfix was complete.
+ - Fixed some formatting in KOA_PROTO_Wall.h
+ - *BUGFIX* fixed the bug where the player would stop in midair and slide down as if he was on a wall and there was not.
+ - Added TODO for hotfix-0.1.4
+ - Merge branch 'master' of https://github.com/AIProductionTeam2016/KOA_ProductionBuild into develop
+ - Merge branch 'hotfix-0.1.3' into develop Restructured the entire engine contents into a more user friendly oragnization.
+
 Version 0.1.3:
  - Merge branch 'hotfix-0.1.3' Restructured the entire project into a more organized file structure.
  - Hooked things back up to their previous state in the Prototyping level and character BP.

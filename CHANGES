@@ -1,3 +1,23 @@
+Version 0.1.3:
+ - Merge branch 'hotfix-0.1.3' Restructured the entire project into a more organized file structure.
+ - Hooked things back up to their previous state in the Prototyping level and character BP.
+ - Moved the mannequin files to the appropriate location in engine.
+ - Set BP_KOA_PROTOGameMode back up from the respective files new locations.
+ - Restructured and organized the SceneAsset tools.
+ - Added all current engine content back into project in new folder structure.
+ - Removed everything else from the content folders and deleted the old structure
+ - moved all files out of Content/Animations
+ - Removed TODO_hotfix_0.1.1
+
+Version 0.1.2:
+ - Merge branch 'hotfix-0.1.1' into develop
+ - Corrected a comment in bumpversion.sh
+ - Moved bumpversion.sh to /bin as well as putting in a directory check. Updated assetcheck.sh comments for clarity
+ - Added a directory check to bin/assetcheck.sh to ensure the shell script is ONLY running from KOA_ProductionBuild.
+ - Added new bash script to check for new assets that need to be transfered.
+ - Updated .gitignore to the new asset transfer folder.
+ - Added TODO file for hotfix v0.1.1
+
 Version 0.1.1:
 
 

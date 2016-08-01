@@ -69,8 +69,6 @@ struct KOA_PROTO_API FPlayerJumpVariables {
 	UPROPERTY(EditAnywhere, Category = "Jump")
 	float Power;
 
-	//TODO: Move SlideAcceleration && SlideVelocity to private after init values are found
-	//TODO:    and after demonstrating the feature.
 	// The acceleration of the wall slide
 	float SlideAcceleration;
 	float CurrSlideVelocity;
@@ -177,7 +175,6 @@ private:
 	bool CanDoubleJump;
 	// Determines if Double Jumping turned on in the game. When false, CanDoubleJump will ALWAYS be false
 	bool DoubleJumpEnabled;
-
 	float WallHoldDuration;
 };
 

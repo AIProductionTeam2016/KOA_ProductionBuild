@@ -18,4 +18,14 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability,Q")
 	void PressAbilityQ();
 	virtual void PressAbilityQ_Implementation();
+
+	UFUNCTION(BlueprintCallable, Category="Ability,E")
+	float GetE_MaxTargetRange() const {
+		return E_MaxTargetRange;
+	}
+
+	UPROPERTY(EditAnywhere, Category="Ability,E")
+	float E_MaxTargetRange;
+private:
+	
 };

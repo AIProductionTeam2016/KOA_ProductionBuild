@@ -6,6 +6,7 @@
 UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers() : Super() {
 	ArtifactName = "Dual Daggers of Something, Probably";
 	AbilityQ.AbilityName = "Vampire's Kiss with Blood; Not Sparkles";
+	E_MaxTargetRange = 1000.0;
 }
 
 void UKOA_Artifact_DualDaggers::PressAbilityQ_Implementation() {

@@ -184,7 +184,10 @@ FDetectWallHitInfo AKOA_PROTO_Character::DetectWall() {
 void AKOA_PROTO_Character::PlayerJump() {
 	// If the player is grounded, then this is their first jump
 	if (!GetCharacterMovement()->IsFalling()) {
+
+		//TODO either figure out how to modify this, or make a custom jump function.
 		ACharacter::Jump();
+
 	}
 	// The player has already jumped or is otherwise in the air
 	else {

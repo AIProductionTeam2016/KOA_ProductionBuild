@@ -2,16 +2,15 @@
 
 #include "KOA_PROTO.h"
 #include "KOA_PROTO_Wall.h"
-#include "KOA_PROTO_CharacterMovementSlide.h"
 #include "KOA_PROTO_Character.h"
+#include "KOA_PROTO_CharacterMovementSlide.h"
 
 /**************************************************************************
 	CONSTRUCTORS AND INITIALIZERS
 **************************************************************************/
 // Default Constructor
 AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
-	//: Super(ObjectInitializer.SetDefaultSubobjectClass<UKOA_PROTO_CharacterMovementSlide>(ACharacter::CharacterMovementComponentName))
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<UKOA_PROTO_CharacterMovementSlide>(ACharacter::CharacterMovementComponentName))
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -41,8 +40,6 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 
 	// Get a pointer to the current world
 	WorldPtr = GetWorld();
-
-	// Set the character component to CharacterMovementSlide
 }
 
 // Called when the game starts or when spawned

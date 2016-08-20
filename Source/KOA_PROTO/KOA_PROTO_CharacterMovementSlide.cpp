@@ -3,6 +3,21 @@
 #include "KOA_PROTO.h"
 #include "KOA_PROTO_CharacterMovementSlide.h"
 
+void UKOA_PROTO_CharacterMovementSlide::InitializeComponent()
+{
+	Super::InitializeComponent();
+	//~~~~~~~~~~~~~~~~~
 
+	//UE_LOG //comp Init!
+}
+
+//Tick Comp
+void UKOA_PROTO_CharacterMovementSlide::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	//UE_LOG //custom comp is ticking!!!
+
+}
 
 

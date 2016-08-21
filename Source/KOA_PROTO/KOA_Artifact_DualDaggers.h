@@ -15,10 +15,16 @@ class KOA_PROTO_API UKOA_Artifact_DualDaggers : public UKOA_BASE_Artifact
 public:
 	UKOA_Artifact_DualDaggers();
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability,Q")
+	// Press Ability 
+	//UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability,Q")
 	void PressAbilityQ();
-	virtual void PressAbilityQ_Implementation();
+	//virtual void PressAbilityQ_Implementation();
+	
+	//UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability,E")
+	//void PressAbilityE();
+	//virtual void PressAbilityE_Implementation();
 
+	// Getters
 	UFUNCTION(BlueprintCallable, Category="Ability,E")
 	float GetE_MaxTargetRange() const {
 		return E_MaxTargetRange;

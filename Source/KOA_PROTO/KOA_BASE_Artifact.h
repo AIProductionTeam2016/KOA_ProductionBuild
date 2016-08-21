@@ -38,6 +38,9 @@ struct KOA_PROTO_API FAbility {
 	
 	UPROPERTY(EditAnywhere, Category = "Timer", DisplayName = "Ability Cooldown")
 	float AbilityCooldownDuration;
+
+	UPROPERTY(EditAnywhere, Category = "Cooldown", DisplayName = "Ability Cooldown")
+	bool AbilityOnCooldown;
 	FTimerHandle AbilityCooldownTimer;
 public:
 	FAbility() {
@@ -56,14 +59,15 @@ public:
 
 	void SetAbilityOnCooldown() {
 		AbilityOnCooldown = true;
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, AbilityName + TEXT(" cooldown set!"));
 	}
 	void ResetAbilityCooldown() {
 		AbilityOnCooldown = false;
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, AbilityName + TEXT(" cooldown reset!"));
 	}
-
-private:
-	bool AbilityOnCooldown;	
+	
+//private:
+	
 	
 };
 
@@ -95,7 +99,9 @@ public:
 	UKOA_BASE_Artifact();
 	virtual ~UKOA_BASE_Artifact();
 
-	void Tick(float DeltaTime) {}
+	void Tick(float DeltaTime) {
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Blue, "BASE_Artifact::Tick");
+	}
 
 	virtual void PressAbilityQ();
 	virtual void PressAbilityW();

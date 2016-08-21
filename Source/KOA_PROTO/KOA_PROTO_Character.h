@@ -233,13 +233,21 @@ public:
 	/****** ARTIFACTS ******/
 	void EquipDualDaggers();
 	void EquipFireGlove();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability|Q")
+	uint8 GetEquippedArtifact() const;
+	virtual uint8 GetEquippedArtifact_Implementation() const;
+
 	// void EquipLightningBow();
 	// void EquipMatterHammer();
 
 	bool SetCurrentArtifact(EArtifactID Artifact);
 
 	/****** ABILITIES ******/
-	void UseCurrentAbilityQ();
+	//void DEPRICATED_UseCurrentAbilityQ();
+	//void UseCurrentAbilityE();
+	UPROPERTY(EditAnywhere)
+	EAbilityID AbilityPressed;
 
 	void PressCurrentAbilityQ();
 	void ReleaseCurrentAbilityQ();
@@ -253,7 +261,8 @@ public:
 	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
 	//void ResetAbilityCooldown(FAbility Ability);
 
-	
+	UFUNCTION(BlueprintCallable, Category = "Ability|Q")
+	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
 
 	/****** TIMERS ******/
 	void StartAbilityCooldownTimer(UKOA_BASE_Artifact* CurrentArtifact, EAbilityID AbilityID);
@@ -279,7 +288,6 @@ private:
 	float ArtifactSwapLockDuration;
 	float AbilityLockDuration;
 
-	EAbilityID AbilityPressed;
 
 	/***** TIMERS *****/
 	FTimerHandle AbilityLockTimer;

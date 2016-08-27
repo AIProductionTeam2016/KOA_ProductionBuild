@@ -14,18 +14,18 @@ AKOA_BASE_EnemyCharacter::AKOA_BASE_EnemyCharacter(const FObjectInitializer& Obj
 	// Init variables to default value
 	Speed = 1.0f;
 	HitPoints = 3.0f;
-	SightRange = 1200.0f;
-	AttackRange = 175.0f;
+	//SightRange = 1200.0f;
+	//AttackRange = 175.0f;
 
-	// Create the monster's SightSphere and attach it to the root
-	SightSphere = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("SightSphere"));
-	SightSphere->SetSphereRadius(SightRange);
-	SightSphere->AttachTo(RootComponent);
-
-	// Create the monster's AttackRangeSphere
-	AttackRangeSphere = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("AttackRangeSphere"));
-	AttackRangeSphere->SetSphereRadius(AttackRange);
-	AttackRangeSphere->AttachTo(RootComponent);
+	//// Create the monster's SightSphere and attach it to the root
+	//SightSphere = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("SightSphere"));
+	//SightSphere->SetSphereRadius(SightRange);
+	//SightSphere->AttachTo(RootComponent);
+	//
+	//// Create the monster's AttackRangeSphere
+	//AttackRangeSphere = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("AttackRangeSphere"));
+	//AttackRangeSphere->SetSphereRadius(AttackRange);
+	//AttackRangeSphere->AttachTo(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -63,15 +63,15 @@ void AKOA_BASE_EnemyCharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 }
 
-#if WITH_EDITOR
-void AKOA_BASE_EnemyCharacter::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
-	FName propertyName = (PropertyChangedEvent.Property != NULL) ? PropertyChangedEvent.Property->GetFName() : NAME_None;
-	if (propertyName == GET_MEMBER_NAME_CHECKED(AKOA_BASE_EnemyCharacter, SightRange)) {
-		SightSphere->SetSphereRadius(SightRange);
-	}
-	else if (propertyName == GET_MEMBER_NAME_CHECKED(AKOA_BASE_EnemyCharacter, AttackRange)) {
-		AttackRangeSphere->SetSphereRadius(AttackRange);
-	}
-	Super::PostEditChangeProperty(PropertyChangedEvent);
-}
-#endif
+//#if WITH_EDITOR
+//void AKOA_BASE_EnemyCharacter::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
+//	FName propertyName = (PropertyChangedEvent.Property != NULL) ? PropertyChangedEvent.Property->GetFName() : NAME_None;
+//	if (propertyName == GET_MEMBER_NAME_CHECKED(AKOA_BASE_EnemyCharacter, SightRange)) {
+//		SightSphere->SetSphereRadius(SightRange);
+//	}
+//	else if (propertyName == GET_MEMBER_NAME_CHECKED(AKOA_BASE_EnemyCharacter, AttackRange)) {
+//		AttackRangeSphere->SetSphereRadius(AttackRange);
+//	}
+//	Super::PostEditChangeProperty(PropertyChangedEvent);
+//}
+//#endif

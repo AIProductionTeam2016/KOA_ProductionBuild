@@ -16,17 +16,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MonsterProperties")
 	float HitPoints;
 
-	// Monster sight range
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
-	float SightRange;
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
-	USphereComponent* SightSphere;
-
-	// Monster attack range
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
-	float AttackRange;
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
-	USphereComponent* AttackRangeSphere;
+	//// Monster sight range
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
+	//float SightRange;
+	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
+	//USphereComponent* SightSphere;
+	//
+	//// Monster attack range
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
+	//float AttackRange;
+	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
+	//USphereComponent* AttackRangeSphere;
 
 public:
 	// Sets default values for this character's properties
@@ -42,5 +42,5 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	// Override to update changes made in the editor
-	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+	//virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 };

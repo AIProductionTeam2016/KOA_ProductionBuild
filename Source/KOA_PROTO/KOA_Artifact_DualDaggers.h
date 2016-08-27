@@ -8,21 +8,24 @@
 /**
  * 
  */
+class AKOA_PROTO_Character;
+
 UCLASS()
 class KOA_PROTO_API UKOA_Artifact_DualDaggers : public UKOA_BASE_Artifact
 {
 	GENERATED_BODY()
 public:
-	UKOA_Artifact_DualDaggers();
+	UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer);
 
-	// Press Ability 
-	//UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability,Q")
 	void PressAbilityQ();
-	//virtual void PressAbilityQ_Implementation();
-	
-	//UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability,E")
-	//void PressAbilityE();
-	//virtual void PressAbilityE_Implementation();
+	void ReleaseAbilityQ();
+
+	void Tick(float DeltaTime);
+
+	AKOA_PROTO_Character* PlayerReference;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//USkeletalMeshComponent* E_AimingMeshComponent;
+	USkeletalMesh* E_AimingMesh;
 
 	// Getters
 	UFUNCTION(BlueprintCallable, Category="Ability,E")

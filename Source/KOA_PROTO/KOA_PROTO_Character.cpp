@@ -41,6 +41,13 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 
 	// Get a pointer to the current world
 	WorldPtr = GetWorld();
+
+	// Create and attach the E_AimingMesh to the RootComponent
+	VD_E_AimingMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VD_E_AimingMeshComponent"));
+	if (RootComponent != nullptr) VD_E_AimingMeshComponent->AttachTo(RootComponent);
+
+	//VD_E_AimingMesh = CreateDefaultSubobject<USkeletalMesh>(TEXT("VD_E_AimingMesh"));
+	//VD_E_AimingMeshComponent->SetSkeletalMesh(VD_E_AimingMesh);
 }
 
 // Called when the game starts or when spawned
@@ -476,7 +483,7 @@ bool AKOA_PROTO_Character::GetIsCurrentArtifactAbilityOnCooldown(const EAbilityI
 	// Get the current artifact see if it's Q is on cooldown
 	//UKOA_BASE_Artifact* artifact = this->CollectedArtifacts[(uint8)this->CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
 	
-	bool isOnCooldown;
+	bool isOnCooldown = false;
 
 	switch (AbilityID) {
 	case EAbilityID::ABID_Q:

@@ -99,9 +99,7 @@ public:
 	UKOA_BASE_Artifact();
 	virtual ~UKOA_BASE_Artifact();
 
-	void Tick(float DeltaTime) {
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Blue, "BASE_Artifact::Tick");
-	}
+	virtual void Tick(float DeltaTime) {}
 
 	virtual void PressAbilityQ();
 	virtual void PressAbilityW();

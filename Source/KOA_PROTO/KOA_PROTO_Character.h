@@ -203,6 +203,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Player|Jump")
 	FPlayerJumpVariables JumpStats;
 
+	// Additional Meshes //
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|E|Mesh")
+	//USkeletalMesh* VD_E_AimingMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|E|Mesh")
+	USkeletalMeshComponent* VD_E_AimingMeshComponent;
+
 	/***** ARTIFACTS *****/
 	UPROPERTY(EditAnywhere, Category = "Player|Artifacts")
 	EArtifactID CurrentArtifact;

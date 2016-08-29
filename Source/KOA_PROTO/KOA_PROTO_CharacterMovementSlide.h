@@ -13,7 +13,12 @@ class KOA_PROTO_API UKOA_PROTO_CharacterMovementSlide : public UCharacterMovemen
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+protected:
+
+	//Init
+	virtual void InitializeComponent() override;
+
+	//Tick
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
 };

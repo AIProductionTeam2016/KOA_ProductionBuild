@@ -42,7 +42,8 @@ public:
 };
 
 UCLASS()
-class KOA_PROTO_API AKOA_PROTO_Wall : public AActor {
+class KOA_PROTO_API AKOA_PROTO_Wall : public AActor
+{
 	GENERATED_BODY()
 
 public:

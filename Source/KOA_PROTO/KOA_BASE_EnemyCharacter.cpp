@@ -2,11 +2,12 @@
 
 #include "KOA_PROTO.h"
 #include "KOA_BASE_EnemyCharacter.h"
+#include "KOA_BASE_EnemyMovement.h"
 
 
 // Sets default values
 AKOA_BASE_EnemyCharacter::AKOA_BASE_EnemyCharacter(const FObjectInitializer& ObjectInitializer)
-	:Super(ObjectInitializer)
+	:Super(ObjectInitializer.SetDefaultSubobjectClass<UKOA_BASE_EnemyMovement>(ACharacter::CharacterMovementComponentName))
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;

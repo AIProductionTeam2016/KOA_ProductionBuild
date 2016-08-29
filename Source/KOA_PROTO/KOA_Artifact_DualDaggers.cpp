@@ -5,7 +5,7 @@
 #include "KOA_PROTO_Character.h"
 
 UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer) 
-	: Super(ObjectInitializer) {
+	: Super() {
 	ArtifactName = "Dual Daggers of Something, Probably";
 	AbilityQ.AbilityName = "Vampire's Kiss with Blood; Not Sparkles";
 	//AbilityQ.ResetAbilityCooldown();
@@ -26,17 +26,17 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 
 void UKOA_Artifact_DualDaggers::PressAbilityQ() {
 	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::Vampire's Kiss");
-	if (E_AimingMesh) {
-		E_AimingMesh->SetVisibility(true);
-	}
-	else {
-		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "E_AimingMeshComponent == NULLPTR");
-	}
+	//if (E_AimingMesh) {
+	//	E_AimingMesh->
+	//}
+	//else {
+	//	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "E_AimingMeshComponent == NULLPTR");
+	//}
 }
 void UKOA_Artifact_DualDaggers::ReleaseAbilityQ() {
-	if (E_AimingMesh) {
-		E_AimingMesh->SetVisibility(false);
-	}
+	//if (E_AimingMesh) {
+	//	E_AimingMesh->SetVisibility(false);
+	//}
 }
 void UKOA_Artifact_DualDaggers::Tick(float DeltaTime) {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "DualDaggers::Tick()");

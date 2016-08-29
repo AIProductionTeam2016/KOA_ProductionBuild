@@ -12,32 +12,31 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	E_MaxTargetRange = 1000.0;
 
 	// Set a reference to the player
-	//PlayerReference = Cast<AKOA_PROTO_Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	// Set a reference to the E_AimingMesh
-	//for (TObjectIterator<AKOA_PROTO_Character> Itr; Itr; ++Itr) {
-	//	if (Itr->VD_E_AimingMeshComponent) {
-	//		E_AimingMeshComponent = Itr->VD_E_AimingMeshComponent;
-	//	}
-	//}
-	//E_AimingMeshComponent = PlayerReference->VD_E_AimingMeshComponent;
-	E_AimingMesh = ObjectInitializer.CreateDefaultSubobject<USkeletalMesh>(this, TEXT("E_AimingMesh"));
-	//E_AimingMeshComponent->AttachTo(RootComponent);
+	PlayerReference = nullptr;
 }
 
 void UKOA_Artifact_DualDaggers::PressAbilityQ() {
 	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::Vampire's Kiss");
-	//if (E_AimingMesh) {
-	//	E_AimingMesh->
-	//}
-	//else {
-	//	if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "E_AimingMeshComponent == NULLPTR");
-	//}
+	GetPlayerReference();
 }
+
 void UKOA_Artifact_DualDaggers::ReleaseAbilityQ() {
 	//if (E_AimingMesh) {
 	//	E_AimingMesh->SetVisibility(false);
 	//}
 }
+
 void UKOA_Artifact_DualDaggers::Tick(float DeltaTime) {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "DualDaggers::Tick()");
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "DualDaggers::Tick()");
+}
+
+AKOA_PROTO_Character* UKOA_Artifact_DualDaggers::GetPlayerReference() {
+	if (PlayerReference == nullptr) {
+		PlayerReference = Cast<AKOA_PROTO_Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+		if (PlayerReference) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Green, "Daggers PlayerReference created successfully.");
+	}
+	else {
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Red, "ERROR: Daggers PlayerReference FAILED!");
+	}
+	return PlayerReference;
 }

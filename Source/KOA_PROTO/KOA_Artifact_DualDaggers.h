@@ -16,25 +16,22 @@ class KOA_PROTO_API UKOA_Artifact_DualDaggers : public UKOA_BASE_Artifact
 	GENERATED_BODY()
 public:
 	UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer);
+	UPROPERTY(EditAnywhere, Category = "Ability,E")
+	float E_MaxTargetRange;
 
+public:
 	void PressAbilityQ();
 	void ReleaseAbilityQ();
-
 	void Tick(float DeltaTime);
-
-	AKOA_PROTO_Character* PlayerReference;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//USkeletalMeshComponent* E_AimingMeshComponent;
-	USkeletalMesh* E_AimingMesh;
-
+	
 	// Getters
 	UFUNCTION(BlueprintCallable, Category="Ability,E")
 	float GetE_MaxTargetRange() const {
 		return E_MaxTargetRange;
 	}
 
-	UPROPERTY(EditAnywhere, Category="Ability,E")
-	float E_MaxTargetRange;
+	AKOA_PROTO_Character* GetPlayerReference();
+
 private:
-	
+	AKOA_PROTO_Character* PlayerReference;
 };

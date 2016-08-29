@@ -8,7 +8,6 @@ void UKOA_BASE_EnemyMovement::InitializeComponent()
 {
 	Super::InitializeComponent();
 	//~~~~~~~~~~~~~~~~~
-
 	//UE_LOG //comp Init!
 }
 

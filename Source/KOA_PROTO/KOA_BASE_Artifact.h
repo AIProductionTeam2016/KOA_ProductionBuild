@@ -5,9 +5,9 @@
 #include "Object.h"
 #include "KOA_BASE_Artifact.generated.h"
 
-/**
- * 
- */
+// Forward Declaration of classes
+class AKOA_PROTO_Character;
+
 UENUM(BlueprintType)
 enum class EArtifactID : uint8 {
 	ID_DualDaggers = 0,
@@ -36,19 +36,22 @@ struct KOA_PROTO_API FAbility {
 	UPROPERTY(EditAnywhere, Category = "Texture")
 	UTexture* AbilityIconTexture;
 	
+	UPROPERTY(EditAnywhere, Category = "Cast Range")
+	float MaxCastRange;
+
 	UPROPERTY(EditAnywhere, Category = "Timer", DisplayName = "Ability Cooldown")
 	float AbilityCooldownDuration;
+
+	UPROPERTY(EditAnywhere, Category = "Cooldown", DisplayName = "Ability Cooldown")
+	bool AbilityOnCooldown;
 	FTimerHandle AbilityCooldownTimer;
 public:
 	FAbility() {
 		AbilityName = "INVALID";
+		MaxCastRange = 0.0f;
 		AbilityCooldownDuration = 0.0f;
 		AbilityOnCooldown = false;
 	}
-
-	//FORCEINLINE FTimerHandle GetAbilityCooldownTimerHandle() const {
-	//	return AbilityCooldownTimer;
-	//}
 
 	FORCEINLINE bool IsAbilityOnCooldown() const {
 		return AbilityOnCooldown;
@@ -56,14 +59,12 @@ public:
 
 	void SetAbilityOnCooldown() {
 		AbilityOnCooldown = true;
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, AbilityName + TEXT(" cooldown set!"));
 	}
 	void ResetAbilityCooldown() {
 		AbilityOnCooldown = false;
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, AbilityName + TEXT(" cooldown reset!"));
 	}
-
-private:
-	bool AbilityOnCooldown;	
 	
 };
 
@@ -90,11 +91,14 @@ public:
 	FTimerHandle AbilityWTimer;
 	FTimerHandle AbilityETimer;
 	FTimerHandle AbilityRTimer;
+	
+	
 
 public:
 	UKOA_BASE_Artifact();
 	virtual ~UKOA_BASE_Artifact();
 
+	virtual void Tick(float DeltaTime) {}
 
 	virtual void PressAbilityQ();
 	virtual void PressAbilityW();
@@ -107,8 +111,18 @@ public:
 	virtual void ReleaseAbilityR();
 
 	void ResetAbilityQCooldown();
+	
+	/*-- GETTERS --*/ 
+	FORCEINLINE EAbilityID GetCurrentHeldAbilityButton() const {
+		return CurrentHeldAbilityButton;
+	}
+
+	AKOA_PROTO_Character* GetPlayerReference();
+	/*-- SETTERS --*/ 
+	void SetCurrentHeldAbilityButton(EAbilityID ability);
+	void SetPlayerReference(AKOA_PROTO_Character* player);
 
 private:
-	
-
+	AKOA_PROTO_Character* PlayerReference;
+	EAbilityID CurrentHeldAbilityButton;
 };

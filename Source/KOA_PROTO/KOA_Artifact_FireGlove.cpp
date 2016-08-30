@@ -6,9 +6,10 @@
 UKOA_Artifact_FireGlove::UKOA_Artifact_FireGlove() : Super() {
 	ArtifactName = "Definitely NOT the Pyromancy Glove";
 	AbilityQ.AbilityName = "Kamehame-FI-ha Ball";
+	AbilityQ.AbilityOnCooldown = false;
 }
 
 void UKOA_Artifact_FireGlove::PressAbilityQ() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "You pressed FireGlove::Q");
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "You pressed FireGlove::Q");
 }
 

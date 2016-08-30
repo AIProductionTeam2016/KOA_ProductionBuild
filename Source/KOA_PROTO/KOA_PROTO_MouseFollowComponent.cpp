@@ -50,7 +50,11 @@ void UKOA_PROTO_MouseFollowComponent::TickComponent( float DeltaTime, ELevelTick
 	fCursorPos.Y = -(nCursorPos.Y / screenHeight - 0.5f) * screenHeight / screenWidth;
 
 	//Do some trig to calculate the correct vector of the ray to cast
-	FVector projectedVector = FVector(0.5f / FMath::Tan(FMath::DegreesToRadians(cameraFOV / 2)), fCursorPos.X, fCursorPos.Y);
+	FVector projectedVector = FVector(
+		0.5f / FMath::Tan(FMath::DegreesToRadians(cameraFOV / 2)), 
+		fCursorPos.X, 
+		fCursorPos.Y 
+	);
 
 	//Transform the projected vector into the camera's local space
 	projectedVector = cameraTransform.TransformVector(projectedVector);

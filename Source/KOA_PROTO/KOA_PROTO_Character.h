@@ -206,6 +206,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Player|Jump")
 	FPlayerJumpVariables JumpStats;
 
+	// Additional Meshes //
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
+	UCapsuleComponent* VD_E_AimingCapsule;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|E|Mesh")
+	USkeletalMeshComponent* VD_E_AimingMeshComponent;
+
 	/***** ARTIFACTS *****/
 	UPROPERTY(EditAnywhere, Category = "Player|Artifacts")
 	EArtifactID CurrentArtifact;
@@ -236,10 +242,22 @@ public:
 	/****** ARTIFACTS ******/
 	void EquipDualDaggers();
 	void EquipFireGlove();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability|Q")
+	uint8 GetEquippedArtifact() const;
+	virtual uint8 GetEquippedArtifact_Implementation() const;
+
+	// void EquipLightningBow();
+	// void EquipMatterHammer();
+
 	bool SetCurrentArtifact(EArtifactID Artifact);
+	void SetCurrArtifactPlayerReference();
 
 	/****** ABILITIES ******/
-	void UseCurrentAbilityQ();
+	//void DEPRICATED_UseCurrentAbilityQ();
+	//void UseCurrentAbilityE();
+	UPROPERTY(EditAnywhere)
+	EAbilityID AbilityPressed;
 
 	void PressCurrentAbilityQ();
 	void ReleaseCurrentAbilityQ();
@@ -253,7 +271,8 @@ public:
 	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
 	//void ResetAbilityCooldown(FAbility Ability);
 
-	
+	UFUNCTION(BlueprintCallable, Category = "Ability|Q")
+	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
 
 	/****** TIMERS ******/
 	void StartAbilityCooldownTimer(UKOA_BASE_Artifact* CurrentArtifact, EAbilityID AbilityID);
@@ -266,6 +285,10 @@ public:
 	void ClearWallHoldTimer();
 	void ClearWallSlideTimer();
 
+	// World
+	FORCEINLINE const UWorld* GetWorldPtr() const {
+		return WorldPtr;
+	}
 /********************* PRIVATE VARIABLES *********************/
 private:
 	//TODO: Rename bool variables to have Enabled;
@@ -279,7 +302,6 @@ private:
 	float ArtifactSwapLockDuration;
 	float AbilityLockDuration;
 
-	EAbilityID AbilityPressed;
 
 	/***** TIMERS *****/
 	FTimerHandle AbilityLockTimer;
@@ -289,9 +311,7 @@ private:
 
 	/***** WORLD *****/
 	const UWorld* WorldPtr;
-	FORCEINLINE const UWorld* GetWorldPtr() const {
-		return WorldPtr;
-	}
+
 /********************* PRIVATE METHODS *********************/
 private:
 	void UnlockAbilityUse();

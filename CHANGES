@@ -1,3 +1,61 @@
+Version 0.2.0:
+ - Merge branch 'feature-combatAbilities' into develop Bringing in all of the recent combat systems to show off a 'full' level.
+ - Made about 4.20 changes... Watch them be perfect. Adjusted the player jump variables.
+ - Attached CatGuard animations.
+ - **HACKED** Hacked together a quick, tmp fix for custom cursor disappearing.
+ - Updated tmp Jester anims.
+ - Moved/Renamed some levels
+ - Switched Default Pawn Class to TEST_SPELLANIM_BP_Character
+ - Pulled the DungeonLevel changes from develop.
+ - 'Completed' base blink functionality.
+ - Merge branch 'feature-camera' into develop
+ - Updated file name in the main menu widget
+ - RENAMED: Dungeon level KA_Level_001->L00_TutorialDungeon
+ - Switched camera state to 3. Exposed Camera interpolation speed to a variable. Increased the camera interpolation speed to something.
+ - Updated CHANGES and VERSION to represent current v0.1.5
+ - Version bump to 0.1.5
+ - Merge branch 'develop' into feature-camera. Update branch to v0.1.5
+ - Added stand-in anims for the stand-in JesterModel. Got the VD_E_AimingCapsule to follow the mouse cursor and display only when the ability button is held down. Also added a MaxCastDistance to the position of the AimingCapsule so it cannot be more than a certain distance away from the player.
+ - Pushing current progress to try and isolate why UTIL_MouseFunctionality isn't working properly.
+ - Compiled Dungeon
+ - Reconnected the jester mesh that somehow got lost for some reason.
+ - Update level.
+ - Tweaks to DualDaggers
+ - Re-imported the Jester standin to correct scale
+ - Further progress on the abilities; added temp catguard and jester mesh.
+ - Pulling newest version of develop
+ - Same as previous commit, updated username
+ - Landon added custom move component to the enemy base class
+ - Version bump to 0.1.5
+ - Merge branch 'hotfix-0.1.5' into develop
+ - Merge branch 'feature-combatAbilities' of https://github.com/AIProductionTeam2016/KOA_ProductionBuild into feature-combatAbilities
+ - Updated the Dual Dagger functionality.
+ - Removed depricated KOA_PROTO_GetCursorWorldPos.h
+ - Removed empty file
+ - Pulling the newly added CatGuard and BASE_EnemyCharacter changes.
+ - Merge branch 'feature-setupCatGuard' into develop
+ - Setup the basic CatGuard with a stand-in skeleton (Mixamo AutoRigger) and sample anims (mixamo as well). Created IdleToWalkRun 1D Blendspace. Commented out the 2 sphere colliders on the base enemy character.
+ - Fixed merge conflicts.
+ - Merge branch 'feature-landonMouseTrack' into develop
+ - Worked on particles for shit.
+ - finished cursor following script
+ - finished cursor following script
+ - Fixed mem leak
+ - Multiple cameras and basic UI
+ - Began setting up the particle effect for the vampire dagger's e ability
+ - Added BP_PlayerController.uasset and turned on 'Show mouse cursor'
+ - Began working on the UI / HUD / Ability Aiming Reticle systems.
+ - Changed default mouse cursor in DefaultEngine.ini
+ - Added tmp assets for the default mouse cursor to setup functionality
+ - Merge branch 'develop' to update feature-combatAbilities to current project build.
+ - Updated CHANGES and VERSION to reflect current version
+ - Merge branch 'hotfix-0.1.4' into develop
+ - Update branch to reflect the current state of develop
+ - Merge branch 'develop' of https://github.com/AIProductionTeam2016/KOA_ProductionBuild into feature-combatAbilities
+ - Commented out the example use of the artifacts tick.
+ - Stubbed out EquipLightningBow() and EquipMatterHammer()
+ - Stubbed out future Tick() for base artifact.
+
 Version 0.1.5:
  - Merge branch 'hotfix-0.1.5' Refactor the wall slide code and it's implementation.
  - finished

@@ -36,6 +36,9 @@ struct KOA_PROTO_API FAbility {
 	UPROPERTY(EditAnywhere, Category = "Texture")
 	UTexture* AbilityIconTexture;
 	
+	UPROPERTY(EditAnywhere, Category = "Cast Range")
+	float MaxCastRange;
+
 	UPROPERTY(EditAnywhere, Category = "Timer", DisplayName = "Ability Cooldown")
 	float AbilityCooldownDuration;
 
@@ -45,13 +48,10 @@ struct KOA_PROTO_API FAbility {
 public:
 	FAbility() {
 		AbilityName = "INVALID";
+		MaxCastRange = 0.0f;
 		AbilityCooldownDuration = 0.0f;
 		AbilityOnCooldown = false;
 	}
-
-	//FORCEINLINE FTimerHandle GetAbilityCooldownTimerHandle() const {
-	//	return AbilityCooldownTimer;
-	//}
 
 	FORCEINLINE bool IsAbilityOnCooldown() const {
 		return AbilityOnCooldown;
@@ -65,9 +65,6 @@ public:
 		AbilityOnCooldown = false;
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, AbilityName + TEXT(" cooldown reset!"));
 	}
-	
-//private:
-	
 	
 };
 

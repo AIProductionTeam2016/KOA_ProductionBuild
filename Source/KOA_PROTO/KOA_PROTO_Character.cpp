@@ -41,9 +41,11 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	// Get a pointer to the current world
 	WorldPtr = GetWorld();
 
-	// Create and attach the E_AimingMesh to the RootComponent
+	// Create and attach the E_AimingMesh to it's CapsuleComponent
+	VD_E_AimingCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("VD_E_AimingCapsule"));
+	
 	VD_E_AimingMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VD_E_AimingMeshComponent"));
-	if (RootComponent != nullptr) VD_E_AimingMeshComponent->AttachTo(RootComponent);
+	VD_E_AimingMeshComponent->AttachTo(VD_E_AimingCapsule);
 
 	//VD_E_AimingMesh = CreateDefaultSubobject<USkeletalMesh>(TEXT("VD_E_AimingMesh"));
 	//VD_E_AimingMeshComponent->SetSkeletalMesh(VD_E_AimingMesh);

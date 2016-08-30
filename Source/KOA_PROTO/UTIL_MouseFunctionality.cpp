@@ -7,6 +7,15 @@
 
 // Get mouse cursor position in relation to the player's plane.
 FVector UTIL_MouseFunctionality::GetMousePosInPlayerPlane(const UWorld* World) {
+	
+	APlayerController* playerController = World->GetFirstPlayerController();
+	FHitResult hitResult;
+	if (playerController->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel1), true, hitResult)) {
+		FVector hitLocation = hitResult.Location;
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "hitLocation: " + hitLocation.ToString());
+	}
+
+	//
 	// Access Player Controller
 	if (GEngine) {
 		// Get Camera variables
@@ -23,7 +32,6 @@ FVector UTIL_MouseFunctionality::GetMousePosInPlayerPlane(const UWorld* World) {
 		
 		// Get Mouse Position in Int
 		viewport->GetMousePos(nCursorPos);
-		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "nCursorPos:" + nCursorPos.ToString());
 		// Get the screen dimensions
 		FIntPoint screenDimension = viewport->GetSizeXY();
 		// Get the camera transform.
@@ -34,10 +42,9 @@ FVector UTIL_MouseFunctionality::GetMousePosInPlayerPlane(const UWorld* World) {
 		// The left side will be -0.5 and the right side will be 0.5
 		// vertically will be half of the screen width up from the center.
 		FVector2D fCursorPos;
-		fCursorPos.X = (nCursorPos.X / screenDimension.X) - 0.5f;
-		fCursorPos.Y = -((nCursorPos.Y / screenDimension.Y) - 0.5f) * (screenDimension.Y / screenDimension.X);
+		fCursorPos.X = (nCursorPos.X / (float)screenDimension.X) - 0.5f;
+		fCursorPos.Y = -((nCursorPos.Y / (float)screenDimension.Y) - 0.5f) * ((float)screenDimension.Y / screenDimension.X);
 
-		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "fCursorPos:" + fCursorPos.ToString());
 		// Do some trig to calculate the correct vector of the ray to cast
 		FVector projectedVector = FVector(
 			0.5f / FMath::Tan(FMath::DegreesToRadians(cameraFOV / 2)),
@@ -51,11 +58,12 @@ FVector UTIL_MouseFunctionality::GetMousePosInPlayerPlane(const UWorld* World) {
 		// Calculate and return final position
 		FVector finalPos;
 		finalPos.X = 0.0f;
-		finalPos.Y = (0.0f - cameraLocation.X) / (projectedVector.X * projectedVector.Y) + cameraLocation.Y;
-		finalPos.Z = (0.0f - cameraLocation.X) / (projectedVector.X * projectedVector.Z) + cameraLocation.Z;
-		
+		finalPos.Y = ((0.0f - cameraLocation.X) / projectedVector.X) * projectedVector.Y + cameraLocation.Y;
+		finalPos.Z = ((0.0f - cameraLocation.X) / projectedVector.X) * projectedVector.Z + cameraLocation.Z;
+		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "finalPos:" + finalPos.ToString());
 		return finalPos;
 	} else { // Can't access GEngine; therefore return nothing.
 		return FVector(0,0,0);
 	}
+	
 }

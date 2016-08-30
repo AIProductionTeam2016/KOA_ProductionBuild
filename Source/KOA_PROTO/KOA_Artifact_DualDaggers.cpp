@@ -10,6 +10,7 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	: Super() {
 	ArtifactName = "Dual Daggers of Something, Probably";
 	AbilityQ.AbilityName = "Vampire's Kiss with Blood; Not Sparkles";
+	AbilityQ.MaxCastRange = 400.0f;
 	//AbilityQ.ResetAbilityCooldown();
 	E_MaxTargetRange = 1000.0;
 }
@@ -32,5 +33,19 @@ void UKOA_Artifact_DualDaggers::Tick(float DeltaTime) {
 	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "DualDaggers::Tick()");
 	AKOA_PROTO_Character* player = GetPlayerReference();
 	FVector mousePos = UTIL_MouseFunctionality::GetMousePosInPlayerPlane(player->GetWorldPtr());
-	player->VD_E_AimingMeshComponent->SetWorldLocation(mousePos);
+	
+
+	//TODO: Add a check to make sure ONLY the specific ability is being used
+	// Check distance from player to mouse
+	//float distFromPlayerToMouse = 
+	float distFromPlayerToMouse = FVector::Dist(player->GetActorLocation(), mousePos);
+	if (distFromPlayerToMouse < AbilityQ.MaxCastRange) {
+		player->VD_E_AimingCapsule->SetWorldLocation(mousePos);
+	} else {
+		FVector vectorFromPlayerToMouse =FVector(mousePos - player->GetActorLocation());
+		vectorFromPlayerToMouse.Normalize();
+		FVector finalPos = player->GetActorLocation() + vectorFromPlayerToMouse * AbilityQ.MaxCastRange;
+		player->VD_E_AimingCapsule->SetWorldLocation(finalPos);
+	}
+	
 }

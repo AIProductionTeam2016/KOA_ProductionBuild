@@ -204,8 +204,8 @@ public:
 	FPlayerJumpVariables JumpStats;
 
 	// Additional Meshes //
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|E|Mesh")
-	//USkeletalMesh* VD_E_AimingMesh;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
+	UCapsuleComponent* VD_E_AimingCapsule;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|E|Mesh")
 	USkeletalMeshComponent* VD_E_AimingMeshComponent;
 

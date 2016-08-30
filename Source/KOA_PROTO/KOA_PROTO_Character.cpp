@@ -2,16 +2,15 @@
 
 #include "KOA_PROTO.h"
 #include "KOA_PROTO_Wall.h"
-#include "KOA_PROTO_CharacterMovementSlide.h"
 #include "KOA_PROTO_Character.h"
+#include "KOA_PROTO_CharacterMovementSlide.h"
 
 /**************************************************************************
 	CONSTRUCTORS AND INITIALIZERS
 **************************************************************************/
 // Default Constructor
 AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
-	//: Super(ObjectInitializer.SetDefaultSubobjectClass<UKOA_PROTO_CharacterMovementSlide>(ACharacter::CharacterMovementComponentName))
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<UKOA_PROTO_CharacterMovementSlide>(ACharacter::CharacterMovementComponentName))
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -53,7 +52,7 @@ void AKOA_PROTO_Character::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
 
 	// If we are sliding down the wall
-	if (IsSlidingDownWall) {
+	/*if (IsSlidingDownWall) {
 		FVector playerLocation = GetActorLocation();
 		JumpStats.ApplyWallSlideAcceleration(DeltaTime);
 		JumpStats.DisplayWallSlideDebugInfo();
@@ -62,7 +61,7 @@ void AKOA_PROTO_Character::Tick( float DeltaTime ) {
 		//TODO: Implement a better floor detection
 		if (finalLocation.Z < 110.15) finalLocation.Z = 110.15;
 		SetActorLocation(finalLocation);
-	}
+	}*/
 }
 
 // Called to bind functionality to input
@@ -209,8 +208,10 @@ void AKOA_PROTO_Character::PlayerJump() {
 		// If you can jump off a wall do it
 		if (WallHitInfo.GetCanJump()) {
 			// Disable movement to allow user to hang on wall
-			GetCharacterMovement()->DisableMovement();
-			//GetCharacterMovement()->SetMovementMode(MOVE_Custom, (uint8)ECustomMovementType::CMT_WallSlide);
+			//GetCharacterMovement()->DisableMovement();
+
+			//Set movement mode to WallSlide
+			GetCharacterMovement()->SetMovementMode(MOVE_Custom, (uint8)ECustomMovementType::CMT_WallSlide);
 			// Pass the results up to the player
 			JumpStats.SetHangingOnWall(true);
 			JumpStats.SetWallOnPlayerSide(WallHitInfo.GetWallDirection());

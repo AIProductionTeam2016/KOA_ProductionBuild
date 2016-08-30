@@ -3,6 +3,8 @@
 #include "KOA_PROTO.h"
 #include "KOA_Artifact_DualDaggers.h"
 #include "KOA_PROTO_Character.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "UTIL_MouseFunctionality.h"
 
 UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer) 
 	: Super() {
@@ -10,33 +12,25 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	AbilityQ.AbilityName = "Vampire's Kiss with Blood; Not Sparkles";
 	//AbilityQ.ResetAbilityCooldown();
 	E_MaxTargetRange = 1000.0;
-
-	// Set a reference to the player
-	PlayerReference = nullptr;
 }
 
 void UKOA_Artifact_DualDaggers::PressAbilityQ() {
-	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::Vampire's Kiss");
-	GetPlayerReference();
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::Vampire's Kiss");
+	AKOA_PROTO_Character* player = GetPlayerReference();
+	player->VD_E_AimingMeshComponent->SetVisibility(true);
+	//->VD_E_AimingMeshComponent->SetVisibility(true);
+	//VD_E_AimingMeshComponent
 }
 
 void UKOA_Artifact_DualDaggers::ReleaseAbilityQ() {
-	//if (E_AimingMesh) {
-	//	E_AimingMesh->SetVisibility(false);
-	//}
+	// Set the aiming mesh component visibility to false
+	AKOA_PROTO_Character* player = GetPlayerReference();
+	player->VD_E_AimingMeshComponent->SetVisibility(false);
 }
 
 void UKOA_Artifact_DualDaggers::Tick(float DeltaTime) {
 	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "DualDaggers::Tick()");
-}
-
-AKOA_PROTO_Character* UKOA_Artifact_DualDaggers::GetPlayerReference() {
-	if (PlayerReference == nullptr) {
-		PlayerReference = Cast<AKOA_PROTO_Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-		if (PlayerReference) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Green, "Daggers PlayerReference created successfully.");
-	}
-	else {
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Red, "ERROR: Daggers PlayerReference FAILED!");
-	}
-	return PlayerReference;
+	AKOA_PROTO_Character* player = GetPlayerReference();
+	FVector mousePos = UTIL_MouseFunctionality::GetMousePosInPlayerPlane(player->GetWorldPtr());
+	player->VD_E_AimingMeshComponent->SetWorldLocation(mousePos);
 }

@@ -8,7 +8,7 @@
  */
 class KOA_PROTO_API UTIL_MouseFunctionality {
 public:
-	static FVector GetMousePosInPlayerPlane();
+	static FVector GetMousePosInPlayerPlane(const UWorld* World);
 private:
 	/* This is a utility class. Therefore, there is no need for,
 		nor should ANYONE be allowed to create, an instance of 

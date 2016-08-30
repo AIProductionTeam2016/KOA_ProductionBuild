@@ -2,22 +2,28 @@
 
 #include "KOA_PROTO.h"
 #include "UTIL_MouseFunctionality.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
+
 // Get mouse cursor position in relation to the player's plane.
-FVector UTIL_MouseFunctionality::GetMousePosInPlayerPlane() {
+FVector UTIL_MouseFunctionality::GetMousePosInPlayerPlane(const UWorld* World) {
 	// Access Player Controller
 	if (GEngine) {
 		// Get Camera variables
-		APlayerController* playerController = UGameplayStatics::GetPlayerController(GEngine->GetWorld(), 0);
-		float	 cameraFOV		= playerController->PlayerCameraManager->GetFOVAngle();
+		APlayerController* playerController = World->GetFirstPlayerController();
+		float	 cameraFOV = playerController->PlayerCameraManager->GetFOVAngle();
 		FVector	 cameraLocation = playerController->PlayerCameraManager->GetCameraLocation();
 		FRotator cameraRotation = playerController->PlayerCameraManager->GetCameraRotation();
 
 		// Get the viewport
 		FIntPoint nCursorPos;
 		FViewport* viewport = CastChecked<ULocalPlayer>(playerController->Player)->ViewportClient->Viewport;
+		//ULocalPlayer* ulocalplayer = playerController->GetLocalPlayer();
+		//FViewport* viewport = ulocalplayer->ViewportClient->Viewport;
 		
 		// Get Mouse Position in Int
 		viewport->GetMousePos(nCursorPos);
+		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "nCursorPos:" + nCursorPos.ToString());
 		// Get the screen dimensions
 		FIntPoint screenDimension = viewport->GetSizeXY();
 		// Get the camera transform.
@@ -31,11 +37,12 @@ FVector UTIL_MouseFunctionality::GetMousePosInPlayerPlane() {
 		fCursorPos.X = (nCursorPos.X / screenDimension.X) - 0.5f;
 		fCursorPos.Y = -((nCursorPos.Y / screenDimension.Y) - 0.5f) * (screenDimension.Y / screenDimension.X);
 
+		if (GEngine)GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "fCursorPos:" + fCursorPos.ToString());
 		// Do some trig to calculate the correct vector of the ray to cast
 		FVector projectedVector = FVector(
 			0.5f / FMath::Tan(FMath::DegreesToRadians(cameraFOV / 2)),
 			fCursorPos.X,
-			fCursorPos.Y 
+			fCursorPos.Y
 		);
 
 		// Transform the projected vector into the camera's local space
@@ -46,6 +53,7 @@ FVector UTIL_MouseFunctionality::GetMousePosInPlayerPlane() {
 		finalPos.X = 0.0f;
 		finalPos.Y = (0.0f - cameraLocation.X) / (projectedVector.X * projectedVector.Y) + cameraLocation.Y;
 		finalPos.Z = (0.0f - cameraLocation.X) / (projectedVector.X * projectedVector.Z) + cameraLocation.Z;
+		
 		return finalPos;
 	} else { // Can't access GEngine; therefore return nothing.
 		return FVector(0,0,0);

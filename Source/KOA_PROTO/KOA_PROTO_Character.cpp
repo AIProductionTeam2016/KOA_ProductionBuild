@@ -363,11 +363,18 @@ bool AKOA_PROTO_Character::SetCurrentArtifact(EArtifactID Artifact) {
 	// Also make sure you don't have it equipped
 	if (CollectedArtifacts.Num() > (uint8)Artifact && Artifact != CurrentArtifact) {
 		CurrentArtifact = Artifact;
+		SetCurrArtifactPlayerReference();
 		return true;
 	} else if (Artifact == CurrentArtifact) {
 		//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "Already have that Artifact equipped.");
 	}
 	return false;
+}
+
+void AKOA_PROTO_Character::SetCurrArtifactPlayerReference() {
+	UKOA_BASE_Artifact* artifact = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
+	artifact->SetPlayerReference(this);
+
 }
 
 void AKOA_PROTO_Character::UnlockArtifactSwap() {

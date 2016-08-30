@@ -5,9 +5,9 @@
 #include "Object.h"
 #include "KOA_BASE_Artifact.generated.h"
 
-/**
- * 
- */
+// Forward Declaration of classes
+class AKOA_PROTO_Character;
+
 UENUM(BlueprintType)
 enum class EArtifactID : uint8 {
 	ID_DualDaggers = 0,
@@ -113,7 +113,11 @@ public:
 
 	void ResetAbilityQCooldown();
 
-private:
-	
+	/*-- GETTERS --*/ 
+	AKOA_PROTO_Character* GetPlayerReference();
+	/*-- SETTERS --*/ 
+	void SetPlayerReference(AKOA_PROTO_Character* player);
 
+private:
+	AKOA_PROTO_Character* PlayerReference;
 };

@@ -248,6 +248,7 @@ public:
 	// void EquipMatterHammer();
 
 	bool SetCurrentArtifact(EArtifactID Artifact);
+	void SetCurrArtifactPlayerReference();
 
 	/****** ABILITIES ******/
 	//void DEPRICATED_UseCurrentAbilityQ();
@@ -281,6 +282,10 @@ public:
 	void ClearWallHoldTimer();
 	void ClearWallSlideTimer();
 
+	// World
+	FORCEINLINE const UWorld* GetWorldPtr() const {
+		return WorldPtr;
+	}
 /********************* PRIVATE VARIABLES *********************/
 private:
 	//TODO: Rename bool variables to have Enabled;
@@ -303,9 +308,7 @@ private:
 
 	/***** WORLD *****/
 	const UWorld* WorldPtr;
-	FORCEINLINE const UWorld* GetWorldPtr() const {
-		return WorldPtr;
-	}
+
 /********************* PRIVATE METHODS *********************/
 private:
 	void UnlockAbilityUse();

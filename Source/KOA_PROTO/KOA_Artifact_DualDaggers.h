@@ -29,9 +29,4 @@ public:
 	float GetE_MaxTargetRange() const {
 		return E_MaxTargetRange;
 	}
-
-	AKOA_PROTO_Character* GetPlayerReference();
-
-private:
-	AKOA_PROTO_Character* PlayerReference;
 };

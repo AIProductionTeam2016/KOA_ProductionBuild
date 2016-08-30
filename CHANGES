@@ -1,3 +1,9 @@
+Version 0.1.5:
+ - Merge branch 'hotfix-0.1.5' Refactor the wall slide code and it's implementation.
+ - finished
+ - Refactored code, haven't figured out how to change the movement component yet though
+ - Filled out essentials for slide custom movement class
+
 Version 0.1.4:
  - Merge branch 'hotfix-0.1.4'
  - Removed TODO for this hotfix as the hotfix was complete.

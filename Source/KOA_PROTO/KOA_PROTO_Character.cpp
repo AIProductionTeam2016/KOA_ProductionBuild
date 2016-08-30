@@ -142,6 +142,7 @@ void AKOA_PROTO_Character::MoveRight(float Amount) {
 	}
 }
 
+
 /**************************************************************************
 	JUMPING -
 		Methods used to handle jumping logic.
@@ -152,9 +153,11 @@ void AKOA_PROTO_Character::MoveRight(float Amount) {
 FDetectWallHitInfo AKOA_PROTO_Character::DetectWall() {
 	// Create hitinfo
 	FDetectWallHitInfo DWHitInfo;
+
 	// Create a local variable to keep track of displaying debug info
 	EDrawDebugTrace::Type DebugDuration;
 	(JumpStats.DebugInfo) ? (DebugDuration = EDrawDebugTrace::ForDuration) : (DebugDuration = EDrawDebugTrace::None);
+
 	// Create local varialbes to be used in SphereTrace
 	// Start at player location
 	FVector PlayerLocation = GetActorLocation();
@@ -167,38 +170,50 @@ FDetectWallHitInfo AKOA_PROTO_Character::DetectWall() {
 	TArray< TEnumAsByte< EObjectTypeQuery > > ObjectTypes;
 	ObjectTypes.Add(EObjectTypeQuery::ObjectTypeQuery1);
 	ObjectTypes.Add(EObjectTypeQuery::ObjectTypeQuery2);
+
 	// Actors to ignore
 	TArray<AActor*>ActorsToIgnore;
 	// Hit result
 	FHitResult HitResult;
+
 	// Perform the sphere trace 
-	bool HitSomething = UKismetSystemLibrary::SphereTraceSingleForObjects(
+	bool HitWall = UKismetSystemLibrary::SphereTraceSingleForObjects(
 		this, PlayerLocation, EndLocation, Radius, ObjectTypes,
 		false, ActorsToIgnore, DebugDuration, HitResult, true);
-	// If you hit something
-	if (HitSomething) {
-		// Check to see if it's a wall
-		AKOA_PROTO_Wall* wall = Cast<AKOA_PROTO_Wall>(HitResult.GetActor());
-		// If you hit a wall
-		if (wall) {
-			// Do another sphere trace, at the players feet in the direction they are facing
-			EndLocation = PlayerLocation + (25 * GetActorForwardVector());
-			Radius = 25;
-			bool CanJump = UKismetSystemLibrary::SphereTraceSingleForObjects(
-				this, PlayerLocation, EndLocation, Radius, ObjectTypes,
-				false, ActorsToIgnore, DebugDuration, HitResult, true);
-			// If you CanJump
-			if (CanJump) {
-				DWHitInfo.SetCanJump(true);
-				FVector forward = GetActorForwardVector();
-				FVector right = FVector(0.0f, 1.0f, 0.0f);
-				// Take the dot product with the forward vector and the right world vector
-				// only need the y and z, x never moves
-				float dot = forward.Y * right.Y + forward.Z * right.Z;
-				// if negative, wall is to the left, if positive it is to the right
-				(dot < 0) ? DWHitInfo.SetWallDirection(-1) : DWHitInfo.SetWallDirection(1);
-				// Set the wall hit info to the wall you are touching
+
+	// If you hit a wall 
+	if (HitWall) {
+		// Do another sphere trace, at the players feet in the direction they are facing
+		EndLocation = PlayerLocation + (25 * GetActorForwardVector());
+		Radius = 25;
+		bool CanJump = UKismetSystemLibrary::SphereTraceSingleForObjects(
+			this, PlayerLocation, EndLocation, Radius, ObjectTypes,
+			false, ActorsToIgnore, DebugDuration, HitResult, true);
+
+		// If you CanJump
+		if (CanJump) {
+			DWHitInfo.SetCanJump(true);
+			FVector forward = GetActorForwardVector();
+			FVector right = FVector(0.0f, 1.0f, 0.0f);
+
+			// Take the dot product with the forward vector and the right world vector
+			// only need the y and z, x never moves
+			float dot = forward.Y * right.Y + forward.Z * right.Z;
+			// if negative, wall is to the left, if positive it is to the right
+			(dot < 0) ? DWHitInfo.SetWallDirection(-1) : DWHitInfo.SetWallDirection(1);
+
+			// Check if the actor you hit is actually a wall we can extract information from.
+			AKOA_PROTO_Wall* wall = Cast<AKOA_PROTO_Wall>(HitResult.GetActor());
+			if (wall) {
+				if (GEngine) {
+					GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Green, "Successfully detected custom AWall.");
+					GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Cyan, TEXT("Wall type: " + AKOA_PROTO_Wall::GetEnumValueToString("EWallFrictionType", wall->WallType)));
+				}
 				DWHitInfo.SetWallHitInfo(wall->GetWallInfo());
+			}
+			else {
+				if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, "Failed to detect custom AWall.");
+				DWHitInfo.SetWallHitInfo(AKOA_PROTO_Wall::SmoothWallInfo);
 			}
 		}
 	}

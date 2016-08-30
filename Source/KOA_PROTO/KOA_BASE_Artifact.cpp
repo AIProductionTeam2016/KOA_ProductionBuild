@@ -6,7 +6,7 @@
 
 UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	ArtifactName = "INVALID";
-
+	CurrentHeldAbilityButton = EAbilityID::NONE;
 	// Initialize Reference to the Player
 	PlayerReference = nullptr;
 }
@@ -42,6 +42,10 @@ AKOA_PROTO_Character* UKOA_BASE_Artifact::GetPlayerReference() {
 	}
 }
 /*-- SETTERS --*/
+void UKOA_BASE_Artifact::SetCurrentHeldAbilityButton(EAbilityID ability) {
+	CurrentHeldAbilityButton = ability;
+}
+
 void UKOA_BASE_Artifact::SetPlayerReference(AKOA_PROTO_Character* player) {
 	PlayerReference = player;
 }

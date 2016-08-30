@@ -20,13 +20,32 @@ public:
 	float E_MaxTargetRange;
 
 public:
-	void PressAbilityQ();
-	void ReleaseAbilityQ();
 	void Tick(float DeltaTime);
-	
-	// Getters
+
+	// Press Ability
+	void PressAbilityQ();
+	//void PressAbilityE();
+
+	// Release Ability
+	void ReleaseAbilityQ();
+	//void ReleaseAbilityE();
+
+	// SETTERS
 	UFUNCTION(BlueprintCallable, Category="Ability,E")
 	float GetE_MaxTargetRange() const {
 		return E_MaxTargetRange;
 	}
+
+	FORCEINLINE FVector GetCurrentCapsuleLocation() const {
+		return CurrentCapsuleLocation;
+	}
+
+	// SETTERS
+	void SetCurrentCapsuleLocation(const FVector& location) {
+		CurrentCapsuleLocation = location;
+	}
+private:
+	FVector CurrentCapsuleLocation;
+private:	
+	void E_LocationSwap();
 };

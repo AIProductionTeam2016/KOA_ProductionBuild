@@ -46,7 +46,7 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	
 	VD_E_AimingMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VD_E_AimingMeshComponent"));
 	VD_E_AimingMeshComponent->AttachTo(VD_E_AimingCapsule);
-
+	
 	//VD_E_AimingMesh = CreateDefaultSubobject<USkeletalMesh>(TEXT("VD_E_AimingMesh"));
 	//VD_E_AimingMeshComponent->SetSkeletalMesh(VD_E_AimingMesh);
 }
@@ -445,6 +445,7 @@ void AKOA_PROTO_Character::PressCurrentAbilityQ() {
 				SetWhichAbilityPressed(EAbilityID::ABID_Q);
 				// Run the abilityQ press on current artifact
 				artifact->PressAbilityQ();
+				artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_Q);
 			}
 			else {
 				//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "ERROR PressCurrentAbilityQ: AbilityQ.IsAbilityOnCooldown() == true");
@@ -467,6 +468,7 @@ void AKOA_PROTO_Character::ReleaseCurrentAbilityQ() {
 			artifact->ReleaseAbilityQ();			
 			StartAbilityCooldownTimer(artifact, EAbilityID::ABID_Q);
 			AbilityPressed = EAbilityID::NONE;
+			artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 		}
 		else {
 			//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "Ability is on cooldown!");

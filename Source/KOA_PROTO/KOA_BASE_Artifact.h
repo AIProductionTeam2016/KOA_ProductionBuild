@@ -91,6 +91,8 @@ public:
 	FTimerHandle AbilityWTimer;
 	FTimerHandle AbilityETimer;
 	FTimerHandle AbilityRTimer;
+	
+	
 
 public:
 	UKOA_BASE_Artifact();
@@ -109,12 +111,18 @@ public:
 	virtual void ReleaseAbilityR();
 
 	void ResetAbilityQCooldown();
-
+	
 	/*-- GETTERS --*/ 
+	FORCEINLINE EAbilityID GetCurrentHeldAbilityButton() const {
+		return CurrentHeldAbilityButton;
+	}
+
 	AKOA_PROTO_Character* GetPlayerReference();
 	/*-- SETTERS --*/ 
+	void SetCurrentHeldAbilityButton(EAbilityID ability);
 	void SetPlayerReference(AKOA_PROTO_Character* player);
 
 private:
 	AKOA_PROTO_Character* PlayerReference;
+	EAbilityID CurrentHeldAbilityButton;
 };

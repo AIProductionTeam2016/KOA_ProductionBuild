@@ -64,6 +64,5 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 	
-	// Override to update changes made in the editor
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 };

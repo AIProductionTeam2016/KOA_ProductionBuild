@@ -245,14 +245,13 @@ public:
 	/****** ARTIFACTS ******/
 	void EquipDualDaggers();
 	void EquipFireGlove();
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability|Q")
-	uint8 GetEquippedArtifact() const;
-	virtual uint8 GetEquippedArtifact_Implementation() const;
-
 	// void EquipLightningBow();
 	// void EquipMatterHammer();
 
+	// GETTERS AND SETTERS //
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability|Q")
+	uint8 GetEquippedArtifact() const;
+	virtual uint8 GetEquippedArtifact_Implementation() const;
 	bool SetCurrentArtifact(EArtifactID Artifact);
 	void SetCurrArtifactPlayerReference();
 
@@ -261,11 +260,19 @@ public:
 	EAbilityID AbilityPressed;
 
 	// PRESS CURRENT ABILITY //
+	void PressCurrentAbility(EAbilityID AbilityID);
 	void PressCurrentAbilityQ();
+	void PressCurrentAbilityW();
+	void PressCurrentAbilityE();
+	void PressCurrentAbilityR();
 
 	// RELEASE CURRENT ABILITY //
 	void ReleaseCurrentAbilityQ();
+	void ReleaseCurrentAbilityW();
+	void ReleaseCurrentAbilityE();
+	void ReleaseCurrentAbilityR();
 
+	// GETTERS AND SETTERS //
 	FORCEINLINE bool GetIsAbilityUseLocked() const;
 	FORCEINLINE bool GetIsArtifactSwapLocked() const;
 	FORCEINLINE EAbilityID GetWhichAbilityPressed() const;

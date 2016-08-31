@@ -107,9 +107,18 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AKOA_PROTO_Character::PlayerJump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AKOA_PROTO_Character::PlayerStopJump);
 	// Ability Bindings //
+	// Q //
 	InputComponent->BindAction("AbilityQ", IE_Pressed, this, &AKOA_PROTO_Character::PressCurrentAbilityQ);
 	InputComponent->BindAction("AbilityQ", IE_Released, this, &AKOA_PROTO_Character::ReleaseCurrentAbilityQ);
-
+	// W //
+	InputComponent->BindAction("AbilityW", IE_Pressed, this, &AKOA_PROTO_Character::PressCurrentAbilityW);
+	InputComponent->BindAction("AbilityW", IE_Released, this, &AKOA_PROTO_Character::ReleaseCurrentAbilityW);
+	// E //
+	InputComponent->BindAction("AbilityE", IE_Pressed, this, &AKOA_PROTO_Character::PressCurrentAbilityE);
+	InputComponent->BindAction("AbilityE", IE_Released, this, &AKOA_PROTO_Character::ReleaseCurrentAbilityE);
+	// R //
+	InputComponent->BindAction("AbilityR", IE_Pressed, this, &AKOA_PROTO_Character::PressCurrentAbilityR);
+	InputComponent->BindAction("AbilityR", IE_Released, this, &AKOA_PROTO_Character::ReleaseCurrentAbilityR);
 	// Artifact Bindings //
 	InputComponent->BindAction("EquipArtifact_DualDaggers", IE_Pressed, this, &AKOA_PROTO_Character::EquipDualDaggers);
 	InputComponent->BindAction("EquipArtifact_FireGlove", IE_Pressed, this, &AKOA_PROTO_Character::EquipFireGlove);
@@ -398,6 +407,10 @@ void AKOA_PROTO_Character::DEBUG_EquipCurrentArtifact() {
 ////
 /************************* PRESS CURRENT ABILITIES *************************/
 ////
+void AKOA_PROTO_Character::PressCurrentAbility(EAbilityID AbilityID) {
+
+}
+
 // The function to run when the player press Q
 void AKOA_PROTO_Character::PressCurrentAbilityQ() {
 	// Make sure the player has an Artifact equipped
@@ -418,6 +431,18 @@ void AKOA_PROTO_Character::PressCurrentAbilityQ() {
 	} 
 }
 
+void AKOA_PROTO_Character::PressCurrentAbilityW() {
+
+}
+
+void AKOA_PROTO_Character::PressCurrentAbilityE() {
+
+}
+
+void AKOA_PROTO_Character::PressCurrentAbilityR() {
+
+}
+
 ////
 /************************* RELEASE CURRENT ABILITIES *************************/
 ////
@@ -425,7 +450,6 @@ void AKOA_PROTO_Character::PressCurrentAbilityQ() {
 void AKOA_PROTO_Character::ReleaseCurrentAbilityQ() {
 	// Make sure the player has an Artifact equipped 
 	// Make sure the current ability in use is Q
-
 	if (CurrentArtifact != EArtifactID::ID_NULL && GetWhichAbilityPressed() == EAbilityID::ABID_Q) {
 		// Access the Q Ability on the Artifact that is currently selected.
 		UKOA_BASE_Artifact* artifact = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
@@ -437,6 +461,15 @@ void AKOA_PROTO_Character::ReleaseCurrentAbilityQ() {
 			artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 		}
 	}
+}
+void AKOA_PROTO_Character::ReleaseCurrentAbilityW() {
+
+}
+void AKOA_PROTO_Character::ReleaseCurrentAbilityE() {
+
+}
+void AKOA_PROTO_Character::ReleaseCurrentAbilityR() {
+
 }
 
 //** Getters **//

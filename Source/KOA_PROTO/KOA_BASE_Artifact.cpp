@@ -40,6 +40,34 @@ void UKOA_BASE_Artifact::ResetAbilityRCooldown() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Reset Current R timer");
 }
 
+void UKOA_BASE_Artifact::StartAbilityCooldownTimer(EAbilityID AbilityID) {
+	// When the timer ends, unlock ability use
+	if (GetPlayerReference()->GetWorldPtr()) {
+		GetPlayerReference()->StartAbilityLockTimer();
+
+		switch (AbilityID) {
+		case EAbilityID::ABID_Q:
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_Q");
+			GetPlayerReference()->GetWorldPtr()->GetTimerManager().SetTimer(this->AbilityQTimer, this, &UKOA_BASE_Artifact::ResetAbilityQCooldown, this->AbilityQ.AbilityCooldownDuration, false);
+			break;
+		case EAbilityID::ABID_W:
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_W");
+			GetPlayerReference()->GetWorldPtr()->GetTimerManager().SetTimer(this->AbilityWTimer, this, &UKOA_BASE_Artifact::ResetAbilityWCooldown, this->AbilityW.AbilityCooldownDuration, false);
+			break;
+		case EAbilityID::ABID_E:
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_E");
+			GetPlayerReference()->GetWorldPtr()->GetTimerManager().SetTimer(this->AbilityETimer, this, &UKOA_BASE_Artifact::ResetAbilityECooldown, this->AbilityE.AbilityCooldownDuration, false);
+			break;		
+		case EAbilityID::ABID_R:
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_R");
+			GetPlayerReference()->GetWorldPtr()->GetTimerManager().SetTimer(this->AbilityRTimer, this, &UKOA_BASE_Artifact::ResetAbilityRCooldown, this->AbilityR.AbilityCooldownDuration, false);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 /*-- GETTERS --*/
 AKOA_PROTO_Character* UKOA_BASE_Artifact::GetPlayerReference() {
 	if (PlayerReference == nullptr) {

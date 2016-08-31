@@ -494,7 +494,6 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 				if (artifact->AbilityQ.IsAbilityOnCooldown() == false) {
 					artifact->AbilityQ.SetAbilityOnCooldown();
 					artifact->ReleaseAbilityQ();
-					StartAbilityCooldownTimer(artifact, EAbilityID::ABID_Q);
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
@@ -505,7 +504,6 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 				if (artifact->AbilityW.IsAbilityOnCooldown() == false) {
 					artifact->AbilityW.SetAbilityOnCooldown();
 					artifact->ReleaseAbilityW();
-					StartAbilityCooldownTimer(artifact, EAbilityID::ABID_W);
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
@@ -516,7 +514,6 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 				if (artifact->AbilityE.IsAbilityOnCooldown() == false) {
 					artifact->AbilityE.SetAbilityOnCooldown();
 					artifact->ReleaseAbilityE();
-					StartAbilityCooldownTimer(artifact, EAbilityID::ABID_E);
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
@@ -527,7 +524,6 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 				if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
 					artifact->AbilityR.SetAbilityOnCooldown();
 					artifact->ReleaseAbilityR();
-					StartAbilityCooldownTimer(artifact, EAbilityID::ABID_R);
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
@@ -612,39 +608,18 @@ void AKOA_PROTO_Character::UnlockAbilityUse() {
 	TIMERS -
 		Methods for handling timers.
 **************************************************************************/
-void AKOA_PROTO_Character::StartAbilityCooldownTimer(UKOA_BASE_Artifact* CurrentArtifact, EAbilityID AbilityID) {
-	// When the timer ends, unlock ability use
+void AKOA_PROTO_Character::StartAbilityLockTimer() {
 	if (GetWorldPtr()) {
 		GetWorldPtr()->GetTimerManager().SetTimer(AbilityLockTimer, this, &AKOA_PROTO_Character::UnlockAbilityUse, AbilityLockDuration, false);
-		switch (AbilityID) {
-		case EAbilityID::ABID_Q:
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_Q");
-			GetWorldPtr()->GetTimerManager().SetTimer(CurrentArtifact->AbilityQTimer, CurrentArtifact, &UKOA_BASE_Artifact::ResetAbilityQCooldown, CurrentArtifact->AbilityQ.AbilityCooldownDuration, false);
-			break;
-		case EAbilityID::ABID_W:
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_W");
-			GetWorldPtr()->GetTimerManager().SetTimer(CurrentArtifact->AbilityWTimer, CurrentArtifact, &UKOA_BASE_Artifact::ResetAbilityWCooldown, CurrentArtifact->AbilityW.AbilityCooldownDuration, false);
-			break;
-		case EAbilityID::ABID_E:
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_E");
-			GetWorldPtr()->GetTimerManager().SetTimer(CurrentArtifact->AbilityETimer, CurrentArtifact, &UKOA_BASE_Artifact::ResetAbilityECooldown, CurrentArtifact->AbilityE.AbilityCooldownDuration, false);
-			break;		
-		case EAbilityID::ABID_R:
-			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_R");
-			GetWorldPtr()->GetTimerManager().SetTimer(CurrentArtifact->AbilityRTimer, CurrentArtifact, &UKOA_BASE_Artifact::ResetAbilityRCooldown, CurrentArtifact->AbilityR.AbilityCooldownDuration, false);
-			break;
-		default:
-			break;
-		}
 	}
 }
+
 
 void AKOA_PROTO_Character::StartArtifactSwapLockTimer(const float &Duration) {
 	// When the timer ends, unlock artifact swapping
 	if (GetWorldPtr()) {
 		GetWorldPtr()->GetTimerManager().SetTimer(ArtifactSwapLockTimer, this, &AKOA_PROTO_Character::UnlockArtifactSwap, Duration, false);
 	}
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "StartArtifactSwapLockTimer.");
 }
 
 void AKOA_PROTO_Character::StartWallHoldTimer(const float &Duration) {

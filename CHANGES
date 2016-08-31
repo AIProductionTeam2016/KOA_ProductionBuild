@@ -1,3 +1,7 @@
+Version 0.3.1:
+ - Merge branch 'hotfix-0.3.1' Fixed issues with cooldown timers. Moved ability coolddown timers to be called from artifacts, not the player.
+ - Fixed and refactored the location of calling for an ability to go on cooldown. It is now located and called from the artifact NOT from the character.
+
 Version 0.3.0:
  - Merge branch 'feature-moarCombat' into develop Expanded functionality to all ability buttons. Q, W, E, R should all be hooked up and implemented. Everything is ready for all abilities to have their functionality begin development.
  - Formating correction.

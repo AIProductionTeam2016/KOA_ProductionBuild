@@ -17,13 +17,18 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 
 void UKOA_Artifact_DualDaggers::PressAbilityQ() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::Vampire's Kiss");
+}
+
+void UKOA_Artifact_DualDaggers::PressAbilityE() {
 	AKOA_PROTO_Character* player = GetPlayerReference();
 	player->VD_E_AimingMeshComponent->SetVisibility(true);
-	//->VD_E_AimingMeshComponent->SetVisibility(true);
-	//VD_E_AimingMeshComponent
 }
 
 void UKOA_Artifact_DualDaggers::ReleaseAbilityQ() {
+
+}
+
+void UKOA_Artifact_DualDaggers::ReleaseAbilityE() {
 	// Set the aiming mesh component visibility to false
 	AKOA_PROTO_Character* player = GetPlayerReference();
 	E_LocationSwap();
@@ -82,5 +87,5 @@ void UKOA_Artifact_DualDaggers::Tick(float DeltaTime) {
 void UKOA_Artifact_DualDaggers::E_LocationSwap() {
 	// Set the player to the mouse position
 	AKOA_PROTO_Character* player = GetPlayerReference();
-	player->SetActorLocation(GetCurrentCapsuleLocation());
+	player->SetActorLocation(GetCurrentECapsuleLocation());
 }

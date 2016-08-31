@@ -92,8 +92,6 @@ public:
 	FTimerHandle AbilityETimer;
 	FTimerHandle AbilityRTimer;
 	
-	
-
 public:
 	UKOA_BASE_Artifact();
 	virtual ~UKOA_BASE_Artifact();
@@ -111,7 +109,10 @@ public:
 	virtual void ReleaseAbilityR();
 
 	void ResetAbilityQCooldown();
-	
+	void ResetAbilityWCooldown();
+	void ResetAbilityECooldown();
+	void ResetAbilityRCooldown();
+
 	/*-- GETTERS --*/ 
 	FORCEINLINE EAbilityID GetCurrentHeldAbilityButton() const {
 		return CurrentHeldAbilityButton;

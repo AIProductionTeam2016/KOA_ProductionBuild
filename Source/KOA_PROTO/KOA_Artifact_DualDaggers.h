@@ -24,11 +24,11 @@ public:
 
 	// Press Ability
 	void PressAbilityQ();
-	//void PressAbilityE();
+	void PressAbilityE();
 
 	// Release Ability
 	void ReleaseAbilityQ();
-	//void ReleaseAbilityE();
+	void ReleaseAbilityE();
 
 	// SETTERS
 	UFUNCTION(BlueprintCallable, Category="Ability,E")
@@ -36,7 +36,7 @@ public:
 		return E_MaxTargetRange;
 	}
 
-	FORCEINLINE FVector GetCurrentCapsuleLocation() const {
+	FORCEINLINE FVector GetCurrentECapsuleLocation() const {
 		return CurrentCapsuleLocation;
 	}
 

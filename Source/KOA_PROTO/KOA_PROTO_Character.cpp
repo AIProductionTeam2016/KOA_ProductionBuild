@@ -407,28 +407,59 @@ void AKOA_PROTO_Character::DEBUG_EquipCurrentArtifact() {
 ////
 /************************* PRESS CURRENT ABILITIES *************************/
 ////
+
 void AKOA_PROTO_Character::PressCurrentAbility(EAbilityID AbilityID) {
-
-}
-
-// The function to run when the player press Q
-void AKOA_PROTO_Character::PressCurrentAbilityQ() {
 	// Make sure the player has an Artifact equipped
 	if (CurrentArtifact != EArtifactID::ID_NULL) {
 		// If abilities aren't locked
 		if (GetIsAbilityUseLocked() != true) {
-			// Get the current artifact see if it's Q is on cooldown
+			// Get the current artifact
 			UKOA_BASE_Artifact* artifact = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
-			if (artifact->AbilityQ.IsAbilityOnCooldown() == false) {
-				// Lock ability use until you release the button
-				IsAbilityUseLocked = true;
-				SetWhichAbilityPressed(EAbilityID::ABID_Q);
-				// Run the abilityQ press on current artifact
-				artifact->PressAbilityQ();
-				artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_Q);
+
+			// Switch on the ability being used
+			switch (AbilityID) {
+			case EAbilityID::ABID_Q: 
+				// If Q isn't on cooldown...
+				if (artifact->AbilityQ.IsAbilityOnCooldown() == false) {
+					// Lock ability use until you release the button
+					IsAbilityUseLocked = true;
+					SetWhichAbilityPressed(EAbilityID::ABID_Q);
+					// Run the abilityQ press on current artifact
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_Q);
+					artifact->PressAbilityQ();
+				}
+				break;
+			case EAbilityID::ABID_W:
+
+				break;
+			case EAbilityID::ABID_E:
+				// If Q isn't on cooldown...
+				if (artifact->AbilityE.IsAbilityOnCooldown() == false) {
+					// Lock ability use until you release the button
+					IsAbilityUseLocked = true;
+					SetWhichAbilityPressed(EAbilityID::ABID_E);
+					// Run the abilityQ press on current artifact
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_E);
+					artifact->PressAbilityE();
+				}
+				break;
+			case EAbilityID::ABID_R:
+
+				break;
 			}
-		} 
-	} 
+
+			
+			if (artifact->AbilityQ.IsAbilityOnCooldown() == false) {
+				
+				
+			}
+		}
+	}
+}
+
+// The function to run when the player press Q
+void AKOA_PROTO_Character::PressCurrentAbilityQ() {
+	
 }
 
 void AKOA_PROTO_Character::PressCurrentAbilityW() {
@@ -531,6 +562,18 @@ void AKOA_PROTO_Character::StartAbilityCooldownTimer(UKOA_BASE_Artifact* Current
 		case EAbilityID::ABID_Q:
 			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_Q");
 			GetWorldPtr()->GetTimerManager().SetTimer(CurrentArtifact->AbilityQTimer, CurrentArtifact, &UKOA_BASE_Artifact::ResetAbilityQCooldown, CurrentArtifact->AbilityQ.AbilityCooldownDuration, false);
+			break;
+		case EAbilityID::ABID_W:
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_W");
+			GetWorldPtr()->GetTimerManager().SetTimer(CurrentArtifact->AbilityWTimer, CurrentArtifact, &UKOA_BASE_Artifact::ResetAbilityWCooldown, CurrentArtifact->AbilityW.AbilityCooldownDuration, false);
+			break;
+		case EAbilityID::ABID_E:
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_E");
+			GetWorldPtr()->GetTimerManager().SetTimer(CurrentArtifact->AbilityETimer, CurrentArtifact, &UKOA_BASE_Artifact::ResetAbilityECooldown, CurrentArtifact->AbilityE.AbilityCooldownDuration, false);
+			break;		
+		case EAbilityID::ABID_R:
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "StartAbilityCooldownTimer: ABID_R");
+			GetWorldPtr()->GetTimerManager().SetTimer(CurrentArtifact->AbilityRTimer, CurrentArtifact, &UKOA_BASE_Artifact::ResetAbilityRCooldown, CurrentArtifact->AbilityR.AbilityCooldownDuration, false);
 			break;
 		default:
 			break;

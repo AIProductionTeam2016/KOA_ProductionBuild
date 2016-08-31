@@ -10,6 +10,7 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	: Super() {
 	ArtifactName = "Dual Daggers of Something, Probably";
 	AbilityQ.AbilityName = "Vampire's Kiss with Blood; Not Sparkles";
+	AbilityQ.AbilityCooldownDuration = 5.0f;
 	AbilityQ.MaxCastRange = 100.0f;
 	AbilityE.MaxCastRange = 500.0f; 
 }
@@ -17,6 +18,7 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 //********** PRESS ABILITY **********//
 void UKOA_Artifact_DualDaggers::PressAbilityQ() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::Q");
+	StartAbilityCooldownTimer(EAbilityID::ABID_Q);
 }
 void UKOA_Artifact_DualDaggers::PressAbilityW() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::W");
@@ -35,15 +37,18 @@ void UKOA_Artifact_DualDaggers::ReleaseAbilityQ() {
 }
 void UKOA_Artifact_DualDaggers::ReleaseAbilityW() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released DualDagger::W");
+	StartAbilityCooldownTimer(EAbilityID::ABID_W);
 }
 void UKOA_Artifact_DualDaggers::ReleaseAbilityE() {
 	// Set the aiming mesh component visibility to false
 	AKOA_PROTO_Character* player = GetPlayerReference();
 	E_LocationSwap();
 	player->VD_E_AimingMeshComponent->SetVisibility(false);
+	StartAbilityCooldownTimer(EAbilityID::ABID_E);
 }
 void UKOA_Artifact_DualDaggers::ReleaseAbilityR() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released DualDagger::R");
+	StartAbilityCooldownTimer(EAbilityID::ABID_R);
 }
 
 //******************** TICK ********************//

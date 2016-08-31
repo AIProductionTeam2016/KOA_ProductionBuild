@@ -285,7 +285,7 @@ public:
 
 
 	/****** TIMERS ******/
-	void StartAbilityCooldownTimer(UKOA_BASE_Artifact* CurrentArtifact, EAbilityID AbilityID);
+	void StartAbilityLockTimer();
 	void StartArtifactSwapLockTimer(const float &Duration);
 	void StartWallHoldTimer(const float &Duration);
 	void StartWallSlideTimer(const float &Duration);

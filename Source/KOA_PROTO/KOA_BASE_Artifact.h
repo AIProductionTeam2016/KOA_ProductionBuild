@@ -113,6 +113,8 @@ public:
 	void ResetAbilityECooldown();
 	void ResetAbilityRCooldown();
 
+	void StartAbilityCooldownTimer(EAbilityID AbilityID);
+
 	/*-- GETTERS --*/ 
 	FORCEINLINE EAbilityID GetCurrentHeldAbilityButton() const {
 		return CurrentHeldAbilityButton;

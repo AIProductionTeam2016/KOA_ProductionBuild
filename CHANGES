@@ -1,3 +1,8 @@
+Version 0.2.1:
+ - Merge branch 'hotfix-0.2.1' Branch incorrectly named 0.2.0 Fixed some issues with the wall jump. It functions correctly now.
+ - Added comments for clarity; Renamed a variable.
+ - walljump now works properly without falling through the floor
+
 Version 0.2.0:
  - Merge branch 'feature-combatAbilities' into develop Bringing in all of the recent combat systems to show off a 'full' level.
  - Made about 4.20 changes... Watch them be perfect. Adjusted the player jump variables.

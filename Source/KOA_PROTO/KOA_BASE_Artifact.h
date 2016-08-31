@@ -49,7 +49,7 @@ public:
 	FAbility() {
 		AbilityName = "INVALID";
 		MaxCastRange = 0.0f;
-		AbilityCooldownDuration = 0.0f;
+		AbilityCooldownDuration = 3.0f;
 		AbilityOnCooldown = false;
 	}
 

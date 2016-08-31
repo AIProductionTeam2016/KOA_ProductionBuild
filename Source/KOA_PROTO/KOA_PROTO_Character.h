@@ -249,9 +249,9 @@ public:
 	// void EquipMatterHammer();
 
 	// GETTERS AND SETTERS //
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability|Q")
-	uint8 GetEquippedArtifact() const;
-	virtual uint8 GetEquippedArtifact_Implementation() const;
+	UFUNCTION(BlueprintCallable, Category = "Artifact")
+	EArtifactID GetEquippedArtifact() const;
+	//virtual uint8 GetEquippedArtifact_Implementation() const;
 	bool SetCurrentArtifact(EArtifactID Artifact);
 	void SetCurrArtifactPlayerReference();
 
@@ -267,6 +267,7 @@ public:
 	void PressCurrentAbilityR();
 
 	// RELEASE CURRENT ABILITY //
+	void ReleaseCurrentAbility(EAbilityID AbilityID);
 	void ReleaseCurrentAbilityQ();
 	void ReleaseCurrentAbilityW();
 	void ReleaseCurrentAbilityE();
@@ -275,11 +276,13 @@ public:
 	// GETTERS AND SETTERS //
 	FORCEINLINE bool GetIsAbilityUseLocked() const;
 	FORCEINLINE bool GetIsArtifactSwapLocked() const;
-	FORCEINLINE EAbilityID GetWhichAbilityPressed() const;
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	EAbilityID GetWhichAbilityPressed() const;
 	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
 
-	UFUNCTION(BlueprintCallable, Category = "Ability|Q")
-	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
+
 
 	/****** TIMERS ******/
 	void StartAbilityCooldownTimer(UKOA_BASE_Artifact* CurrentArtifact, EAbilityID AbilityID);

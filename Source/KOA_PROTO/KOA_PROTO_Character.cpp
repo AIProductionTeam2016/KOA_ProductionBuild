@@ -352,8 +352,8 @@ void AKOA_PROTO_Character::EquipFireGlove() {
 	}
 }
 
-uint8 AKOA_PROTO_Character::GetEquippedArtifact_Implementation() const {
-	return (uint8)this->CurrentArtifact;
+EArtifactID AKOA_PROTO_Character::GetEquippedArtifact() const {
+	return this->CurrentArtifact;
 }
 
 // SetCurrentArtifact(Artifact): 
@@ -432,77 +432,122 @@ void AKOA_PROTO_Character::PressCurrentAbility(EAbilityID AbilityID) {
 				}
 				break;
 			case EAbilityID::ABID_W:
-
+				// If W isn't on cooldown...
+				if (artifact->AbilityW.IsAbilityOnCooldown() == false) {
+					// Lock ability use until you release the button
+					IsAbilityUseLocked = true;
+					SetWhichAbilityPressed(EAbilityID::ABID_W);
+					// Run the abilityW press on current artifact
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_W);
+					artifact->PressAbilityW();
+				}
 				break;
 			case EAbilityID::ABID_E:
-				// If Q isn't on cooldown...
+				// If E isn't on cooldown...
 				if (artifact->AbilityE.IsAbilityOnCooldown() == false) {
 					// Lock ability use until you release the button
 					IsAbilityUseLocked = true;
 					SetWhichAbilityPressed(EAbilityID::ABID_E);
-					// Run the abilityQ press on current artifact
+					// Run the abilityE press on current artifact
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_E);
 					artifact->PressAbilityE();
 				}
 				break;
 			case EAbilityID::ABID_R:
-
+				// If R isn't on cooldown...
+				if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
+					// Lock ability use until you release the button
+					IsAbilityUseLocked = true;
+					SetWhichAbilityPressed(EAbilityID::ABID_R);
+					// Run the abilityR press on current artifact
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_R);
+					artifact->PressAbilityR();
+				}
 				break;
-			}
-
-			
-			if (artifact->AbilityQ.IsAbilityOnCooldown() == false) {
-				
-				
 			}
 		}
 	}
 }
-
-// The function to run when the player press Q
 void AKOA_PROTO_Character::PressCurrentAbilityQ() {
-	
+	PressCurrentAbility(EAbilityID::ABID_Q);
 }
-
 void AKOA_PROTO_Character::PressCurrentAbilityW() {
-
+	PressCurrentAbility(EAbilityID::ABID_W);
 }
-
 void AKOA_PROTO_Character::PressCurrentAbilityE() {
-
+	PressCurrentAbility(EAbilityID::ABID_E);
 }
-
 void AKOA_PROTO_Character::PressCurrentAbilityR() {
-
+	PressCurrentAbility(EAbilityID::ABID_R);
 }
 
 ////
 /************************* RELEASE CURRENT ABILITIES *************************/
-////
-// The function to run when the player releases Q
-void AKOA_PROTO_Character::ReleaseCurrentAbilityQ() {
-	// Make sure the player has an Artifact equipped 
-	// Make sure the current ability in use is Q
-	if (CurrentArtifact != EArtifactID::ID_NULL && GetWhichAbilityPressed() == EAbilityID::ABID_Q) {
-		// Access the Q Ability on the Artifact that is currently selected.
+////7
+void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
+	// Make sure you have artifact equipped
+	if (CurrentArtifact != EArtifactID::ID_NULL) {
+		// Get the current artifact
 		UKOA_BASE_Artifact* artifact = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
-		if (artifact->AbilityQ.IsAbilityOnCooldown() == false) {
-			artifact->AbilityQ.SetAbilityOnCooldown();
-			artifact->ReleaseAbilityQ();			
-			StartAbilityCooldownTimer(artifact, EAbilityID::ABID_Q);
-			AbilityPressed = EAbilityID::NONE;
-			artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+		switch (AbilityID) {
+		case EAbilityID::ABID_Q:
+			if (GetWhichAbilityPressed() == EAbilityID::ABID_Q) {
+				if (artifact->AbilityQ.IsAbilityOnCooldown() == false) {
+					artifact->AbilityQ.SetAbilityOnCooldown();
+					artifact->ReleaseAbilityQ();
+					StartAbilityCooldownTimer(artifact, EAbilityID::ABID_Q);
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				}
+			}
+			break;
+		case EAbilityID::ABID_W:
+			if (GetWhichAbilityPressed() == EAbilityID::ABID_W) {
+				if (artifact->AbilityW.IsAbilityOnCooldown() == false) {
+					artifact->AbilityW.SetAbilityOnCooldown();
+					artifact->ReleaseAbilityW();
+					StartAbilityCooldownTimer(artifact, EAbilityID::ABID_W);
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				}
+			}
+			break;
+		case EAbilityID::ABID_E:
+			if (GetWhichAbilityPressed() == EAbilityID::ABID_E) {
+				if (artifact->AbilityE.IsAbilityOnCooldown() == false) {
+					artifact->AbilityE.SetAbilityOnCooldown();
+					artifact->ReleaseAbilityE();
+					StartAbilityCooldownTimer(artifact, EAbilityID::ABID_E);
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				}
+			}
+			break;
+		case EAbilityID::ABID_R:
+			if (GetWhichAbilityPressed() == EAbilityID::ABID_R) {
+				if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
+					artifact->AbilityR.SetAbilityOnCooldown();
+					artifact->ReleaseAbilityR();
+					StartAbilityCooldownTimer(artifact, EAbilityID::ABID_R);
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				}
+			}
+			break;
 		}
 	}
 }
+void AKOA_PROTO_Character::ReleaseCurrentAbilityQ() {
+	ReleaseCurrentAbility(EAbilityID::ABID_Q);
+}
 void AKOA_PROTO_Character::ReleaseCurrentAbilityW() {
-
+	ReleaseCurrentAbility(EAbilityID::ABID_W);
 }
 void AKOA_PROTO_Character::ReleaseCurrentAbilityE() {
-
+	ReleaseCurrentAbility(EAbilityID::ABID_E);
 }
 void AKOA_PROTO_Character::ReleaseCurrentAbilityR() {
-
+	ReleaseCurrentAbility(EAbilityID::ABID_R);
 }
 
 //** Getters **//
@@ -519,18 +564,30 @@ EAbilityID AKOA_PROTO_Character::GetWhichAbilityPressed() const {
 
 bool AKOA_PROTO_Character::GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const {
 	// Get the current artifact see if it's Q is on cooldown
-	//UKOA_BASE_Artifact* artifact = this->CollectedArtifacts[(uint8)this->CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
+	UKOA_BASE_Artifact* artifact = this->CollectedArtifacts[(uint8)this->CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
 	
 	bool isOnCooldown = false;
 
 	switch (AbilityID) {
 	case EAbilityID::ABID_Q:
-			//isOnCooldown = artifact->AbilityQ.IsAbilityOnCooldown();
+			isOnCooldown = artifact->AbilityQ.IsAbilityOnCooldown();
 			if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Black, "Current Ability Q IsOnCooldown: " + isOnCooldown);
 			break;
-		default:
-			isOnCooldown = false;
-			break;
+	case EAbilityID::ABID_W:
+		isOnCooldown = artifact->AbilityW.IsAbilityOnCooldown();
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Black, "Current Ability W IsOnCooldown: " + isOnCooldown);
+		break;
+	case EAbilityID::ABID_E:
+		isOnCooldown = artifact->AbilityE.IsAbilityOnCooldown();
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Black, "Current Ability E IsOnCooldown: " + isOnCooldown);
+		break;
+	case EAbilityID::ABID_R:
+		isOnCooldown = artifact->AbilityR.IsAbilityOnCooldown();
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Black, "Current Ability R IsOnCooldown: " + isOnCooldown);
+		break;
+	default:
+		isOnCooldown = false;
+		break;
 	}
 	
 	return isOnCooldown;

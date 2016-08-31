@@ -77,7 +77,7 @@ void UKOA_Artifact_DualDaggers::Tick(float DeltaTime) {
 			// Make it so the AimingCapsule cant go beyond the MaxCastRange
 			FVector vectorFromPlayerToMouse = FVector(mousePos - playerPos);
 			vectorFromPlayerToMouse.Normalize();
-			finalPos = playerPos + vectorFromPlayerToMouse * AbilityQ.MaxCastRange;
+			finalPos = playerPos + vectorFromPlayerToMouse * AbilityE.MaxCastRange;
 		}
 
 		// Make sure the AimingCapsule is not lower in the world than the player.

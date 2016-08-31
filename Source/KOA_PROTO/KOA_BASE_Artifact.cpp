@@ -13,16 +13,12 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 
 UKOA_BASE_Artifact::~UKOA_BASE_Artifact() {}
 
-void UKOA_BASE_Artifact::PressAbilityQ() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Red, "BASE_Artifact::PressedAbilityQ()");
-}
+void UKOA_BASE_Artifact::PressAbilityQ() {}
 void UKOA_BASE_Artifact::PressAbilityW() {}
 void UKOA_BASE_Artifact::PressAbilityE() {}
 void UKOA_BASE_Artifact::PressAbilityR() {}
 
-void UKOA_BASE_Artifact::ReleaseAbilityQ() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Red, "BASE_Artifact::ReleasedAbilityQ()");
-}
+void UKOA_BASE_Artifact::ReleaseAbilityQ() {}
 void UKOA_BASE_Artifact::ReleaseAbilityW() {}
 void UKOA_BASE_Artifact::ReleaseAbilityE() {}
 void UKOA_BASE_Artifact::ReleaseAbilityR() {}
@@ -30,6 +26,18 @@ void UKOA_BASE_Artifact::ReleaseAbilityR() {}
 void UKOA_BASE_Artifact::ResetAbilityQCooldown() {
 	AbilityQ.ResetAbilityCooldown();
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Reset Current Q timer");
+}
+void UKOA_BASE_Artifact::ResetAbilityWCooldown() {
+	AbilityW.ResetAbilityCooldown();
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Reset Current W timer");
+}
+void UKOA_BASE_Artifact::ResetAbilityECooldown() {
+	AbilityE.ResetAbilityCooldown();
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Reset Current E timer");
+}
+void UKOA_BASE_Artifact::ResetAbilityRCooldown() {
+	AbilityR.ResetAbilityCooldown();
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Reset Current R timer");
 }
 
 /*-- GETTERS --*/

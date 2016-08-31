@@ -14,38 +14,33 @@ UCLASS()
 class KOA_PROTO_API UKOA_Artifact_DualDaggers : public UKOA_BASE_Artifact
 {
 	GENERATED_BODY()
-public:
+public: // Methods
 	UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer);
-	UPROPERTY(EditAnywhere, Category = "Ability,E")
-	float E_MaxTargetRange;
-
-public:
 	void Tick(float DeltaTime);
 
 	// Press Ability
 	void PressAbilityQ();
-	//void PressAbilityE();
-
+	void PressAbilityW();
+	void PressAbilityE();
+	void PressAbilityR();
+	
 	// Release Ability
 	void ReleaseAbilityQ();
-	//void ReleaseAbilityE();
+	void ReleaseAbilityW();
+	void ReleaseAbilityE();
+	void ReleaseAbilityR();
 
-	// SETTERS
-	UFUNCTION(BlueprintCallable, Category="Ability,E")
-	float GetE_MaxTargetRange() const {
-		return E_MaxTargetRange;
-	}
-
-	FORCEINLINE FVector GetCurrentCapsuleLocation() const {
+	// GETTERS //
+	FORCEINLINE FVector GetCurrentECapsuleLocation() const {
 		return CurrentCapsuleLocation;
 	}
 
-	// SETTERS
+	// SETTERS //
 	void SetCurrentCapsuleLocation(const FVector& location) {
 		CurrentCapsuleLocation = location;
 	}
-private:
+private: // Variables
 	FVector CurrentCapsuleLocation;
-private:	
+private: // Methods
 	void E_LocationSwap();
 };

@@ -202,6 +202,7 @@ public:
 	float WalkSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Movement")
 	float RunSpeed;
+
 	// All of the data for the player's jump logic
 	UPROPERTY(EditAnywhere, Category = "Player|Jump")
 	FPlayerJumpVariables JumpStats;
@@ -223,8 +224,10 @@ public:
 	/****** CONSTRUCTORS AND INITIALIZERS ******/
 	AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
-	virtual void Tick( float DeltaSeconds ) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+
+	/****** TICK ******/
+	virtual void Tick(float DeltaSeconds) override;
 
 	/****** MOVEMENT ******/
 	void SetMoveSpeedToRun();
@@ -242,43 +245,47 @@ public:
 	/****** ARTIFACTS ******/
 	void EquipDualDaggers();
 	void EquipFireGlove();
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability|Q")
-	uint8 GetEquippedArtifact() const;
-	virtual uint8 GetEquippedArtifact_Implementation() const;
-
 	// void EquipLightningBow();
 	// void EquipMatterHammer();
 
+	// GETTERS AND SETTERS //
+	UFUNCTION(BlueprintCallable, Category = "Artifact")
+	EArtifactID GetEquippedArtifact() const;
+	//virtual uint8 GetEquippedArtifact_Implementation() const;
 	bool SetCurrentArtifact(EArtifactID Artifact);
 	void SetCurrArtifactPlayerReference();
 
 	/****** ABILITIES ******/
-	//void DEPRICATED_UseCurrentAbilityQ();
-	//void UseCurrentAbilityE();
 	UPROPERTY(EditAnywhere)
 	EAbilityID AbilityPressed;
 
+	// PRESS CURRENT ABILITY //
+	void PressCurrentAbility(EAbilityID AbilityID);
 	void PressCurrentAbilityQ();
-	void ReleaseCurrentAbilityQ();
+	void PressCurrentAbilityW();
+	void PressCurrentAbilityE();
+	void PressCurrentAbilityR();
 
-	//void UseCurrentAbilityW();
-	//void UseCurrentAbilityE();
-	//void UseCurrentAbilityR();
+	// RELEASE CURRENT ABILITY //
+	void ReleaseCurrentAbility(EAbilityID AbilityID);
+	void ReleaseCurrentAbilityQ();
+	void ReleaseCurrentAbilityW();
+	void ReleaseCurrentAbilityE();
+	void ReleaseCurrentAbilityR();
+
+	// GETTERS AND SETTERS //
 	FORCEINLINE bool GetIsAbilityUseLocked() const;
 	FORCEINLINE bool GetIsArtifactSwapLocked() const;
-	FORCEINLINE EAbilityID GetWhichAbilityPressed() const;
-	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
-	//void ResetAbilityCooldown(FAbility Ability);
-
-	UFUNCTION(BlueprintCallable, Category = "Ability|Q")
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	EAbilityID GetWhichAbilityPressed() const;
+	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
+
+
 
 	/****** TIMERS ******/
 	void StartAbilityCooldownTimer(UKOA_BASE_Artifact* CurrentArtifact, EAbilityID AbilityID);
-	//void StartAbilityCooldownTimer(const float &Duration);
-
-
 	void StartArtifactSwapLockTimer(const float &Duration);
 	void StartWallHoldTimer(const float &Duration);
 	void StartWallSlideTimer(const float &Duration);
@@ -291,8 +298,6 @@ public:
 	}
 /********************* PRIVATE VARIABLES *********************/
 private:
-	//TODO: Rename bool variables to have Enabled;
-	//TODO: Rename getters to Is________()
 	/***** MOVEMENT *****/
 	bool IsSlidingDownWall;
 
@@ -301,8 +306,7 @@ private:
 	bool IsArtifactSwapLocked;
 	float ArtifactSwapLockDuration;
 	float AbilityLockDuration;
-
-
+	
 	/***** TIMERS *****/
 	FTimerHandle AbilityLockTimer;
 	FTimerHandle ArtifactSwapLockTimer;
@@ -316,6 +320,5 @@ private:
 private:
 	void UnlockAbilityUse();
 	void UnlockArtifactSwap();
-
 	void DEBUG_EquipCurrentArtifact();
 };

@@ -1,3 +1,19 @@
+Version 0.3.0:
+ - Merge branch 'feature-moarCombat' into develop Expanded functionality to all ability buttons. Q, W, E, R should all be hooked up and implemented. Everything is ready for all abilities to have their functionality begin development.
+ - Formating correction.
+ - Fixed bug in the e aiming functionality.
+ - Hooked up remaining ability methods.
+ - Added Light Attack anim for Jester Daggers.
+ - Moved cat guard to a better spot.
+ - Pulled most recent version of develop v0.2.2 Conflicts: Content/Player/Blueprints/TEST_SPELLANIM_BP_Character.uasset *RESOLVED* --theirs
+ - Extended Ability functionality to W, E, R.
+ - Unhooked the cursor changing to the jester when you press e.
+ - Stubbed out additional keybinds and attached W,E,R ability buttons.
+ - Cleaned up some comments and some organization.
+ - Added anim for Jester VD_Q
+ - Moved folders to better folder structure. Added temp anim for Jester VD_Q
+ - Renamed Jester stand-in anims to better reflect naming conventions.
+
 Version 0.2.2:
  - Corrected mouse disappearing when clicking.
  - Updating changes

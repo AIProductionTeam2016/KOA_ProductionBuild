@@ -23,10 +23,9 @@ void UKOA_PROTO_CharacterMovementSlide::TickComponent(float DeltaTime, enum ELev
 		characterOwner->JumpStats.ApplyWallSlideAcceleration(DeltaTime);
 		characterOwner->JumpStats.DisplayWallSlideDebugInfo();
 		// playerLocation - (distance * -UpVector * DeltaTime)
-		FVector finalLocation = playerLocation - (characterOwner->JumpStats.GetCurrSlideVelocity() * characterOwner->GetActorUpVector() * DeltaTime);
-		//TODO: Implement a better floor detection
-		if (finalLocation.Z < 110.15) finalLocation.Z = 110.15;
-		characterOwner->SetActorLocation(finalLocation);
+		FVector vMovement = -(characterOwner->JumpStats.GetCurrSlideVelocity() * characterOwner->GetActorUpVector());
+		FHitResult hitResult;
+		SafeMoveUpdatedComponent(vMovement * DeltaTime, characterOwner->GetActorRotation(), true, hitResult);
 	}
 }
 

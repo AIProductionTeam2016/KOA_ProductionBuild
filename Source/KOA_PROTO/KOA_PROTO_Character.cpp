@@ -377,7 +377,6 @@ bool AKOA_PROTO_Character::SetCurrentArtifact(EArtifactID Artifact) {
 void AKOA_PROTO_Character::SetCurrArtifactPlayerReference() {
 	UKOA_BASE_Artifact* artifact = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
 	artifact->SetPlayerReference(this);
-
 }
 
 void AKOA_PROTO_Character::UnlockArtifactSwap() {

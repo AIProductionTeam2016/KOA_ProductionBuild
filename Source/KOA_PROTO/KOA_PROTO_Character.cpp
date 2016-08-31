@@ -267,11 +267,13 @@ void AKOA_PROTO_Character::PlayerStopJump() {
 	if (JumpStats.GetHangingOnWall()) {
 		// Multiply JumpStats.GetWallOnPlayerSide into the y value for it to launch in the proper direction
 		GetCharacterMovement()->AddImpulse(
-			FVector(0.0f,
-			-1 * JumpStats.GetWallOnPlayerSide() * JumpStats.Power * 0.5, // -1 is for making sure you apply jump in the proper direction, inverts GetWallOnPlayerSide()
-			JumpStats.Power * ROOT_THREE_OVER_TWO)
-			, true
-			);
+			FVector( 
+				0.0f,
+				-1 * JumpStats.GetWallOnPlayerSide() * JumpStats.Power * 0.5, // -1 is for making sure you apply jump in the proper direction, inverts GetWallOnPlayerSide()
+				JumpStats.Power * ROOT_THREE_OVER_TWO
+			),	
+			true
+		);
 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
 		JumpStats.SetHangingOnWall(false);
 		IsSlidingDownWall = false;

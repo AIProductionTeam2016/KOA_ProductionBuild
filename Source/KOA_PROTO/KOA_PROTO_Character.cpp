@@ -25,6 +25,7 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	// Movement
 	WalkSpeed = 450.0f;
 	RunSpeed = 900.0f;
+	IsMovementInputDisabled = false;
 	//JumpStats.EnableDoubleJumping();
 	IsSlidingDownWall = false;
 
@@ -47,8 +48,6 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	VD_E_AimingMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VD_E_AimingMeshComponent"));
 	VD_E_AimingMeshComponent->AttachTo(VD_E_AimingCapsule);
 	
-	//VD_E_AimingMesh = CreateDefaultSubobject<USkeletalMesh>(TEXT("VD_E_AimingMesh"));
-	//VD_E_AimingMeshComponent->SetSkeletalMesh(VD_E_AimingMesh);
 }
 
 // Called when the game starts or when spawned
@@ -148,13 +147,18 @@ void AKOA_PROTO_Character::SetMoveSpeedToWalk() {
 //		Move right if Amount > 0; left if Amount is < 0
 void AKOA_PROTO_Character::MoveRight(float Amount) {
 	// Only move if the controller is set up and Amount is not 0
-	if (Controller && Amount) {
+	if (Controller && Amount && GetIsMovementInputDisabled() == false) {
 		// AddMovementInput in the direction of the right vector
 		AddMovementInput(FVector(0.0, 1.0, 0.0), Amount);
 	}
 }
 
-
+bool AKOA_PROTO_Character::GetIsMovementInputDisabled() const {
+	return IsMovementInputDisabled;
+}
+void AKOA_PROTO_Character::SetIsMovementInputDisabled(bool IsDisabled) {
+	IsMovementInputDisabled = IsDisabled;
+}
 /**************************************************************************
 	JUMPING -
 		Methods used to handle jumping logic.
@@ -233,36 +237,38 @@ FDetectWallHitInfo AKOA_PROTO_Character::DetectWall() {
 // PlayerJump():
 //		Main method involded in the player jump logic.
 void AKOA_PROTO_Character::PlayerJump() {
-	// If the player is grounded, then this is their first jump
-	if (!GetCharacterMovement()->IsFalling()) {
-		ACharacter::Jump();
-	}
-	// The player has already jumped or is otherwise in the air
-	else {
-		// Check to see if we can jump off a wall
-		FDetectWallHitInfo WallHitInfo = DetectWall();
-
-		// If you can jump off a wall do it
-		if (WallHitInfo.GetCanJump()) {
-			// Disable movement to allow user to hang on wall
-			//GetCharacterMovement()->DisableMovement();
-
-			//Set movement mode to WallSlide
-			GetCharacterMovement()->SetMovementMode(MOVE_Custom, (uint8)ECustomMovementType::CMT_WallSlide);
-			// Pass the results up to the player
-			JumpStats.SetHangingOnWall(true);
-			JumpStats.SetWallOnPlayerSide(WallHitInfo.GetWallDirection());
-			// Set the stats that you got from the wall hit
-			JumpStats.SetCurrSlideVelocity(WallHitInfo.WallHitSlideVelocity);
-			JumpStats.SetSlideAcceleration(WallHitInfo.WallHitSlideAcceration);
-			JumpStats.SetWallHoldDuration(WallHitInfo.WallHitHoldDuration);
-			// Set the timer for holding onto the wall
-			StartWallHoldTimer(JumpStats.GetWallHoldDuration());
-
-		} // Otherwise, check if you can double jump, if so do it,
-		else if (JumpStats.GetCanDoubleJump()) {
-			JumpStats.SetCanDoubleJump(false);
+	if (GetIsMovementInputDisabled() == false) {
+		// If the player is grounded, then this is their first jump
+		if (!GetCharacterMovement()->IsFalling()) {
 			ACharacter::Jump();
+		}
+		// The player has already jumped or is otherwise in the air
+		else {
+			// Check to see if we can jump off a wall
+			FDetectWallHitInfo WallHitInfo = DetectWall();
+
+			// If you can jump off a wall do it
+			if (WallHitInfo.GetCanJump()) {
+				// Disable movement to allow user to hang on wall
+				//GetCharacterMovement()->DisableMovement();
+
+				//Set movement mode to WallSlide
+				GetCharacterMovement()->SetMovementMode(MOVE_Custom, (uint8)ECustomMovementType::CMT_WallSlide);
+				// Pass the results up to the player
+				JumpStats.SetHangingOnWall(true);
+				JumpStats.SetWallOnPlayerSide(WallHitInfo.GetWallDirection());
+				// Set the stats that you got from the wall hit
+				JumpStats.SetCurrSlideVelocity(WallHitInfo.WallHitSlideVelocity);
+				JumpStats.SetSlideAcceleration(WallHitInfo.WallHitSlideAcceration);
+				JumpStats.SetWallHoldDuration(WallHitInfo.WallHitHoldDuration);
+				// Set the timer for holding onto the wall
+				StartWallHoldTimer(JumpStats.GetWallHoldDuration());
+
+			} // Otherwise, check if you can double jump, if so do it,
+			else if (JumpStats.GetCanDoubleJump()) {
+				JumpStats.SetCanDoubleJump(false);
+				ACharacter::Jump();
+			}
 		}
 	}
 }

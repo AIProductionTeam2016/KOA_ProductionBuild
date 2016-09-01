@@ -233,6 +233,10 @@ public:
 	void SetMoveSpeedToRun();
 	void SetMoveSpeedToWalk();
 	void MoveRight(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	bool GetIsMovementInputDisabled() const;
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	void SetIsMovementInputDisabled(bool IsDisabled);
 
 	/****** JUMPING ******/
 	FDetectWallHitInfo DetectWall();
@@ -300,6 +304,7 @@ public:
 private:
 	/***** MOVEMENT *****/
 	bool IsSlidingDownWall;
+	bool IsMovementInputDisabled;
 
 	/***** ABILTIES *****/
 	bool IsAbilityUseLocked;

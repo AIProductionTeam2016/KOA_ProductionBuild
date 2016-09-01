@@ -26,6 +26,7 @@ void UKOA_Artifact_DualDaggers::PressAbilityW() {
 void UKOA_Artifact_DualDaggers::PressAbilityE() {
 	AKOA_PROTO_Character* player = GetPlayerReference();
 	player->VD_E_AimingMeshComponent->SetVisibility(true);
+	player->SetIsMovementInputDisabled(true);
 }
 void UKOA_Artifact_DualDaggers::PressAbilityR() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::R");
@@ -44,6 +45,7 @@ void UKOA_Artifact_DualDaggers::ReleaseAbilityE() {
 	AKOA_PROTO_Character* player = GetPlayerReference();
 	E_LocationSwap();
 	player->VD_E_AimingMeshComponent->SetVisibility(false);
+	player->SetIsMovementInputDisabled(false);
 	StartAbilityCooldownTimer(EAbilityID::ABID_E);
 }
 void UKOA_Artifact_DualDaggers::ReleaseAbilityR() {

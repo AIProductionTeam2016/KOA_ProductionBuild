@@ -5,13 +5,25 @@
 #include "KOA_PROTO_Character.h"
 
 UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
+	// STATS //
 	ArtifactName = "INVALID";
-	CurrentHeldAbilityButton = EAbilityID::NONE;
-	// Initialize Reference to the Player
+	LightBasicAttackLockDuration = 5.0f;
+
+	// Initialize private member variables //
 	PlayerReference = nullptr;
+	CurrentHeldAbilityButton = EAbilityID::NONE;
+	IsBasicAttackOnCooldown = false;
+	BasicAttackInUse = EBasicAttack::NONE;
 }
 
 UKOA_BASE_Artifact::~UKOA_BASE_Artifact() {}
+
+void UKOA_BASE_Artifact::UseLightAttack() {
+	IsBasicAttackOnCooldown = true;
+	BasicAttackInUse = EBasicAttack::LIGHT;
+	StartBasicAttackCooldownTimer(EBasicAttack::LIGHT);
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "BASE_Artifact::BasicAttack Cooldown started.");
+}
 
 void UKOA_BASE_Artifact::PressAbilityQ() {}
 void UKOA_BASE_Artifact::PressAbilityW() {}
@@ -23,6 +35,13 @@ void UKOA_BASE_Artifact::ReleaseAbilityW() {}
 void UKOA_BASE_Artifact::ReleaseAbilityE() {}
 void UKOA_BASE_Artifact::ReleaseAbilityR() {}
 
+// RESET BASIC ATTACK //
+void UKOA_BASE_Artifact::ResetBasicAttackCooldown() {
+	BasicAttackInUse = EBasicAttack::NONE;
+	IsBasicAttackOnCooldown = false;	
+}
+
+// RESET ABILITY //
 void UKOA_BASE_Artifact::ResetAbilityQCooldown() {
 	AbilityQ.ResetAbilityCooldown();
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, "Reset Current Q timer");
@@ -68,6 +87,21 @@ void UKOA_BASE_Artifact::StartAbilityCooldownTimer(EAbilityID AbilityID) {
 	}
 }
 
+void UKOA_BASE_Artifact::StartBasicAttackCooldownTimer(EBasicAttack TypeOfBA) {
+	// When the timer ends, you can basic attack again.
+	if (GetPlayerReference()->GetWorldPtr()) {
+		switch (TypeOfBA) {
+		case EBasicAttack::LIGHT:
+			GetPlayerReference()->GetWorldPtr()->GetTimerManager().SetTimer(BasicAttackTimer,this, &UKOA_BASE_Artifact::ResetBasicAttackCooldown, this->LightBasicAttackLockDuration, false);
+			break;
+		case EBasicAttack::HEAVY:
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 /*-- GETTERS --*/
 AKOA_PROTO_Character* UKOA_BASE_Artifact::GetPlayerReference() {
 	if (PlayerReference == nullptr) {
@@ -78,6 +112,9 @@ AKOA_PROTO_Character* UKOA_BASE_Artifact::GetPlayerReference() {
 	}
 }
 /*-- SETTERS --*/
+void UKOA_BASE_Artifact::SetBasicAttackInUse(EBasicAttack TypeOfBA) {
+	BasicAttackInUse = TypeOfBA;
+}
 void UKOA_BASE_Artifact::SetCurrentHeldAbilityButton(EAbilityID ability) {
 	CurrentHeldAbilityButton = ability;
 }

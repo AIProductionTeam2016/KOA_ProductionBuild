@@ -18,6 +18,9 @@ public: // Methods
 	UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer);
 	void Tick(float DeltaTime);
 
+	// Basic Attacks
+	void UseLightAttack();
+
 	// Press Ability
 	void PressAbilityQ();
 	void PressAbilityW();

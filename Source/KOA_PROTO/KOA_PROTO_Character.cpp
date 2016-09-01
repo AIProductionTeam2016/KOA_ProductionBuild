@@ -4,6 +4,7 @@
 #include "KOA_PROTO_Wall.h"
 #include "KOA_PROTO_Character.h"
 #include "KOA_PROTO_CharacterMovementSlide.h"
+#include "KOA_BASE_Artifact.h"
 
 /**************************************************************************
 	CONSTRUCTORS AND INITIALIZERS
@@ -122,9 +123,9 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("EquipArtifact_DualDaggers", IE_Pressed, this, &AKOA_PROTO_Character::EquipDualDaggers);
 	InputComponent->BindAction("EquipArtifact_FireGlove", IE_Pressed, this, &AKOA_PROTO_Character::EquipFireGlove);
 
+	InputComponent->BindAction("LightAttack",IE_Pressed, this, &AKOA_PROTO_Character::UseCurrBasicAttackLight);
 	//TODO: QuickArtifactSelect press release
 }
-
 
 /**************************************************************************
 	MOVEMENT - 
@@ -358,6 +359,50 @@ void AKOA_PROTO_Character::EquipFireGlove() {
 	}
 }
 
+/*
+
+
+// Switch on the ability being used
+switch (AbilityID) {
+case EAbilityID::ABID_Q:
+// If Q isn't on cooldown...
+if (artifact->AbilityQ.IsAbilityOnCooldown() == false) {
+// Lock ability use until you release the button
+IsAbilityUseLocked = true;
+SetWhichAbilityPressed(EAbilityID::ABID_Q);
+// Run the abilityQ press on current artifact
+artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_Q);
+artifact->PressAbilityQ();
+}
+
+*/
+
+void AKOA_PROTO_Character::UseCurrBasicAttackLight() {
+	// Make sure artifact equipped
+	if (CurrentArtifact != EArtifactID::ID_NULL) {
+		// Get the current artifact
+		UKOA_BASE_Artifact* artifact = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
+		// If basic attacks aren't on cooldown
+		if (artifact->GetIsBasicAttackOnCooldown() == false) {
+			artifact->UseLightAttack();
+		} 
+	} else {
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f,FColor::Red, "ERROR: No CurrentArtifact for Light Attack.");
+	}
+}
+
+bool AKOA_PROTO_Character::GetIsArtifactSwapLocked() const {
+	return IsArtifactSwapLocked;
+}
+
+UKOA_BASE_Artifact* AKOA_PROTO_Character::GetCurrArtifactReference() const {
+	UKOA_BASE_Artifact* ptr = nullptr;
+	if (CurrentArtifact != EArtifactID::ID_NULL) {
+		ptr = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
+	}
+	return ptr;
+}
+
 EArtifactID AKOA_PROTO_Character::GetEquippedArtifact() const {
 	return this->CurrentArtifact;
 }
@@ -555,9 +600,7 @@ void AKOA_PROTO_Character::ReleaseCurrentAbilityR() {
 bool AKOA_PROTO_Character::GetIsAbilityUseLocked() const {
 	return IsAbilityUseLocked;
 }
-bool AKOA_PROTO_Character::GetIsArtifactSwapLocked() const {
-	return IsArtifactSwapLocked;
-}
+
 
 EAbilityID AKOA_PROTO_Character::GetWhichAbilityPressed() const {
 	return AbilityPressed;

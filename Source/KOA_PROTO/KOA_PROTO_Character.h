@@ -252,7 +252,13 @@ public:
 	// void EquipLightningBow();
 	// void EquipMatterHammer();
 
+	// CURRENT LIGHT ATTACK //
+	void UseCurrBasicAttackLight();
+	
 	// GETTERS AND SETTERS //
+	FORCEINLINE bool GetIsArtifactSwapLocked() const;
+	UFUNCTION(BlueprintCallable, Category = "Artifact")
+	UKOA_BASE_Artifact* GetCurrArtifactReference() const;
 	UFUNCTION(BlueprintCallable, Category = "Artifact")
 	EArtifactID GetEquippedArtifact() const;
 	//virtual uint8 GetEquippedArtifact_Implementation() const;
@@ -279,7 +285,7 @@ public:
 
 	// GETTERS AND SETTERS //
 	FORCEINLINE bool GetIsAbilityUseLocked() const;
-	FORCEINLINE bool GetIsArtifactSwapLocked() const;
+	
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
 	UFUNCTION(BlueprintCallable, Category = "Ability")

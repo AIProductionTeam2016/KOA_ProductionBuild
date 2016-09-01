@@ -33,8 +33,8 @@ void AKOA_BASE_EnemyCharacter::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 	// If HP ever drops below 0.0, you die 
-	if (HPCurr <= 0.0) {
-		IsDead = true;
+	if (HPCurr <= 0.0 && !IsDead) {
+		OnDeath();
 	}
 
 
@@ -59,6 +59,14 @@ void AKOA_BASE_EnemyCharacter::SetupPlayerInputComponent(class UInputComponent* 
 {
 	Super::SetupPlayerInputComponent(InputComponent);
 
+}
+
+void AKOA_BASE_EnemyCharacter::TakeDamage(float Amount) {
+	HPCurr -= Amount;
+}
+
+void AKOA_BASE_EnemyCharacter::OnDeath() {
+	IsDead = true;
 }
 
 //#if WITH_EDITOR

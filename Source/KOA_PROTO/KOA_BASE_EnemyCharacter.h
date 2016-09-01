@@ -31,7 +31,12 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	
+	UFUNCTION(BlueprintCallable, Category = "Damage")
+	void TakeDamage(float Amount);
 
+	void OnDeath();
+	
 	// GETTERS //
 	UFUNCTION(BlueprintCallable, Category = "EnemyStats|HP")
 	float GetHPCurr() const {

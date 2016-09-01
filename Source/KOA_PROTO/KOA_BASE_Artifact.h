@@ -26,6 +26,14 @@ enum class EAbilityID : uint8 {
 	NONE = 99
 };
 
+UENUM(BlueprintType)
+enum class EBasicAttack : uint8 {
+	LIGHT = 0,
+	HEAVY,
+	NUM,
+	NONE = 99
+};
+
 USTRUCT()
 struct KOA_PROTO_API FAbility {
 	GENERATED_USTRUCT_BODY()
@@ -73,11 +81,15 @@ class KOA_PROTO_API UKOA_BASE_Artifact : public UObject
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, Category = "Information")
+	//** STATS **//
+	UPROPERTY(EditAnywhere, Category = "Stats")
 	FString ArtifactName;
-	
-	//TODO: Add in a mesh component for the Artifact
+	UPROPERTY(EditAnywhere, Category = "Stats|Combat")
+	float LightBasicAttackLockDuration;
+	//UPROPERTY(EditAnywhere, Category = "Stats|Combat")
+	//float HeavyBasicAttackLockDuration;
 
+	//** ABILITIES **//
 	UPROPERTY(EditAnywhere, Category = "Ability")
 	FAbility AbilityQ;
 	UPROPERTY(EditAnywhere, Category = "Ability")
@@ -87,45 +99,63 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Ability")
 	FAbility AbilityR;
 
+	//** TIMERS **//
+	FTimerHandle BasicAttackTimer;
 	FTimerHandle AbilityQTimer;
 	FTimerHandle AbilityWTimer;
 	FTimerHandle AbilityETimer;
 	FTimerHandle AbilityRTimer;
-	
+
 public:
 	UKOA_BASE_Artifact();
 	virtual ~UKOA_BASE_Artifact();
-
+	// TICK //
 	virtual void Tick(float DeltaTime) {}
-
+	// USE BASIC ATTACK //
+	virtual void UseLightAttack();
+	// PRESS ABILITY //
 	virtual void PressAbilityQ();
 	virtual void PressAbilityW();
 	virtual void PressAbilityE();
 	virtual void PressAbilityR();
-	
+	// RELEASE ABILITY //
 	virtual void ReleaseAbilityQ();
 	virtual void ReleaseAbilityW();
 	virtual void ReleaseAbilityE();
 	virtual void ReleaseAbilityR();
-
+	// RESET BASIC ATTACK //
+	void ResetBasicAttackCooldown();
+	// RESET ABILITY //
 	void ResetAbilityQCooldown();
 	void ResetAbilityWCooldown();
 	void ResetAbilityECooldown();
 	void ResetAbilityRCooldown();
-
+	// START TIMERS //
 	void StartAbilityCooldownTimer(EAbilityID AbilityID);
+	void StartBasicAttackCooldownTimer(EBasicAttack TypeOfBA);
 
 	/*-- GETTERS --*/ 
+	FORCEINLINE bool GetIsBasicAttackOnCooldown() const {
+		return IsBasicAttackOnCooldown;
+	}
+	UFUNCTION(BlueprintCallable, Category = "BasicAttack")
+	EBasicAttack GetBasicAttackInUse() const {
+		return BasicAttackInUse;
+	}
 	FORCEINLINE EAbilityID GetCurrentHeldAbilityButton() const {
 		return CurrentHeldAbilityButton;
 	}
-
 	AKOA_PROTO_Character* GetPlayerReference();
+
 	/*-- SETTERS --*/ 
+	UFUNCTION(BlueprintCallable, Category = "BasicAttack")
+	void SetBasicAttackInUse(EBasicAttack TypeOfBA);
 	void SetCurrentHeldAbilityButton(EAbilityID ability);
 	void SetPlayerReference(AKOA_PROTO_Character* player);
 
-private:
+private: // Variables
 	AKOA_PROTO_Character* PlayerReference;
 	EAbilityID CurrentHeldAbilityButton;
+	bool IsBasicAttackOnCooldown;
+	EBasicAttack BasicAttackInUse;
 };

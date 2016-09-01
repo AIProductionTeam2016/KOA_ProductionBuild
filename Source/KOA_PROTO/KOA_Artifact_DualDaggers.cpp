@@ -13,6 +13,12 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	AbilityQ.AbilityCooldownDuration = 5.0f;
 	AbilityQ.MaxCastRange = 100.0f;
 	AbilityE.MaxCastRange = 500.0f; 
+	LightBasicAttackLockDuration = 1.0f;
+}
+//********** USE BASIC ATTACKS **********//
+void UKOA_Artifact_DualDaggers::UseLightAttack() {
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::LightAttack");
+	Super::UseLightAttack();
 }
 
 //********** PRESS ABILITY **********//

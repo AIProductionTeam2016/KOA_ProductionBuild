@@ -61,7 +61,7 @@ void AKOA_BASE_EnemyCharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 }
 
-void AKOA_BASE_EnemyCharacter::TakeDamage(float Amount) {
+void AKOA_BASE_EnemyCharacter::ReceiveDamage(float Amount) {
 	HPCurr -= Amount;
 }
 

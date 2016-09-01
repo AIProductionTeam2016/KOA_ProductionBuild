@@ -19,6 +19,8 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 UKOA_BASE_Artifact::~UKOA_BASE_Artifact() {}
 
 void UKOA_BASE_Artifact::UseLightAttack() {
+//	GetPlayerReference()->SetCanDodge(false);
+	
 	IsBasicAttackOnCooldown = true;
 	BasicAttackInUse = EBasicAttack::LIGHT;
 	StartBasicAttackCooldownTimer(EBasicAttack::LIGHT);
@@ -38,7 +40,9 @@ void UKOA_BASE_Artifact::ReleaseAbilityR() {}
 // RESET BASIC ATTACK //
 void UKOA_BASE_Artifact::ResetBasicAttackCooldown() {
 	BasicAttackInUse = EBasicAttack::NONE;
-	IsBasicAttackOnCooldown = false;	
+	IsBasicAttackOnCooldown = false;
+	GetPlayerReference()->SetIsMovementInputDisabled(false);
+	//GetPlayerReference()->SetCanDodge(true);
 }
 
 // RESET ABILITY //

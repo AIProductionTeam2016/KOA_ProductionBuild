@@ -26,6 +26,7 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	// Movement
 	WalkSpeed = 450.0f;
 	RunSpeed = 900.0f;
+	CanDodge = false;
 	IsMovementInputDisabled = false;
 	//JumpStats.EnableDoubleJumping();
 	IsSlidingDownWall = false;
@@ -160,6 +161,15 @@ bool AKOA_PROTO_Character::GetIsMovementInputDisabled() const {
 void AKOA_PROTO_Character::SetIsMovementInputDisabled(bool IsDisabled) {
 	IsMovementInputDisabled = IsDisabled;
 }
+
+//bool AKOA_PROTO_Character::GetCanDodge() const {
+//	return CanDodge;
+//}
+//
+//void AKOA_PROTO_Character::SetCanDodge(bool Value) {
+//	CanDodge = Value;
+//}
+
 /**************************************************************************
 	JUMPING -
 		Methods used to handle jumping logic.
@@ -384,6 +394,7 @@ void AKOA_PROTO_Character::UseCurrBasicAttackLight() {
 		UKOA_BASE_Artifact* artifact = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
 		// If basic attacks aren't on cooldown
 		if (artifact->GetIsBasicAttackOnCooldown() == false) {
+			SetIsMovementInputDisabled(true);
 			artifact->UseLightAttack();
 		} 
 	} else {

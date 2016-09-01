@@ -233,11 +233,17 @@ public:
 	void SetMoveSpeedToRun();
 	void SetMoveSpeedToWalk();
 	void MoveRight(float Amount);
+	
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	bool GetIsMovementInputDisabled() const;
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	void SetIsMovementInputDisabled(bool IsDisabled);
 
+	//UFUNCTION(BlueprintCallable, Category = "Movement")
+	//bool GetCanDodge() const;
+	//UFUNCTION(BlueprintCallable, Category = "Movement")
+	//void SetCanDodge(bool Value);
+	
 	/****** JUMPING ******/
 	FDetectWallHitInfo DetectWall();
 	void PlayerJump();
@@ -309,6 +315,7 @@ public:
 /********************* PRIVATE VARIABLES *********************/
 private:
 	/***** MOVEMENT *****/
+	bool CanDodge;
 	bool IsSlidingDownWall;
 	bool IsMovementInputDisabled;
 

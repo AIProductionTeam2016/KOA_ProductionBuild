@@ -33,7 +33,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	
 	UFUNCTION(BlueprintCallable, Category = "Damage")
-	void TakeDamage(float Amount);
+	void ReceiveDamage(float Amount);
 
 	void OnDeath();
 	

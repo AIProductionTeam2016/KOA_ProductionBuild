@@ -1,3 +1,18 @@
+Version 0.3.3:
+ - Merge branch 'feature-combatAssets' into develop
+ - Added a TON of combat features.
+ - Added death animations.
+ - Corrected issue in getting progress bar progress.
+ - Updated reference.
+ - Updated name for renamed asset.
+ - Added additional CatGuard.
+ - Added hit and death anim for CatGuard.
+ - Added sockets to Jester Skeleton. Renamed TEST_SPELLANIM_BP_Character to BP_PC_Jester. Gave him temp dagger meshes.
+ - Added EnemyUI hp bar asset.
+ - Added sockets to CatGuards paws (left and right). Added sword mesh to catguard's right hand.
+ - Added temp sword for CatGuard.
+ - Added Vampire Daggers mesh.
+
 Version 0.3.2:
  - Merge branch 'feature-castingStance' into develop Setup functionality to disable movement input commands that can be called per spell.
  - Added in the ability to disable movement for certain spells.

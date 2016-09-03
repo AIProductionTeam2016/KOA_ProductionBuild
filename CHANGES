@@ -1,3 +1,9 @@
+Version 0.3.4:
+ - Merge branch 'hotfix-0.3.4' into develop Fixed a bug in the Jester jump logic. The Jester was detecting a collider on the BASE_Monster type of enemy that it shouldn't have. That has been corrected and the issue solved.
+ - Fixed the issue where the Jester would jump off of colliders it shouldn't be interacting with. Cleaned up some logic in the Jester jump as well as the wall code and BP. Wall's collision channel is now set to BlockAll.
+ - Added TODO list for hotfix-0.3.4
+ - Tweaks.
+
 Version 0.3.3:
  - Merge branch 'feature-combatAssets' into develop
  - Added a TON of combat features.

@@ -196,7 +196,8 @@ FDetectWallHitInfo AKOA_PROTO_Character::DetectWall() {
 	// I BELIEVE ObjectTypeQuery1 is WorldStatic and ObjectTypeQuery2 is WorldDynamic
 	TArray< TEnumAsByte< EObjectTypeQuery > > ObjectTypes;
 	ObjectTypes.Add(EObjectTypeQuery::ObjectTypeQuery1);
-	ObjectTypes.Add(EObjectTypeQuery::ObjectTypeQuery2);
+	
+	//ObjectTypes.Add(EObjectTypeQuery::ObjectTypeQuery2);
 
 	// Actors to ignore
 	TArray<AActor*>ActorsToIgnore;
@@ -235,8 +236,9 @@ FDetectWallHitInfo AKOA_PROTO_Character::DetectWall() {
 				DWHitInfo.SetWallHitInfo(wall->GetWallInfo());
 			}
 			else {
+				
 				//TODO: Make sure wall slide works with this disabled.
-				//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, "Failed to detect custom AWall.");
+				if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, "ERROR: Hitting NON-Wall.");
 				//DWHitInfo.SetWallHitInfo(AKOA_PROTO_Wall::SmoothWallInfo);
 			}
 		}

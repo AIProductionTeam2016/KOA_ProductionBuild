@@ -35,6 +35,38 @@ enum class EBasicAttack : uint8 {
 };
 
 USTRUCT()
+struct KOA_PROTO_API FAbilityStats {
+	GENERATED_USTRUCT_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	FString AbilityName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float HitDamage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float AbilityCooldownDuration;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float MaxCastRange;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	bool AbilityOnCooldown;
+public:
+	FAbilityStats() {
+		AbilityName = "INVALID NAME";
+ 		HitDamage = 0.0f;
+ 	    MaxCastRange = 0.0f;
+ 		AbilityCooldownDuration = 0.0f;
+        AbilityOnCooldown = false;
+	}
+	
+	void operator=(const FAbilityStats& Stats) {
+		this->AbilityName = Stats.AbilityName;
+ 		this->HitDamage = Stats.HitDamage;
+ 		this->MaxCastRange = Stats.MaxCastRange;
+ 		this->AbilityCooldownDuration = Stats.AbilityCooldownDuration;
+ 		this->AbilityOnCooldown = Stats.AbilityOnCooldown;
+	}
+};
+
+USTRUCT()
 struct KOA_PROTO_API FAbility {
 	GENERATED_USTRUCT_BODY()
 
@@ -43,6 +75,9 @@ struct KOA_PROTO_API FAbility {
 
 	UPROPERTY(EditAnywhere, Category = "Texture")
 	UTexture* AbilityIconTexture;
+	
+	UPROPERTY(EditAnywhere, Category = "Damage")
+ 	float HitDamage;
 	
 	UPROPERTY(EditAnywhere, Category = "Cast Range")
 	float MaxCastRange;
@@ -56,6 +91,7 @@ struct KOA_PROTO_API FAbility {
 public:
 	FAbility() {
 		AbilityName = "INVALID";
+		HitDamage = 0.0f;
 		MaxCastRange = 0.0f;
 		AbilityCooldownDuration = 3.0f;
 		AbilityOnCooldown = false;
@@ -64,7 +100,7 @@ public:
 	FORCEINLINE bool IsAbilityOnCooldown() const {
 		return AbilityOnCooldown;
 	}
-
+	
 	void SetAbilityOnCooldown() {
 		AbilityOnCooldown = true;
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, AbilityName + TEXT(" cooldown set!"));
@@ -74,6 +110,15 @@ public:
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, AbilityName + TEXT(" cooldown reset!"));
 	}
 	
+	FAbilityStats GetAbilityStats() const {
+		FAbilityStats stats;
+		stats.AbilityName = this->AbilityName;
+		stats.HitDamage = this->HitDamage;
+		stats.MaxCastRange = this->MaxCastRange;
+		stats.AbilityCooldownDuration = this->AbilityCooldownDuration;
+		stats.AbilityOnCooldown = this->AbilityOnCooldown;
+		return stats;
+	}
 };
 
 UCLASS(Blueprintable)
@@ -141,6 +186,31 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "BasicAttack")
 	EBasicAttack GetBasicAttackInUse() const {
 		return BasicAttackInUse;
+	}
+	UFUNCTION(BlueprintCallable, Category = "Ability|Stats")
+	FAbilityStats GetAbilityStats(EAbilityID Ability) const {
+		FAbilityStats stats;
+		switch(Ability) {
+		case EAbilityID::ABID_Q:
+			if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "GetAbilityStats:Q");
+			stats = AbilityQ.GetAbilityStats();
+			break;
+		case EAbilityID::ABID_W:
+		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "GetAbilityStats:W");
+			stats = AbilityW.GetAbilityStats();
+			break;
+		case EAbilityID::ABID_E:
+		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "GetAbilityStats:E");
+			stats = AbilityE.GetAbilityStats();
+			break;
+		case EAbilityID::ABID_R:
+		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "GetAbilityStats:R");
+			stats = AbilityR.GetAbilityStats();
+			break;
+		default:
+			break;
+		}
+		return stats;
 	}
 	FORCEINLINE EAbilityID GetCurrentHeldAbilityButton() const {
 		return CurrentHeldAbilityButton;

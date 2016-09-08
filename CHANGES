@@ -1,3 +1,11 @@
+Version 0.3.5:
+ - Merge branch 'bugfix-VDQProbs' into develop Fixed some random problems with the Q on VD. How did we fix them? Nofucking clue. But they are fixed.
+ - Added notify to VD_Q Anim.
+ - Hooked up damage on the Q. Created utility function to access ability stats.
+ - Added Jester VD_Draw anim Now when equipping daggers they show up, when changing weapons they go away.
+ - Added Sheath Anim.
+ - Fixed bug in ANIMBP for the Jester. Added IsValid check on assigning a ptr ref.
+
 Version 0.3.4:
  - Merge branch 'hotfix-0.3.4' into develop Fixed a bug in the Jester jump logic. The Jester was detecting a collider on the BASE_Monster type of enemy that it shouldn't have. That has been corrected and the issue solved.
  - Fixed the issue where the Jester would jump off of colliders it shouldn't be interacting with. Cleaned up some logic in the Jester jump as well as the wall code and BP. Wall's collision channel is now set to BlockAll.

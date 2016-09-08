@@ -4,12 +4,8 @@
 #include "KOA_PROTO_CharacterMovementSlide.h"
 #include "KOA_PROTO_Character.h"
 
-void UKOA_PROTO_CharacterMovementSlide::InitializeComponent()
-{
+void UKOA_PROTO_CharacterMovementSlide::InitializeComponent() {
 	Super::InitializeComponent();
-	//~~~~~~~~~~~~~~~~~
-
-	//UE_LOG //comp Init!
 }
 
 //Tick Comp
@@ -18,15 +14,20 @@ void UKOA_PROTO_CharacterMovementSlide::TickComponent(float DeltaTime, enum ELev
 
 	if (this->MovementMode.GetValue() == MOVE_Custom && this->CustomMovementMode == (uint8)ECustomMovementType::CMT_WallSlide)
 	{
+		// Get Player location
 		FVector playerLocation = GetActorLocation();
-		AKOA_PROTO_Character* characterOwner = Cast<AKOA_PROTO_Character>(this->GetCharacterOwner());
-		characterOwner->JumpStats.ApplyWallSlideAcceleration(DeltaTime);
-		characterOwner->JumpStats.DisplayWallSlideDebugInfo();
-		// playerLocation - (distance * -UpVector * DeltaTime)
-		FVector finalLocation = playerLocation - (characterOwner->JumpStats.GetCurrSlideVelocity() * characterOwner->GetActorUpVector() * DeltaTime);
-		//TODO: Implement a better floor detection
-		if (finalLocation.Z < 110.15) finalLocation.Z = 110.15;
-		characterOwner->SetActorLocation(finalLocation);
+		// Get reference to the player character.
+		AKOA_PROTO_Character* pc = Cast<AKOA_PROTO_Character>(this->GetCharacterOwner());
+		// Set jump stats
+		pc->JumpStats.ApplyWallSlideAcceleration(DeltaTime);
+		pc->JumpStats.DisplayWallSlideDebugInfo();
+		// Define a movement vector
+		FVector vMovement = -(pc->JumpStats.GetCurrSlideVelocity() * pc->GetActorUpVector());
+		FHitResult hitResult;
+		// Zero out the initial Velocity
+		Velocity = FVector::ZeroVector;
+		// Issue movement command to slide down the wall
+		SafeMoveUpdatedComponent(vMovement * DeltaTime, pc->GetActorRotation(), true, hitResult);
 	}
 }
 

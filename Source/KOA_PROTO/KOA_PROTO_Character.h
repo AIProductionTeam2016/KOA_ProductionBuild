@@ -69,6 +69,8 @@ struct KOA_PROTO_API FPlayerJumpVariables {
 	UPROPERTY(EditAnywhere, Category = "Jump")
 	float Power;
 
+	//TODO: Move SlideAcceleration && SlideVelocity to private after init values are found
+	//TODO:    and after demonstrating the feature.
 	// The acceleration of the wall slide
 	float SlideAcceleration;
 	float CurrSlideVelocity;
@@ -175,6 +177,7 @@ private:
 	bool CanDoubleJump;
 	// Determines if Double Jumping turned on in the game. When false, CanDoubleJump will ALWAYS be false
 	bool DoubleJumpEnabled;
+
 	float WallHoldDuration;
 };
 
@@ -199,9 +202,16 @@ public:
 	float WalkSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Movement")
 	float RunSpeed;
+
 	// All of the data for the player's jump logic
 	UPROPERTY(EditAnywhere, Category = "Player|Jump")
 	FPlayerJumpVariables JumpStats;
+
+	// Additional Meshes //
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
+	UCapsuleComponent* VD_E_AimingCapsule;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|E|Mesh")
+	USkeletalMeshComponent* VD_E_AimingMeshComponent;
 
 	/***** ARTIFACTS *****/
 	UPROPERTY(EditAnywhere, Category = "Player|Artifacts")
@@ -214,14 +224,26 @@ public:
 	/****** CONSTRUCTORS AND INITIALIZERS ******/
 	AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
-	virtual void Tick( float DeltaSeconds ) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+
+	/****** TICK ******/
+	virtual void Tick(float DeltaSeconds) override;
 
 	/****** MOVEMENT ******/
 	void SetMoveSpeedToRun();
 	void SetMoveSpeedToWalk();
 	void MoveRight(float Amount);
+	
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	bool GetIsMovementInputDisabled() const;
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	void SetIsMovementInputDisabled(bool IsDisabled);
 
+	//UFUNCTION(BlueprintCallable, Category = "Movement")
+	//bool GetCanDodge() const;
+	//UFUNCTION(BlueprintCallable, Category = "Movement")
+	//void SetCanDodge(bool Value);
+	
 	/****** JUMPING ******/
 	FDetectWallHitInfo DetectWall();
 	void PlayerJump();
@@ -233,51 +255,76 @@ public:
 	/****** ARTIFACTS ******/
 	void EquipDualDaggers();
 	void EquipFireGlove();
+	// void EquipLightningBow();
+	// void EquipMatterHammer();
+
+	// CURRENT LIGHT ATTACK //
+	void UseCurrBasicAttackLight();
+	
+	// GETTERS AND SETTERS //
+	FORCEINLINE bool GetIsArtifactSwapLocked() const;
+	UFUNCTION(BlueprintCallable, Category = "Artifact")
+	UKOA_BASE_Artifact* GetCurrArtifactReference() const;
+	UFUNCTION(BlueprintCallable, Category = "Artifact")
+	EArtifactID GetEquippedArtifact() const;
+	//virtual uint8 GetEquippedArtifact_Implementation() const;
 	bool SetCurrentArtifact(EArtifactID Artifact);
+	void SetCurrArtifactPlayerReference();
 
 	/****** ABILITIES ******/
-	void UseCurrentAbilityQ();
+	UPROPERTY(EditAnywhere)
+	EAbilityID AbilityPressed;
 
+	// PRESS CURRENT ABILITY //
+	void PressCurrentAbility(EAbilityID AbilityID);
 	void PressCurrentAbilityQ();
+	void PressCurrentAbilityW();
+	void PressCurrentAbilityE();
+	void PressCurrentAbilityR();
+
+	// RELEASE CURRENT ABILITY //
+	void ReleaseCurrentAbility(EAbilityID AbilityID);
 	void ReleaseCurrentAbilityQ();
+	void ReleaseCurrentAbilityW();
+	void ReleaseCurrentAbilityE();
+	void ReleaseCurrentAbilityR();
 
-	//void UseCurrentAbilityW();
-	//void UseCurrentAbilityE();
-	//void UseCurrentAbilityR();
+	// GETTERS AND SETTERS //
 	FORCEINLINE bool GetIsAbilityUseLocked() const;
-	FORCEINLINE bool GetIsArtifactSwapLocked() const;
-	FORCEINLINE EAbilityID GetWhichAbilityPressed() const;
-	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
-	//void ResetAbilityCooldown(FAbility Ability);
-
 	
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	EAbilityID GetWhichAbilityPressed() const;
+	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
+
+
 
 	/****** TIMERS ******/
-	void StartAbilityCooldownTimer(UKOA_BASE_Artifact* CurrentArtifact, EAbilityID AbilityID);
-	//void StartAbilityCooldownTimer(const float &Duration);
-
-
+	void StartAbilityLockTimer();
 	void StartArtifactSwapLockTimer(const float &Duration);
 	void StartWallHoldTimer(const float &Duration);
 	void StartWallSlideTimer(const float &Duration);
 	void ClearWallHoldTimer();
 	void ClearWallSlideTimer();
 
+	// World
+	FORCEINLINE const UWorld* GetWorldPtr() const {
+		return WorldPtr;
+	}
 /********************* PRIVATE VARIABLES *********************/
 private:
-	//TODO: Rename bool variables to have Enabled;
-	//TODO: Rename getters to Is________()
 	/***** MOVEMENT *****/
+	bool CanDodge;
 	bool IsSlidingDownWall;
+	bool IsMovementInputDisabled;
 
 	/***** ABILTIES *****/
 	bool IsAbilityUseLocked;
 	bool IsArtifactSwapLocked;
 	float ArtifactSwapLockDuration;
 	float AbilityLockDuration;
-
-	EAbilityID AbilityPressed;
-
+	
 	/***** TIMERS *****/
 	FTimerHandle AbilityLockTimer;
 	FTimerHandle ArtifactSwapLockTimer;
@@ -286,13 +333,10 @@ private:
 
 	/***** WORLD *****/
 	const UWorld* WorldPtr;
-	FORCEINLINE const UWorld* GetWorldPtr() const {
-		return WorldPtr;
-	}
+
 /********************* PRIVATE METHODS *********************/
 private:
 	void UnlockAbilityUse();
 	void UnlockArtifactSwap();
-
 	void DEBUG_EquipCurrentArtifact();
 };

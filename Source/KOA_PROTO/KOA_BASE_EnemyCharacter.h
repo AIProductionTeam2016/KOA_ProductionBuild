@@ -10,24 +10,15 @@ class KOA_PROTO_API AKOA_BASE_EnemyCharacter : public ACharacter
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MonsterProperties")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemyStats|Speed")
+	// MOVEMENT //
 	float Speed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MonsterProperties")
-	float HitPoints;
-
-	//// Monster sight range
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
-	//float SightRange;
-	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
-	//USphereComponent* SightSphere;
-	//
-	//// Monster attack range
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
-	//float AttackRange;
-	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
-	//USphereComponent* AttackRangeSphere;
-
+	// HP //
+	UPROPERTY(EditAnywhere, Category = "EnemyStats|HP")
+	float HPCurr;
+	UPROPERTY(EditAnywhere, Category = "EnemyStats|HP")
+	float HPMax;
 public:
 	// Sets default values for this character's properties
 	AKOA_BASE_EnemyCharacter(const FObjectInitializer& ObjectInitializer);
@@ -40,7 +31,32 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	
+	UFUNCTION(BlueprintCallable, Category = "Damage")
+	void ReceiveDamage(float Amount);
+
+	void OnDeath();
+	
+	// GETTERS //
+	UFUNCTION(BlueprintCallable, Category = "EnemyStats|HP")
+	float GetHPCurr() const {
+		return HPCurr;
+	}
+	UFUNCTION(BlueprintCallable, Category = "EnemyStats|HP")
+	float GetHPMax() const {
+		return HPMax;
+	}
+	// SETTERS //
+	void SetHPCurr(float AmountHP);
 
 	// Override to update changes made in the editor
 	//virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+
+	// PRIVATE GETTERS //
+	UFUNCTION(BlueprintCallable, Category = "EnemyStats|Status")
+	bool GetIsDead() const {
+		return IsDead;
+	}
+private:
+	bool IsDead;
 };

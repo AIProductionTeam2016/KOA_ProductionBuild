@@ -57,6 +57,10 @@ void AKOA_SceneAssetPlaceholder::Tick( float DeltaTime )
 
 #if WITH_EDITOR
 void AKOA_SceneAssetPlaceholder::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) {
+	// Get all components
+	TArray<UActorComponent*> OwnedComponents;
+	GetComponents(OwnedComponents);
+
 	// Get the name of the property that changed
 	FName propertyName = (PropertyChangedEvent.Property != NULL) ? PropertyChangedEvent.Property->GetFName() : NAME_None;
 	if (propertyName == GET_MEMBER_NAME_CHECKED(AKOA_SceneAssetPlaceholder, CustomDepthEnabled)) {		

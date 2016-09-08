@@ -14,7 +14,6 @@ class KOA_PROTO_API UKOA_BASE_EnemyMovement : public UCharacterMovementComponent
 	GENERATED_BODY()
 	
 protected:
-
 	//Init
 	virtual void InitializeComponent() override;
 

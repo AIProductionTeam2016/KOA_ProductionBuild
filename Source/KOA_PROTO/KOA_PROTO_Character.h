@@ -229,6 +229,12 @@ public:
 	/****** TICK ******/
 	virtual void Tick(float DeltaSeconds) override;
 
+	/****** PLAYER STATS ******/
+	UFUNCTION(BlueprintCallable, Category = "Player|Stats")
+	void DamagePlayer(float Amount);
+	UFUNCTION(BlueprintCallable, Category = "Player|Stats")
+	void HealPlayer(float Amount);
+	
 	/****** MOVEMENT ******/
 	void SetMoveSpeedToRun();
 	void SetMoveSpeedToWalk();
@@ -291,14 +297,11 @@ public:
 
 	// GETTERS AND SETTERS //
 	FORCEINLINE bool GetIsAbilityUseLocked() const;
-	
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	EAbilityID GetWhichAbilityPressed() const;
 	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
-
-
 
 	/****** TIMERS ******/
 	void StartAbilityLockTimer();

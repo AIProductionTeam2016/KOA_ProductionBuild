@@ -129,6 +129,17 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 }
 
 /**************************************************************************
+	PLAYER STATS - 
+		Methods to manage player stats.
+**************************************************************************/
+	void AKOA_PROTO_Character::DamagePlayer(float Amount) {
+		(HealthCurrent - Amount) < 0.0f ? HealthCurrent = 0.0f : HealthCurrent -= Amount;
+		//TODO: Tell the player he is dead if HealthCurrent <= 0.0f
+	}
+	void AKOA_PROTO_Character::HealPlayer(float Amount) {
+		(HealthCurrent + Amount) > HealthMax ? HealthCurrent = HealthMax : HealthCurrent += Amount;
+	}
+/**************************************************************************
 	MOVEMENT - 
 		Methods to handle player movement. 
 		Walking, Running, Jumping, Sliding

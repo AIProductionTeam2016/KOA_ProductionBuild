@@ -151,6 +151,7 @@ public:
 
 	//** TIMERS **//
 	FTimerHandle BasicAttackTimer;
+	UPROPERTY(BlueprintReadOnly, Category = "Ability|Timer")
 	FTimerHandle AbilityQTimer;
 	FTimerHandle AbilityWTimer;
 	FTimerHandle AbilityETimer;

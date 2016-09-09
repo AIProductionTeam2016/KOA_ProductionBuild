@@ -1,3 +1,8 @@
+Version 0:
+ - Merge branch 'feature-VDQLifesteal' into develop Added lifesteal to the Q on the Vampire Daggers.
+ - Added lifesteal to the VD_Q
+ - Added a HP progress bar to the jester.
+
 Version 0.3.5:
  - Merge branch 'bugfix-VDQProbs' into develop Fixed some random problems with the Q on VD. How did we fix them? Nofucking clue. But they are fixed.
  - Added notify to VD_Q Anim.

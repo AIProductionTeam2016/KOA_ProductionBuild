@@ -40,6 +40,8 @@ struct KOA_PROTO_API FAbilityStats {
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	FString AbilityName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Texture")
+	UTexture* AbilityIconTexture;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float HitDamage;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
@@ -51,6 +53,7 @@ public:
 public:
 	FAbilityStats() {
 		AbilityName = "INVALID NAME";
+		AbilityIconTexture = nullptr;
  		HitDamage = 0.0f;
  	    MaxCastRange = 0.0f;
  		AbilityCooldownDuration = 0.0f;
@@ -59,6 +62,7 @@ public:
 	
 	void operator=(const FAbilityStats& Stats) {
 		this->AbilityName = Stats.AbilityName;
+		this->AbilityIconTexture = Stats.AbilityIconTexture;
  		this->HitDamage = Stats.HitDamage;
  		this->MaxCastRange = Stats.MaxCastRange;
  		this->AbilityCooldownDuration = Stats.AbilityCooldownDuration;
@@ -69,7 +73,7 @@ public:
 USTRUCT()
 struct KOA_PROTO_API FAbility {
 	GENERATED_USTRUCT_BODY()
-
+public:
 	UPROPERTY(EditAnywhere)
 	FString AbilityName;
 
@@ -113,6 +117,7 @@ public:
 	FAbilityStats GetAbilityStats() const {
 		FAbilityStats stats;
 		stats.AbilityName = this->AbilityName;
+		stats.AbilityIconTexture = this->AbilityIconTexture;
 		stats.HitDamage = this->HitDamage;
 		stats.MaxCastRange = this->MaxCastRange;
 		stats.AbilityCooldownDuration = this->AbilityCooldownDuration;
@@ -192,7 +197,6 @@ public:
 		FAbilityStats stats;
 		switch(Ability) {
 		case EAbilityID::ABID_Q:
-			if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "GetAbilityStats:Q");
 			stats = AbilityQ.GetAbilityStats();
 			break;
 		case EAbilityID::ABID_W:

@@ -181,10 +181,11 @@ public:
 	void ResetAbilityWCooldown();
 	void ResetAbilityECooldown();
 	void ResetAbilityRCooldown();
-	// START TIMERS //
+	// TIMERS //
 	void StartAbilityCooldownTimer(EAbilityID AbilityID);
 	void StartBasicAttackCooldownTimer(EBasicAttack TypeOfBA);
-
+	void ClearAllTimers();
+	
 	/*-- GETTERS --*/ 
 	FORCEINLINE bool GetIsBasicAttackOnCooldown() const {
 		return IsBasicAttackOnCooldown;

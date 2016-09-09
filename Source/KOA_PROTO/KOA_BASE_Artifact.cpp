@@ -105,7 +105,11 @@ void UKOA_BASE_Artifact::StartBasicAttackCooldownTimer(EBasicAttack TypeOfBA) {
 		}
 	}
 }
+	void UKOA_BASE_Artifact::ClearAllTimers() {
+		GetPlayerReference()->GetWorldPtr()->GetTimerManager().ClearTimer(AbilityQTimer);
+		//TODO: All the other timers. Get the q working first damnit.
 
+	}
 /*-- GETTERS --*/
 AKOA_PROTO_Character* UKOA_BASE_Artifact::GetPlayerReference() {
 	if (PlayerReference == nullptr) {

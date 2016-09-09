@@ -57,6 +57,10 @@ void AKOA_PROTO_Character::BeginPlay() {
 	Super::BeginPlay();	
 }
 
+void AKOA_PROTO_Character::EndPlay(const EEndPlayReason::Type EndPlayReason) {
+	Super::EndPlay(EndPlayReason);
+}
+
 // Called every frame
 void AKOA_PROTO_Character::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
@@ -367,6 +371,8 @@ void AKOA_PROTO_Character::EquipDualDaggers() {
 		DEBUG_EquipCurrentArtifact();
 		// Lock artifact swaping
 		IsArtifactSwapLocked = true;
+		// Lock ability use
+		IsAbilityUseLocked = true;
 		StartArtifactSwapLockTimer(ArtifactSwapLockDuration);
 	}
 }
@@ -378,6 +384,8 @@ void AKOA_PROTO_Character::EquipFireGlove() {
 		DEBUG_EquipCurrentArtifact();
 		// Lock artifact swaping
 		IsArtifactSwapLocked = true;
+		// Lock ability use
+		IsAbilityUseLocked = true;
 		StartArtifactSwapLockTimer(ArtifactSwapLockDuration);
 	}
 }
@@ -557,7 +565,7 @@ void AKOA_PROTO_Character::PressCurrentAbilityR() {
 
 ////
 /************************* RELEASE CURRENT ABILITIES *************************/
-////7
+////
 void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 	// Make sure you have artifact equipped
 	if (CurrentArtifact != EArtifactID::ID_NULL) {
@@ -620,7 +628,7 @@ void AKOA_PROTO_Character::ReleaseCurrentAbilityR() {
 	ReleaseCurrentAbility(EAbilityID::ABID_R);
 }
 
-//** Getters **//
+//****** GETTERS ******//
 bool AKOA_PROTO_Character::GetIsAbilityUseLocked() const {
 	return IsAbilityUseLocked;
 }
@@ -661,7 +669,11 @@ bool AKOA_PROTO_Character::GetIsCurrentArtifactAbilityOnCooldown(const EAbilityI
 	return isOnCooldown;
 }
 
-//** Setters **//
+//****** SETTERS ******//
+void AKOA_PROTO_Character::SetIsAbilityUseLocked(bool Value) {
+	IsAbilityUseLocked = Value;
+}
+
 void AKOA_PROTO_Character::SetWhichAbilityPressed(const EAbilityID& AbilityID) {
 	AbilityPressed = AbilityID;
 }

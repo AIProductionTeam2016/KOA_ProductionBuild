@@ -9,11 +9,18 @@
 UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer) 
 	: Super() {
 	ArtifactName = "Dual Daggers of Something, Probably";
+	// ABILITY Q //
 	AbilityQ.AbilityName = "Vampire's Kiss with Blood; Not Sparkles";
 	AbilityQ.AbilityCooldownDuration = 5.0f;
 	AbilityQ.MaxCastRange = 100.0f;
+	ABILQ_HealAmount = 42.0f;
+	// ABILITY W //
+	
+	// ABILITY E //
 	AbilityE.MaxCastRange = 500.0f; 
 	LightBasicAttackLockDuration = 1.0f;
+	
+	// ABILITY R //
 }
 //********** USE BASIC ATTACKS **********//
 void UKOA_Artifact_DualDaggers::UseLightAttack() {

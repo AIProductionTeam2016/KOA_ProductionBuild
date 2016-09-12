@@ -15,7 +15,7 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	IsBasicAttackOnCooldown = false;
 	BasicAttackInUse = EBasicAttack::NONE;
 	
-	FAbilityTimerHandles(AbilityQTimer, AbilityWTimer, AbilityETimer, AbilityRTimer);
+	FAbilityTimerHandles(AbilityQTimer, AbilityWTimer, AbilityETimer, AbilityRTimer, BasicAttackTimer);
 }
 
 

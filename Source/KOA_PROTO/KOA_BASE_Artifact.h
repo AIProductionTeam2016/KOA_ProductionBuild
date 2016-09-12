@@ -131,6 +131,7 @@ USTRUCT()
 struct KOA_PROTO_API FAbilityTimerHandles {
 	GENERATED_USTRUCT_BODY()
 public:
+	FTimerHandle LightAttackTimer;
 	FTimerHandle AbilityQTimer;
 	FTimerHandle AbilityWTimer;
 	FTimerHandle AbilityETimer;
@@ -138,10 +139,11 @@ public:
 	
 public:
 	FAbilityTimerHandles() {}
-	FAbilityTimerHandles(FTimerHandle Q, FTimerHandle W, FTimerHandle E, FTimerHandle R) 
-		: AbilityQTimer(Q), AbilityWTimer(W), AbilityETimer(E), AbilityRTimer(R) {}
+	FAbilityTimerHandles(FTimerHandle Q, FTimerHandle W, FTimerHandle E, FTimerHandle R, FTimerHandle LightAttack)
+		: AbilityQTimer(Q), AbilityWTimer(W), AbilityETimer(E), AbilityRTimer(R), LightAttackTimer(LightAttack) {}
 		
 	void operator=(const FAbilityTimerHandles& Handles) {
+		this-LightAttackTimer = Handles.LightAttackTimer;
 		this->AbilityQTimer = Handles.AbilityQTimer;
 		this->AbilityWTimer = Handles.AbilityWTimer;
  		this->AbilityETimer = Handles.AbilityETimer;

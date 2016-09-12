@@ -62,6 +62,8 @@ void AKOA_PROTO_Character::EndPlay(const EEndPlayReason::Type EndPlayReason) {
 	//TODO:: GetWorldPtr()->GetTimerManager().ClearTimer()
 	for (int n = 0; n < CollectedArtifacts.Num(); ++n) {
 		UKOA_BASE_Artifact* artifact = CollectedArtifacts[n]->GetDefaultObject<UKOA_BASE_Artifact>();
+		// Reset Attack Cooldowns
+		artifact->ResetBasicAttackCooldown();
 		// Reset Ability Cooldowns
 		artifact->AbilityQ.ResetAbilityCooldown();
 		artifact->AbilityW.ResetAbilityCooldown();
@@ -69,6 +71,7 @@ void AKOA_PROTO_Character::EndPlay(const EEndPlayReason::Type EndPlayReason) {
 		artifact->AbilityR.ResetAbilityCooldown();
 		// Reset Timer Handles
 		FAbilityTimerHandles TimerHandles = artifact->GetArtifactAbilityTimerHandles();
+		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.LightAttackTimer);
 		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityQTimer);
 		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityWTimer);
 		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityETimer);

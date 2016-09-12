@@ -225,11 +225,6 @@ public:
 	AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;// {
-	//	//TODO:: GetWorldPtr()->GetTimerManager().ClearTimer()
-	//	for (int n = 0; n < CollectedArtifacts.Num(); ++n) {
-	//		//CollectedArtifacts[n]->ClearAllTimers();
-	//	}
-	//}
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	/****** TICK ******/

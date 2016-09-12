@@ -89,15 +89,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Timer", DisplayName = "Ability Cooldown")
 	float AbilityCooldownDuration;
 
-	UPROPERTY(EditAnywhere, Category = "Cooldown", DisplayName = "Ability Cooldown")
+	UPROPERTY(BlueprintReadOnly, Category = "Cooldown", DisplayName = "Ability Cooldown")
 	bool AbilityOnCooldown;
 	FTimerHandle AbilityCooldownTimer;
+	
 public:
 	FAbility() {
 		AbilityName = "INVALID";
 		HitDamage = 0.0f;
 		MaxCastRange = 0.0f;
-		AbilityCooldownDuration = 3.0f;
+		AbilityCooldownDuration = 0.0f;
 		AbilityOnCooldown = false;
 	}
 
@@ -124,6 +125,29 @@ public:
 		stats.AbilityOnCooldown = this->AbilityOnCooldown;
 		return stats;
 	}
+};
+
+USTRUCT()
+struct KOA_PROTO_API FAbilityTimerHandles {
+	GENERATED_USTRUCT_BODY()
+public:
+	FTimerHandle AbilityQTimer;
+	FTimerHandle AbilityWTimer;
+	FTimerHandle AbilityETimer;
+	FTimerHandle AbilityRTimer;
+	
+public:
+	FAbilityTimerHandles() {}
+	FAbilityTimerHandles(FTimerHandle Q, FTimerHandle W, FTimerHandle E, FTimerHandle R) 
+		: AbilityQTimer(Q), AbilityWTimer(W), AbilityETimer(E), AbilityRTimer(R) {}
+		
+	void operator=(const FAbilityTimerHandles& Handles) {
+		this->AbilityQTimer = Handles.AbilityQTimer;
+		this->AbilityWTimer = Handles.AbilityWTimer;
+ 		this->AbilityETimer = Handles.AbilityETimer;
+ 		this->AbilityRTimer = Handles.AbilityRTimer;
+	}
+	
 };
 
 UCLASS(Blueprintable)
@@ -153,10 +177,15 @@ public:
 	FTimerHandle BasicAttackTimer;
 	UPROPERTY(BlueprintReadOnly, Category = "Ability|Timer")
 	FTimerHandle AbilityQTimer;
+	UPROPERTY(BlueprintReadOnly, Category = "Ability|Timer")
 	FTimerHandle AbilityWTimer;
+	UPROPERTY(BlueprintReadOnly, Category = "Ability|Timer")
 	FTimerHandle AbilityETimer;
+	UPROPERTY(BlueprintReadOnly, Category = "Ability|Timer")
 	FTimerHandle AbilityRTimer;
-
+	
+	FAbilityTimerHandles AbilityTimerHandles;
+	
 public:
 	UKOA_BASE_Artifact();
 	virtual ~UKOA_BASE_Artifact();
@@ -202,21 +231,22 @@ public:
 			stats = AbilityQ.GetAbilityStats();
 			break;
 		case EAbilityID::ABID_W:
-		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "GetAbilityStats:W");
 			stats = AbilityW.GetAbilityStats();
 			break;
 		case EAbilityID::ABID_E:
-		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "GetAbilityStats:E");
 			stats = AbilityE.GetAbilityStats();
 			break;
 		case EAbilityID::ABID_R:
-		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "GetAbilityStats:R");
 			stats = AbilityR.GetAbilityStats();
 			break;
 		default:
 			break;
 		}
 		return stats;
+	}
+	
+	FORCEINLINE FAbilityTimerHandles GetArtifactAbilityTimerHandles() const {
+		return AbilityTimerHandles;
 	}
 	FORCEINLINE EAbilityID GetCurrentHeldAbilityButton() const {
 		return CurrentHeldAbilityButton;

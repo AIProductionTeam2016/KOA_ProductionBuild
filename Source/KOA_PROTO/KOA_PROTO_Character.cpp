@@ -58,6 +58,22 @@ void AKOA_PROTO_Character::BeginPlay() {
 }
 
 void AKOA_PROTO_Character::EndPlay(const EEndPlayReason::Type EndPlayReason) {
+	
+	//TODO:: GetWorldPtr()->GetTimerManager().ClearTimer()
+	for (int n = 0; n < CollectedArtifacts.Num(); ++n) {
+		UKOA_BASE_Artifact* artifact = CollectedArtifacts[n]->GetDefaultObject<UKOA_BASE_Artifact>();
+		// Reset Ability Cooldowns
+		artifact->AbilityQ.ResetAbilityCooldown();
+		artifact->AbilityW.ResetAbilityCooldown();
+		artifact->AbilityE.ResetAbilityCooldown();
+		artifact->AbilityR.ResetAbilityCooldown();
+		// Reset Timer Handles
+		FAbilityTimerHandles TimerHandles = artifact->GetArtifactAbilityTimerHandles();
+		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityQTimer);
+		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityWTimer);
+		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityETimer);
+		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityRTimer);	
+	}
 	Super::EndPlay(EndPlayReason);
 }
 
@@ -579,6 +595,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 					artifact->ReleaseAbilityQ();
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
 			}
 			break;
@@ -637,6 +656,7 @@ bool AKOA_PROTO_Character::GetIsAbilityUseLocked() const {
 EAbilityID AKOA_PROTO_Character::GetWhichAbilityPressed() const {
 	return AbilityPressed;
 }
+
 
 bool AKOA_PROTO_Character::GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const {
 	// Get the current artifact see if it's Q is on cooldown

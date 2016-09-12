@@ -14,6 +14,5 @@ class KOA_PROTO_API UKOA_Artifact_FireGlove : public UKOA_BASE_Artifact
 	GENERATED_BODY()
 
 	UKOA_Artifact_FireGlove();
-
 	void PressAbilityQ();
 };

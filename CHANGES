@@ -1,3 +1,10 @@
+Version 0.3.7:
+ - Merge branch 'feature-VDUI' into develop Prepare develop for version bump. A lot of progress was made.
+ - Buncha Stuffs:
+ - Bugfix.
+ - Added a cooldown timer to the icon.
+ - Added a dagger icon that appears for the Q when you equip the daggers.
+
 Version 0.3.6:
  - Merge branch 'feature-VDQLifesteal' into develop Added lifesteal to the Q on the Vampire Daggers.
  - Added lifesteal to the VD_Q

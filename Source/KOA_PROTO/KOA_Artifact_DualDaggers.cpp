@@ -31,6 +31,7 @@ void UKOA_Artifact_DualDaggers::UseLightAttack() {
 //********** PRESS ABILITY **********//
 void UKOA_Artifact_DualDaggers::PressAbilityQ() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::Q");
+	AbilityQ.SetAbilityOnCooldown();
 	StartAbilityCooldownTimer(EAbilityID::ABID_Q);
 }
 void UKOA_Artifact_DualDaggers::PressAbilityW() {

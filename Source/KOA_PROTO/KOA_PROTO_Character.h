@@ -224,6 +224,7 @@ public:
 	/****** CONSTRUCTORS AND INITIALIZERS ******/
 	AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;// {
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	/****** TICK ******/
@@ -267,13 +268,13 @@ public:
 	// CURRENT LIGHT ATTACK //
 	void UseCurrBasicAttackLight();
 	
-	// GETTERS AND SETTERS //
+	// GETTERS //
 	FORCEINLINE bool GetIsArtifactSwapLocked() const;
 	UFUNCTION(BlueprintCallable, Category = "Artifact")
 	UKOA_BASE_Artifact* GetCurrArtifactReference() const;
 	UFUNCTION(BlueprintCallable, Category = "Artifact")
 	EArtifactID GetEquippedArtifact() const;
-	//virtual uint8 GetEquippedArtifact_Implementation() const;
+	// SETTERS //
 	bool SetCurrentArtifact(EArtifactID Artifact);
 	void SetCurrArtifactPlayerReference();
 
@@ -295,14 +296,16 @@ public:
 	void ReleaseCurrentAbilityE();
 	void ReleaseCurrentAbilityR();
 
-	// GETTERS AND SETTERS //
+	// GETTERS //
 	FORCEINLINE bool GetIsAbilityUseLocked() const;
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	bool GetIsCurrentArtifactAbilityOnCooldown(const EAbilityID &AbilityID) const;
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	EAbilityID GetWhichAbilityPressed() const;
+	// SETTERS //
 	void SetWhichAbilityPressed(const EAbilityID &AbilityID);
-
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	void SetIsAbilityUseLocked(bool Value);
 	/****** TIMERS ******/
 	void StartAbilityLockTimer();
 	void StartArtifactSwapLockTimer(const float &Duration);
@@ -315,6 +318,8 @@ public:
 	FORCEINLINE const UWorld* GetWorldPtr() const {
 		return WorldPtr;
 	}
+	
+	
 /********************* PRIVATE VARIABLES *********************/
 private:
 	/***** MOVEMENT *****/

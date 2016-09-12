@@ -14,8 +14,12 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	CurrentHeldAbilityButton = EAbilityID::NONE;
 	IsBasicAttackOnCooldown = false;
 	BasicAttackInUse = EBasicAttack::NONE;
+	
+	FAbilityTimerHandles(AbilityQTimer, AbilityWTimer, AbilityETimer, AbilityRTimer);
 }
 
+
+	
 UKOA_BASE_Artifact::~UKOA_BASE_Artifact() {}
 
 void UKOA_BASE_Artifact::UseLightAttack() {
@@ -106,6 +110,10 @@ void UKOA_BASE_Artifact::StartBasicAttackCooldownTimer(EBasicAttack TypeOfBA) {
 	}
 }
 
+void UKOA_BASE_Artifact::ClearAllTimers() {
+	//TODO: All the  timers. Get the q working first damnit.
+	
+}
 /*-- GETTERS --*/
 AKOA_PROTO_Character* UKOA_BASE_Artifact::GetPlayerReference() {
 	if (PlayerReference == nullptr) {

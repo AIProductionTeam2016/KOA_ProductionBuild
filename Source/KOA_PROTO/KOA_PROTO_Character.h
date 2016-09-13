@@ -190,13 +190,13 @@ public:
 	// Player Info
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Info")
 	FString PlayerName;
-
+    
 	// Player Stats
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Stats")
 	float HealthCurrent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Stats")
 	float HealthMax;
-
+    
 	// Player Movement
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Movement")
 	float WalkSpeed;

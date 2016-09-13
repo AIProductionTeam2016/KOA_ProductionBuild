@@ -15,7 +15,7 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	IsBasicAttackOnCooldown = false;
 	BasicAttackInUse = EBasicAttack::NONE;
 	
-	FAbilityTimerHandles(AbilityQTimer, AbilityWTimer, AbilityETimer, AbilityRTimer);
+	FAbilityTimerHandles(AbilityQTimer, AbilityWTimer, AbilityETimer, AbilityRTimer, BasicAttackTimer);
 }
 
 
@@ -48,7 +48,10 @@ void UKOA_BASE_Artifact::ResetBasicAttackCooldown() {
 	GetPlayerReference()->SetIsMovementInputDisabled(false);
 	//GetPlayerReference()->SetCanDodge(true);
 }
-
+void UKOA_BASE_Artifact::UninitializeBasicAttacks() {
+	BasicAttackInUse = EBasicAttack::NONE;
+	IsBasicAttackOnCooldown = false;
+}
 // RESET ABILITY //
 void UKOA_BASE_Artifact::ResetAbilityQCooldown() {
 	AbilityQ.ResetAbilityCooldown();

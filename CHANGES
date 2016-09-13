@@ -1,3 +1,9 @@
+Version 0.3.8:
+ - Merge branch 'feature-camera' into develop Updating the overall level content.
+ - Pulling changes from develop.
+ - Removed old TODO file.
+ - starter level lit
+
 Version 0.3.7:
  - Merge branch 'feature-VDUI' into develop Prepare develop for version bump. A lot of progress was made.
  - Buncha Stuffs:

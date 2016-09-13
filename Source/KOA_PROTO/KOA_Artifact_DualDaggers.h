@@ -8,14 +8,51 @@
 /**
  * 
  */
+class AKOA_PROTO_Character;
+
 UCLASS()
 class KOA_PROTO_API UKOA_Artifact_DualDaggers : public UKOA_BASE_Artifact
 {
 	GENERATED_BODY()
-public:
-	UKOA_Artifact_DualDaggers();
+public: // Variables
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Stats")
+	float ABILQ_HealAmount;
+	
+public: // Methods
+	UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer);
+	void Tick(float DeltaTime);
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability,Q")
+	// Extra Stats
+	UFUNCTION(BlueprintCallable, Category = "Ability|Stats")
+	float GetABILQHealAmount() const {
+		return ABILQ_HealAmount;
+	}
+	// Basic Attacks
+	void UseLightAttack();
+
+	// Press Ability
 	void PressAbilityQ();
-	virtual void PressAbilityQ_Implementation();
+	void PressAbilityW();
+	void PressAbilityE();
+	void PressAbilityR();
+	
+	// Release Ability
+	void ReleaseAbilityQ();
+	void ReleaseAbilityW();
+	void ReleaseAbilityE();
+	void ReleaseAbilityR();
+
+	// GETTERS //
+	FORCEINLINE FVector GetCurrentECapsuleLocation() const {
+		return CurrentCapsuleLocation;
+	}
+
+	// SETTERS //
+	void SetCurrentCapsuleLocation(const FVector& location) {
+		CurrentCapsuleLocation = location;
+	}
+private: // Variables
+	FVector CurrentCapsuleLocation;
+private: // Methods
+	void E_LocationSwap();
 };

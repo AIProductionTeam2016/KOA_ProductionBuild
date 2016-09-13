@@ -1,3 +1,145 @@
+Version 0.3.7:
+ - Merge branch 'feature-VDUI' into develop Prepare develop for version bump. A lot of progress was made.
+ - Buncha Stuffs:
+ - Bugfix.
+ - Added a cooldown timer to the icon.
+ - Added a dagger icon that appears for the Q when you equip the daggers.
+
+Version 0.3.6:
+ - Merge branch 'feature-VDQLifesteal' into develop Added lifesteal to the Q on the Vampire Daggers.
+ - Added lifesteal to the VD_Q
+ - Added a HP progress bar to the jester.
+
+Version 0.3.5:
+ - Merge branch 'bugfix-VDQProbs' into develop Fixed some random problems with the Q on VD. How did we fix them? Nofucking clue. But they are fixed.
+ - Added notify to VD_Q Anim.
+ - Hooked up damage on the Q. Created utility function to access ability stats.
+ - Added Jester VD_Draw anim Now when equipping daggers they show up, when changing weapons they go away.
+ - Added Sheath Anim.
+ - Fixed bug in ANIMBP for the Jester. Added IsValid check on assigning a ptr ref.
+
+Version 0.3.4:
+ - Merge branch 'hotfix-0.3.4' into develop Fixed a bug in the Jester jump logic. The Jester was detecting a collider on the BASE_Monster type of enemy that it shouldn't have. That has been corrected and the issue solved.
+ - Fixed the issue where the Jester would jump off of colliders it shouldn't be interacting with. Cleaned up some logic in the Jester jump as well as the wall code and BP. Wall's collision channel is now set to BlockAll.
+ - Added TODO list for hotfix-0.3.4
+ - Tweaks.
+
+Version 0.3.3:
+ - Merge branch 'feature-combatAssets' into develop
+ - Added a TON of combat features.
+ - Added death animations.
+ - Corrected issue in getting progress bar progress.
+ - Updated reference.
+ - Updated name for renamed asset.
+ - Added additional CatGuard.
+ - Added hit and death anim for CatGuard.
+ - Added sockets to Jester Skeleton. Renamed TEST_SPELLANIM_BP_Character to BP_PC_Jester. Gave him temp dagger meshes.
+ - Added EnemyUI hp bar asset.
+ - Added sockets to CatGuards paws (left and right). Added sword mesh to catguard's right hand.
+ - Added temp sword for CatGuard.
+ - Added Vampire Daggers mesh.
+
+Version 0.3.2:
+ - Merge branch 'feature-castingStance' into develop Setup functionality to disable movement input commands that can be called per spell.
+ - Added in the ability to disable movement for certain spells.
+
+Version 0.3.1:
+ - Merge branch 'hotfix-0.3.1' Fixed issues with cooldown timers. Moved ability coolddown timers to be called from artifacts, not the player.
+ - Fixed and refactored the location of calling for an ability to go on cooldown. It is now located and called from the artifact NOT from the character.
+
+Version 0.3.0:
+ - Merge branch 'feature-moarCombat' into develop Expanded functionality to all ability buttons. Q, W, E, R should all be hooked up and implemented. Everything is ready for all abilities to have their functionality begin development.
+ - Formating correction.
+ - Fixed bug in the e aiming functionality.
+ - Hooked up remaining ability methods.
+ - Added Light Attack anim for Jester Daggers.
+ - Moved cat guard to a better spot.
+ - Pulled most recent version of develop v0.2.2 Conflicts: Content/Player/Blueprints/TEST_SPELLANIM_BP_Character.uasset *RESOLVED* --theirs
+ - Extended Ability functionality to W, E, R.
+ - Unhooked the cursor changing to the jester when you press e.
+ - Stubbed out additional keybinds and attached W,E,R ability buttons.
+ - Cleaned up some comments and some organization.
+ - Added anim for Jester VD_Q
+ - Moved folders to better folder structure. Added temp anim for Jester VD_Q
+ - Renamed Jester stand-in anims to better reflect naming conventions.
+
+Version 0.2.2:
+ - Corrected mouse disappearing when clicking.
+ - Updating changes
+ - Merge branch 'feature-fixMouseClick' into develop Mouse no longer loses sight of the custom cursor.
+ - Update develop to current working version: 0.2.1 Hotfix added to fix wall jump functionality.
+ - fixed mouse cursor disappearing issue
+ - Added CurrentVersion: 0.2.0 to README.md
+
+Version 0.2.1:
+ - Merge branch 'hotfix-0.2.1' Branch incorrectly named 0.2.0 Fixed some issues with the wall jump. It functions correctly now.
+ - Added comments for clarity; Renamed a variable.
+ - walljump now works properly without falling through the floor
+
+Version 0.2.0:
+ - Merge branch 'feature-combatAbilities' into develop Bringing in all of the recent combat systems to show off a 'full' level.
+ - Made about 4.20 changes... Watch them be perfect. Adjusted the player jump variables.
+ - Attached CatGuard animations.
+ - **HACKED** Hacked together a quick, tmp fix for custom cursor disappearing.
+ - Updated tmp Jester anims.
+ - Moved/Renamed some levels
+ - Switched Default Pawn Class to TEST_SPELLANIM_BP_Character
+ - Pulled the DungeonLevel changes from develop.
+ - 'Completed' base blink functionality.
+ - Merge branch 'feature-camera' into develop
+ - Updated file name in the main menu widget
+ - RENAMED: Dungeon level KA_Level_001->L00_TutorialDungeon
+ - Switched camera state to 3. Exposed Camera interpolation speed to a variable. Increased the camera interpolation speed to something.
+ - Updated CHANGES and VERSION to represent current v0.1.5
+ - Version bump to 0.1.5
+ - Merge branch 'develop' into feature-camera. Update branch to v0.1.5
+ - Added stand-in anims for the stand-in JesterModel. Got the VD_E_AimingCapsule to follow the mouse cursor and display only when the ability button is held down. Also added a MaxCastDistance to the position of the AimingCapsule so it cannot be more than a certain distance away from the player.
+ - Pushing current progress to try and isolate why UTIL_MouseFunctionality isn't working properly.
+ - Compiled Dungeon
+ - Reconnected the jester mesh that somehow got lost for some reason.
+ - Update level.
+ - Tweaks to DualDaggers
+ - Re-imported the Jester standin to correct scale
+ - Further progress on the abilities; added temp catguard and jester mesh.
+ - Pulling newest version of develop
+ - Same as previous commit, updated username
+ - Landon added custom move component to the enemy base class
+ - Version bump to 0.1.5
+ - Merge branch 'hotfix-0.1.5' into develop
+ - Merge branch 'feature-combatAbilities' of https://github.com/AIProductionTeam2016/KOA_ProductionBuild into feature-combatAbilities
+ - Updated the Dual Dagger functionality.
+ - Removed depricated KOA_PROTO_GetCursorWorldPos.h
+ - Removed empty file
+ - Pulling the newly added CatGuard and BASE_EnemyCharacter changes.
+ - Merge branch 'feature-setupCatGuard' into develop
+ - Setup the basic CatGuard with a stand-in skeleton (Mixamo AutoRigger) and sample anims (mixamo as well). Created IdleToWalkRun 1D Blendspace. Commented out the 2 sphere colliders on the base enemy character.
+ - Fixed merge conflicts.
+ - Merge branch 'feature-landonMouseTrack' into develop
+ - Worked on particles for shit.
+ - finished cursor following script
+ - finished cursor following script
+ - Fixed mem leak
+ - Multiple cameras and basic UI
+ - Began setting up the particle effect for the vampire dagger's e ability
+ - Added BP_PlayerController.uasset and turned on 'Show mouse cursor'
+ - Began working on the UI / HUD / Ability Aiming Reticle systems.
+ - Changed default mouse cursor in DefaultEngine.ini
+ - Added tmp assets for the default mouse cursor to setup functionality
+ - Merge branch 'develop' to update feature-combatAbilities to current project build.
+ - Updated CHANGES and VERSION to reflect current version
+ - Merge branch 'hotfix-0.1.4' into develop
+ - Update branch to reflect the current state of develop
+ - Merge branch 'develop' of https://github.com/AIProductionTeam2016/KOA_ProductionBuild into feature-combatAbilities
+ - Commented out the example use of the artifacts tick.
+ - Stubbed out EquipLightningBow() and EquipMatterHammer()
+ - Stubbed out future Tick() for base artifact.
+
+Version 0.1.5:
+ - Merge branch 'hotfix-0.1.5' Refactor the wall slide code and it's implementation.
+ - finished
+ - Refactored code, haven't figured out how to change the movement component yet though
+ - Filled out essentials for slide custom movement class
+
 Version 0.1.4:
  - Merge branch 'hotfix-0.1.4'
  - Removed TODO for this hotfix as the hotfix was complete.

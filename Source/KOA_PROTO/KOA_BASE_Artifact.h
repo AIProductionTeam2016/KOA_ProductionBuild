@@ -143,7 +143,7 @@ public:
 		: AbilityQTimer(Q), AbilityWTimer(W), AbilityETimer(E), AbilityRTimer(R), LightAttackTimer(LightAttack) {}
 		
 	void operator=(const FAbilityTimerHandles& Handles) {
-		this-LightAttackTimer = Handles.LightAttackTimer;
+		this->LightAttackTimer = Handles.LightAttackTimer;
 		this->AbilityQTimer = Handles.AbilityQTimer;
 		this->AbilityWTimer = Handles.AbilityWTimer;
  		this->AbilityETimer = Handles.AbilityETimer;
@@ -207,6 +207,7 @@ public:
 	virtual void ReleaseAbilityR();
 	// RESET BASIC ATTACK //
 	void ResetBasicAttackCooldown();
+	void UninitializeBasicAttacks();
 	// RESET ABILITY //
 	void ResetAbilityQCooldown();
 	void ResetAbilityWCooldown();

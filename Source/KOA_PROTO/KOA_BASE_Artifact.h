@@ -158,6 +158,8 @@ class KOA_PROTO_API UKOA_BASE_Artifact : public UObject
 	GENERATED_BODY()
 public:
 	//** STATS **//
+	UPROPERTY(BlueprintReadWrite, Category = "Artifact")
+	EArtifactID ArtifactID;
 	UPROPERTY(EditAnywhere, Category = "Stats")
 	FString ArtifactName;
 	UPROPERTY(EditAnywhere, Category = "Stats|Combat")

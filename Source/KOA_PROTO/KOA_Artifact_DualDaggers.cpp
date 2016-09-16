@@ -8,6 +8,7 @@
 
 UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer) 
 	: Super() {
+	ArtifactID = EArtifactID::ID_DualDaggers;
 	ArtifactName = "Dual Daggers of Something, Probably";
 	// ABILITY Q //
 	AbilityQ.AbilityName = "Vampire's Kiss with Blood; Not Sparkles";

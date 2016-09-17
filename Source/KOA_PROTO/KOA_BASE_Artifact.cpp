@@ -8,6 +8,7 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	// STATS //
 	ArtifactID = EArtifactID::ID_NULL;
 	ArtifactName = "INVALID";
+	ArtifactIconTexture = nullptr;
 	LightBasicAttackLockDuration = 5.0f;
 
 	// Initialize private member variables //

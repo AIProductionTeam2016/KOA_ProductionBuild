@@ -162,6 +162,8 @@ public:
 	EArtifactID ArtifactID;
 	UPROPERTY(EditAnywhere, Category = "Stats")
 	FString ArtifactName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Texture")
+	UTexture* ArtifactIconTexture;
 	UPROPERTY(EditAnywhere, Category = "Stats|Combat")
 	float LightBasicAttackLockDuration;
 	//UPROPERTY(EditAnywhere, Category = "Stats|Combat")

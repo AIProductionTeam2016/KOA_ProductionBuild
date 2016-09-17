@@ -178,7 +178,9 @@ public:
 	FAbility AbilityE;
 	UPROPERTY(EditAnywhere, Category = "Ability")
 	FAbility AbilityR;
-
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Storm")
+	bool IsArtifactStormUnlocked;
 	//** TIMERS **//
 	FTimerHandle BasicAttackTimer;
 	UPROPERTY(BlueprintReadOnly, Category = "Ability|Timer")

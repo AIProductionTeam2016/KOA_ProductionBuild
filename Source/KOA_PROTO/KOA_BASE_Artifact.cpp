@@ -10,7 +10,9 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	ArtifactName = "INVALID";
 	ArtifactIconTexture = nullptr;
 	LightBasicAttackLockDuration = 5.0f;
-
+	// ABILITY //
+	IsArtifactStormUnlocked = false;
+	
 	// Initialize private member variables //
 	PlayerReference = nullptr;
 	CurrentHeldAbilityButton = EAbilityID::NONE;

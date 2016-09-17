@@ -562,13 +562,16 @@ void AKOA_PROTO_Character::PressCurrentAbility(EAbilityID AbilityID) {
 				break;
 			case EAbilityID::ABID_R:
 				// If R isn't on cooldown...
-				if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
-					// Lock ability use until you release the button
-					IsAbilityUseLocked = true;
-					SetWhichAbilityPressed(EAbilityID::ABID_R);
-					// Run the abilityR press on current artifact
-					artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_R);
-					artifact->PressAbilityR();
+				// TODO: CHECK IF STORM IS UNLOCKED
+				if (artifact->IsArtifactStormUnlocked == true) {
+					if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
+						// Lock ability use until you release the button
+						IsAbilityUseLocked = true;
+						SetWhichAbilityPressed(EAbilityID::ABID_R);
+						// Run the abilityR press on current artifact
+						artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_R);
+						artifact->PressAbilityR();
+					}
 				}
 				break;
 			}

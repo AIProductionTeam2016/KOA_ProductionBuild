@@ -5,13 +5,27 @@
 #include "GameFramework/Character.h"
 #include "KOA_BASE_EnemyCharacter.generated.h"
 
+UENUM(BlueprintType)
+enum class ETypeOfEnemy : uint8 {
+	NORMAL = 0,
+	ELITE,
+	BOSS,
+	NUM,
+	NONE = 99
+};
+
 UCLASS()
 class KOA_PROTO_API AKOA_BASE_EnemyCharacter : public ACharacter
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemyStats|Speed")
+	// STATS //
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	FString Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	ETypeOfEnemy EnemyID;
 	// MOVEMENT //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemyStats|Speed")
 	float Speed;
 
 	// HP //

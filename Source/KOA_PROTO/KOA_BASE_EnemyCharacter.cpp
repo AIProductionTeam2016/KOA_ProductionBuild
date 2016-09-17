@@ -11,14 +11,19 @@ AKOA_BASE_EnemyCharacter::AKOA_BASE_EnemyCharacter(const FObjectInitializer& Obj
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	// Init variables to default value
-	Speed = 0.0f;
-	// HP
+	// Init variables to default value //
+	// STATS //
+	Name = "INVALID_ENEMY_NAME";
+	EnemyID = ETypeOfEnemy::NONE;
+	
+	// -- HP -- //
 	HPCurr = 75.0f;
 	HPMax = 100.0f;
-	// Status
+	// -- STATUS -- //
 	IsDead = false;
+	// -- MOVEMENT -- //
+	Speed = 0.0f;
+
 }
 
 // Called when the game starts or when spawned

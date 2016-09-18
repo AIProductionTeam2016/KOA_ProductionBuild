@@ -30,7 +30,11 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	IsMovementInputDisabled = false;
 	//JumpStats.EnableDoubleJumping();
 	IsSlidingDownWall = false;
-
+	
+	SE_BLEED_MaxAmount = 120.0f;
+	SE_BURN_MaxAmount = 15.0f;
+	SE_POISON_MaxAmount = 25.0f;
+	
 	// Initialize Current Artifact
 	CurrentArtifact = EArtifactID::ID_NULL;
 

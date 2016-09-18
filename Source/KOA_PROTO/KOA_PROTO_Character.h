@@ -212,7 +212,7 @@ public:
 	//------------------------- BLEED --------------------------//
 	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BLEED")
 	float SE_BLEED_BuildUp;
-	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BLEED")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "StatusEffect|BLEED")
 	float SE_BLEED_MaxAmount;
 	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BLEED")
 	bool IsBLEEDING;
@@ -221,7 +221,7 @@ public:
 	//------------------------- BURN ---------------------------//
 	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BURN")
 	float SE_BURN_BuildUp;
-	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BURN")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "StatusEffect|BURN")
 	float SE_BURN_MaxAmount;
 	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BURN")
 	bool IsBURNING;
@@ -230,7 +230,7 @@ public:
 	//----------------------- POISON ---------------------------//
 	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|POISON")
 	float SE_POISON_BuildUp;
-	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|POISON")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "StatusEffect|POISON")
 	float SE_POISON_MaxAmount;
 	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|POISON")
 	bool IsPOISONED;

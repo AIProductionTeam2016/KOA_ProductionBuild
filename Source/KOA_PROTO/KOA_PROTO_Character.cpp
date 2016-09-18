@@ -6,9 +6,9 @@
 #include "KOA_PROTO_CharacterMovementSlide.h"
 #include "KOA_BASE_Artifact.h"
 
-/**************************************************************************
-	CONSTRUCTORS AND INITIALIZERS
-**************************************************************************/
+//////////////////////////////////////////////////////////////
+// 				CONSTRUCTORS AND INITIALIZERS 				//
+//////////////////////////////////////////////////////////////
 // Default Constructor
 AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<UKOA_PROTO_CharacterMovementSlide>(ACharacter::CharacterMovementComponentName))
@@ -30,7 +30,11 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	IsMovementInputDisabled = false;
 	//JumpStats.EnableDoubleJumping();
 	IsSlidingDownWall = false;
-
+	
+	SE_BLEED_MaxAmount = 120.0f;
+	SE_BURN_MaxAmount = 15.0f;
+	SE_POISON_MaxAmount = 25.0f;
+	
 	// Initialize Current Artifact
 	CurrentArtifact = EArtifactID::ID_NULL;
 
@@ -56,10 +60,8 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 void AKOA_PROTO_Character::BeginPlay() {
 	Super::BeginPlay();	
 }
-
+// Clears up things like timers and variables
 void AKOA_PROTO_Character::EndPlay(const EEndPlayReason::Type EndPlayReason) {
-	
-	//TODO:: GetWorldPtr()->GetTimerManager().ClearTimer()
 	for (int n = 0; n < CollectedArtifacts.Num(); ++n) {
 		UKOA_BASE_Artifact* artifact = CollectedArtifacts[n]->GetDefaultObject<UKOA_BASE_Artifact>();
 		
@@ -157,36 +159,32 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	//TODO: QuickArtifactSelect press release
 }
 
-/**************************************************************************
-	PLAYER STATS - 
-		Methods to manage player stats.
-**************************************************************************/
-	void AKOA_PROTO_Character::DamagePlayer(float Amount) {
-		(HealthCurrent - Amount) < 0.0f ? HealthCurrent = 0.0f : HealthCurrent -= Amount;
-		//TODO: Tell the player he is dead if HealthCurrent <= 0.0f
-	}
-	void AKOA_PROTO_Character::HealPlayer(float Amount) {
-		(HealthCurrent + Amount) > HealthMax ? HealthCurrent = HealthMax : HealthCurrent += Amount;
-	}
-/**************************************************************************
-	MOVEMENT - 
-		Methods to handle player movement. 
-		Walking, Running, Jumping, Sliding
-**************************************************************************/
-// SetMoveSpeedToRun(): 
-//		Set's the player's MaxWalkSpeed to RunSpeed
+//////////////////////////////////////////////////////////////
+// 						PLAYER STATS 						//
+//				Methods to manage player stats.				//
+//////////////////////////////////////////////////////////////
+void AKOA_PROTO_Character::DamagePlayer(float Amount) {
+	(HealthCurrent - Amount) < 0.0f ? HealthCurrent = 0.0f : HealthCurrent -= Amount;
+	//TODO: Tell the player he is dead if HealthCurrent <= 0.0f
+}
+void AKOA_PROTO_Character::HealPlayer(float Amount) {
+	(HealthCurrent + Amount) > HealthMax ? HealthCurrent = HealthMax : HealthCurrent += Amount;
+}
+
+//////////////////////////////////////////////////////////////
+// 						   MOVEMENT 						//
+//				Methods to handle movement.					//
+//				Walking, Running, Jumping, Sliding			//
+//////////////////////////////////////////////////////////////
 void AKOA_PROTO_Character::SetMoveSpeedToRun() {
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
-
-// SetMoveSpeedToWalk(): 
-//		Set's the player's MaxWalkSpeed to WalkSpeed
 void AKOA_PROTO_Character::SetMoveSpeedToWalk() {
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 // MoveRight(Amount): 
-//		Move right if Amount > 0; left if Amount is < 0
+//	 Move right if Amount > 0; left if Amount is < 0
 void AKOA_PROTO_Character::MoveRight(float Amount) {
 	// Only move if the controller is set up and Amount is not 0
 	if (Controller && Amount && GetIsMovementInputDisabled() == false) {
@@ -202,18 +200,10 @@ void AKOA_PROTO_Character::SetIsMovementInputDisabled(bool IsDisabled) {
 	IsMovementInputDisabled = IsDisabled;
 }
 
-//bool AKOA_PROTO_Character::GetCanDodge() const {
-//	return CanDodge;
-//}
-//
-//void AKOA_PROTO_Character::SetCanDodge(bool Value) {
-//	CanDodge = Value;
-//}
-
-/**************************************************************************
-	JUMPING -
-		Methods used to handle jumping logic.
-**************************************************************************/
+//////////////////////////////////////////////////////////////
+// 						   JUMPING 							//
+//				Methods to handle jumping logic.			//
+//////////////////////////////////////////////////////////////
 // DetectWall():
 //		Used to detect if there is a wall the player can jump off of.
 //		If there is, it returns info detailing the wall's properties.
@@ -383,11 +373,53 @@ void AKOA_PROTO_Character::LoseGripAndFall() {
 	ClearWallSlideTimer();
 }
 
-
-/**************************************************************************
-	ARTIFACTS -
-		Methods to handle equipping artifacts 
-**************************************************************************/
+//////////////////////////////////////////////////////////////
+// 					  STATUS EFFECTS 						//
+//		Methods to handle dealing with status effects 		//
+//////////////////////////////////////////////////////////////
+//************************ BLEED ***************************//
+void AKOA_PROTO_Character::ApplyBLEEDBuildUp(float Amount){
+	if (SE_BLEED_BuildUp + Amount >= SE_BLEED_MaxAmount) {
+		ApplyBLEED();
+	} else {
+		SE_BLEED_BuildUp += Amount;
+	}
+}
+void AKOA_PROTO_Character::ApplyBLEED() {
+	if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.7f, FColor::Red, "ApplyBLWEED");
+	SE_BLEED_BuildUp = 0.0;
+	IsBLEEDING = true;
+}
+//************************* BURN ***************************//	
+void AKOA_PROTO_Character::ApplyBURNBuildUp(float Amount) {
+	if (SE_BURN_BuildUp + Amount >= SE_BURN_MaxAmount) {
+		ApplyBURN();
+	} else {
+		SE_BURN_BuildUp += Amount;
+	}
+}
+void AKOA_PROTO_Character::ApplyBURN() {
+	if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.7f, FColor::Red, "ApplyBURN");
+	SE_BURN_BuildUp = 0.0;
+	IsBURNING = true;
+}
+//************************* POISON ***************************//
+void AKOA_PROTO_Character::ApplyPOISONBuildUp(float Amount) {
+	if (SE_POISON_BuildUp + Amount >= SE_POISON_MaxAmount) {
+		ApplyPOISON();
+	} else {
+		SE_POISON_BuildUp += Amount;
+	}
+}
+void AKOA_PROTO_Character::ApplyPOISON() {
+	if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.7f, FColor::Red, "ApplyPOISON");
+	SE_POISON_BuildUp = 0.0;
+	IsPOISONED = true;
+}
+//////////////////////////////////////////////////////////////
+// 						  ARTIFACTS 						//
+//				Methods to handle artifacts 				//
+//////////////////////////////////////////////////////////////
 // EquipDualDaggers():
 //		Wrapper method used for binding DualDaggers to a button for gameplay / debug.
 void AKOA_PROTO_Character::EquipDualDaggers() {
@@ -401,7 +433,6 @@ void AKOA_PROTO_Character::EquipDualDaggers() {
 		StartArtifactSwapLockTimer(ArtifactSwapLockDuration);
 	}
 }
-
 // EquipFireGlove():
 //		Same as DualDaggers, except with the FireGlove...
 void AKOA_PROTO_Character::EquipFireGlove() {
@@ -620,6 +651,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 					artifact->ReleaseAbilityW();
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
 			}
 			break;
@@ -630,6 +664,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 					artifact->ReleaseAbilityE();
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
 			}
 			break;
@@ -638,6 +675,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 				if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
 					artifact->AbilityR.SetAbilityOnCooldown();
 					artifact->ReleaseAbilityR();
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}

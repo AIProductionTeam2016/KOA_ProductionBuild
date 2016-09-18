@@ -187,33 +187,66 @@ class KOA_PROTO_API AKOA_PROTO_Character : public ACharacter
 	GENERATED_BODY()
 /********************* PUBLIC VARIABLES *********************/
 public:
-	// Player Info
+	//////////////////////////////////////////////////////////////
+	// 						PLAYER STATS 						//
+	////////////////////////////////////////////////////////////// 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Info")
 	FString PlayerName;
     
-	// Player Stats
+	//----------------------- STATS ----------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Stats")
 	float HealthCurrent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Stats")
 	float HealthMax;
     
-	// Player Movement
+	//----------------------- MOVEMENT -------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Movement")
 	float WalkSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Movement")
 	float RunSpeed;
-
-	// All of the data for the player's jump logic
 	UPROPERTY(EditAnywhere, Category = "Player|Jump")
 	FPlayerJumpVariables JumpStats;
-
-	// Additional Meshes //
+	//////////////////////////////////////////////////////////////
+	// 						STATUS EFFECTS 						//
+	////////////////////////////////////////////////////////////// 
+	//------------------------- BLEED --------------------------//
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BLEED")
+	float SE_BLEED_BuildUp;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "StatusEffect|BLEED")
+	float SE_BLEED_MaxAmount;
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BLEED")
+	bool IsBLEEDING;
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BLEED")
+	FTimerHandle BLEEDTimerHandle;
+	//------------------------- BURN ---------------------------//
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BURN")
+	float SE_BURN_BuildUp;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "StatusEffect|BURN")
+	float SE_BURN_MaxAmount;
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BURN")
+	bool IsBURNING;
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|BURN")
+	FTimerHandle BURNTimerHandle;
+	//----------------------- POISON ---------------------------//
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|POISON")
+	float SE_POISON_BuildUp;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "StatusEffect|POISON")
+	float SE_POISON_MaxAmount;
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|POISON")
+	bool IsPOISONED;
+	UPROPERTY(BlueprintReadWrite, Category = "StatusEffect|POISON")
+	FTimerHandle POISONTimerHandle;
+	//////////////////////////////////////////////////////////////
+	// 					ADDITIONAL MESHES 						//
+	//////////////////////////////////////////////////////////////
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
 	UCapsuleComponent* VD_E_AimingCapsule;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|E|Mesh")
 	USkeletalMeshComponent* VD_E_AimingMeshComponent;
 
-	/***** ARTIFACTS *****/
+	//////////////////////////////////////////////////////////////
+	// 						ARTIFACTS 							//
+	//////////////////////////////////////////////////////////////
 	UPROPERTY(EditAnywhere, Category = "Player|Artifacts")
 	EArtifactID CurrentArtifact;
 	UPROPERTY(EditAnywhere, Category = "Player|Artifacts")
@@ -221,7 +254,9 @@ public:
 
 /********************* PUBLIC METHODS *********************/
 public:
-	/****** CONSTRUCTORS AND INITIALIZERS ******/
+	//////////////////////////////////////////////////////////////
+	// 				CONSTRUCTORS AND INITIALIZERS 				//
+	//////////////////////////////////////////////////////////////
 	AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;// {
@@ -230,13 +265,15 @@ public:
 	/****** TICK ******/
 	virtual void Tick(float DeltaSeconds) override;
 
-	/****** PLAYER STATS ******/
+	//////////////////////////////////////////////////////////////
+	// 						PLAYER STATS 						//
+	//////////////////////////////////////////////////////////////
 	UFUNCTION(BlueprintCallable, Category = "Player|Stats")
 	void DamagePlayer(float Amount);
 	UFUNCTION(BlueprintCallable, Category = "Player|Stats")
 	void HealPlayer(float Amount);
 	
-	/****** MOVEMENT ******/
+	//********************** MOVEMENT **************************//
 	void SetMoveSpeedToRun();
 	void SetMoveSpeedToWalk();
 	void MoveRight(float Amount);
@@ -245,20 +282,31 @@ public:
 	bool GetIsMovementInputDisabled() const;
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	void SetIsMovementInputDisabled(bool IsDisabled);
-
-	//UFUNCTION(BlueprintCallable, Category = "Movement")
-	//bool GetCanDodge() const;
-	//UFUNCTION(BlueprintCallable, Category = "Movement")
-	//void SetCanDodge(bool Value);
 	
-	/****** JUMPING ******/
+	//*********************** JUMPING **************************//
 	FDetectWallHitInfo DetectWall();
 	void PlayerJump();
 	void PlayerStopJump();
 	virtual void Landed(const FHitResult &Hit) override;
 	void StartWallSlide();
 	void LoseGripAndFall();
-
+	
+	//////////////////////////////////////////////////////////////
+	// 						STATUS EFFECTS 						//
+	//////////////////////////////////////////////////////////////
+	//************************ BLEED ***************************//
+	UFUNCTION(BlueprintCallable, Category = "StatusEffect|BLEED")
+	void ApplyBLEEDBuildUp(float Amount);
+	void ApplyBLEED();
+	//************************* BURN ***************************//
+	UFUNCTION(BlueprintCallable, Category = "StatusEffect|BURN")
+	void ApplyBURNBuildUp(float Amount);
+	void ApplyBURN();
+	//************************* POISON ***************************//
+	UFUNCTION(BlueprintCallable, Category = "StatusEffect|POISON")
+	void ApplyPOISONBuildUp(float Amount);
+	void ApplyPOISON();
+	
 	/****** ARTIFACTS ******/
 	void EquipDualDaggers();
 	void EquipFireGlove();

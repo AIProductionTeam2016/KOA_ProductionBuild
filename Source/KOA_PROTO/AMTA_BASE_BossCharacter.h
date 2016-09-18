@@ -13,7 +13,7 @@ class KOA_PROTO_API AAMTA_BASE_BossCharacter : public AKOA_BASE_EnemyCharacter
 {
 	GENERATED_BODY()
 	
-	
+public:
 	
 	
 };

@@ -382,7 +382,22 @@ void AKOA_PROTO_Character::LoseGripAndFall() {
 	// Clear the wall slide timer
 	ClearWallSlideTimer();
 }
-
+/**************************************************************************
+	STATUS EFFECTS -
+		Methods to handle dealing with status effects until  
+**************************************************************************/
+	void AKOA_PROTO_Character::ApplyBleedBuildUp(float Amount){
+		if (SE_BleedBuildUp + Amount >= SE_BleedMaxAmount) {
+			ApplyBleed();
+		} else {
+			SE_BleedBuildUp += Amount;
+		}
+	}
+	void AKOA_PROTO_Character::ApplyBleed() {
+		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.7f, FColor::Red, "ApplyBleed");
+		SE_BleedBuildUp = 0.0;
+		IsBleeding = true;
+	}
 
 /**************************************************************************
 	ARTIFACTS -

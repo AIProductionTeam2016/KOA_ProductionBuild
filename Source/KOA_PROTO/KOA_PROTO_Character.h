@@ -202,6 +202,19 @@ public:
 	float WalkSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Movement")
 	float RunSpeed;
+	
+	//////////////////////////////////////////////////////////////
+	// 						STATUS EFFECTS 						//
+	////////////////////////////////////////////////////////////// 
+	// BLEED //
+	UPROPERTY(BlueprintReadWrite, Category = "EnemyStats|Status")
+	float SE_BleedBuildUp;
+	UPROPERTY(BlueprintReadWrite, Category = "EnemyStats|Status")
+	float SE_BleedMaxAmount;
+	UPROPERTY(BlueprintReadWrite, Category = "EnemyStats|Status")
+	bool IsBleeding;
+	UPROPERTY(BlueprintReadWrite, Category = "EnemyStats|Status")
+	FTimerHandle BleedTimerHandle;
 
 	// All of the data for the player's jump logic
 	UPROPERTY(EditAnywhere, Category = "Player|Jump")
@@ -258,7 +271,10 @@ public:
 	virtual void Landed(const FHitResult &Hit) override;
 	void StartWallSlide();
 	void LoseGripAndFall();
-
+	/****** STATUS EFFECTS ******/
+	UFUNCTION(BlueprintCallable, Category = "Stats|StatusEffect")
+	void ApplyBleedBuildUp(float Amount);
+	void ApplyBleed();
 	/****** ARTIFACTS ******/
 	void EquipDualDaggers();
 	void EquipFireGlove();

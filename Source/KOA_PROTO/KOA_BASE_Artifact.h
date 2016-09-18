@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Object.h"
+#include "ATMA_StatusEffects.h"
 #include "KOA_BASE_Artifact.generated.h"
 
 // Forward Declaration of classes
@@ -50,6 +51,8 @@ public:
 	float MaxCastRange;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	bool AbilityOnCooldown;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatusEffects")
+	FStatusEffects StatusEffects;
 public:
 	FAbilityStats() {
 		AbilityName = "INVALID NAME";
@@ -67,6 +70,7 @@ public:
  		this->MaxCastRange = Stats.MaxCastRange;
  		this->AbilityCooldownDuration = Stats.AbilityCooldownDuration;
  		this->AbilityOnCooldown = Stats.AbilityOnCooldown;
+		this->StatusEffects = Stats.StatusEffects;
 	}
 };
 
@@ -93,6 +97,8 @@ public:
 	bool AbilityOnCooldown;
 	FTimerHandle AbilityCooldownTimer;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatusEffects")
+	FStatusEffects StatusEffects;
 public:
 	FAbility() {
 		AbilityName = "INVALID";
@@ -123,6 +129,7 @@ public:
 		stats.MaxCastRange = this->MaxCastRange;
 		stats.AbilityCooldownDuration = this->AbilityCooldownDuration;
 		stats.AbilityOnCooldown = this->AbilityOnCooldown;
+		stats.StatusEffects = this->StatusEffects;
 		return stats;
 	}
 };
@@ -168,7 +175,8 @@ public:
 	float LightBasicAttackLockDuration;
 	//UPROPERTY(EditAnywhere, Category = "Stats|Combat")
 	//float HeavyBasicAttackLockDuration;
-
+	UPROPERTY(EditAnywhere, Category = "Stats|Combat|StatusEffects")
+	FStatusEffects BasicAttackStatusEffects;
 	//** ABILITIES **//
 	UPROPERTY(EditAnywhere, Category = "Ability")
 	FAbility AbilityQ;

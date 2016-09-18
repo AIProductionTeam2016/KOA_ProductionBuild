@@ -620,6 +620,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 					artifact->ReleaseAbilityW();
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
 			}
 			break;
@@ -630,6 +633,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 					artifact->ReleaseAbilityE();
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
 			}
 			break;
@@ -638,6 +644,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 				if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
 					artifact->AbilityR.SetAbilityOnCooldown();
 					artifact->ReleaseAbilityR();
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}

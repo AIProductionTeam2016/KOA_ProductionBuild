@@ -1,3 +1,20 @@
+Version 0.3.11:
+ - MEOW!!!! All 3 typeof CatGuards received the following anims: - Idle - Walk - Run - Light Attack - Heavy Attack - DEATH!!!! - Maybe Moar@-@
+ - Removed shit files. Stuff.
+ - Added key ring. Wall Sconce. Other stuff.
+ - Added catguard AI from Landon's branch.
+ - Added multiple catguards. Fire glove has a particle on equipping.
+ - Got status effect particles working on Jester with debug commands.
+ - Grabbing assets from Rylie
+ - Hooked up status effects to the Jester.
+ - Added shield asset: Content/Game/Assets/Weapons/Shields
+ - Added particle system for the burning status effect.
+ - Added SKT_PS_StatusEffect sockets to 3 Skeletons: - Jester, CatGuard, BOSS_Executioner
+ - Added Particle Systems for the SE_BLEEDING && SE_POISONED
+ - Added particle systems for BLEED and POISON status effects
+ - Updated cooldowns for testing.
+ - Jester W now applies stacks of bleed.
+
 Version 0.3.10:
  - Added anims. Oh, and maybe added status effects to the Jester and his HUD.... MAYBE
  - Added new anims for the Jester.

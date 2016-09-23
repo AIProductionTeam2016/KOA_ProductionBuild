@@ -9,6 +9,7 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	ArtifactID = EArtifactID::ID_NULL;
 	ArtifactName = "INVALID";
 	ArtifactIconTexture = nullptr;
+	ArtifactMesh = nullptr;
 	LightBasicAttackLockDuration = 5.0f;
 	// ABILITY //
 	IsArtifactStormUnlocked = false;

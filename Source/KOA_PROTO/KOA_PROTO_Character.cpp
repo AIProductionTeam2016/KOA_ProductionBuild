@@ -436,6 +436,7 @@ void AKOA_PROTO_Character::EquipDualDaggers() {
 // EquipFireGlove():
 //		Same as DualDaggers, except with the FireGlove...
 void AKOA_PROTO_Character::EquipFireGlove() {
+	
 	if (!GetIsArtifactSwapLocked() && SetCurrentArtifact(EArtifactID::ID_FireGlove)) {
 		DEBUG_EquipCurrentArtifact();
 		// Lock artifact swaping
@@ -506,9 +507,13 @@ bool AKOA_PROTO_Character::SetCurrentArtifact(EArtifactID Artifact) {
 	// If you have collected the artifact at this point, you can equip it...
 	// Also make sure you don't have it equipped
 	if (CollectedArtifacts.Num() > (uint8)Artifact && Artifact != CurrentArtifact) {
-		CurrentArtifact = Artifact;
-		SetCurrArtifactPlayerReference();
-		return true;
+		UKOA_BASE_Artifact* artifact = nullptr;
+		artifact = CollectedArtifacts[(uint8)Artifact]->GetDefaultObject<UKOA_BASE_Artifact>();
+		if (artifact != nullptr) {
+			CurrentArtifact = Artifact;
+			SetCurrArtifactPlayerReference();
+			return true;
+		}
 	} 
 	return false;
 }

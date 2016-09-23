@@ -171,6 +171,8 @@ public:
 	FString ArtifactName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Texture")
 	UTexture* ArtifactIconTexture;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+	UStaticMesh* ArtifactMesh;
 	UPROPERTY(EditAnywhere, Category = "Stats|Combat")
 	float LightBasicAttackLockDuration;
 	//UPROPERTY(EditAnywhere, Category = "Stats|Combat")

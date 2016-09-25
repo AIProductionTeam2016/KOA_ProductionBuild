@@ -8,10 +8,10 @@
 
 UENUM(Blueprinttype)
 enum class ETYPEOF_Throwable : uint8 {
-	KNIFE = 0,
-	BOMB,
+	KNIFE = 0	UMETA(DisplayName = "Knife"),
+	BOMB		UMETA(DisplayName = "Bomb"),
 	NUM,
-	NONE = 99
+	NONE = 99	UMETA(DisplayName = "None")
 };
 
 /********************************************************

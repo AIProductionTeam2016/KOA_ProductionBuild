@@ -303,6 +303,9 @@ public:
 	//********************** INVENTORY *************************//
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Inventory")
 	void OpenInventory();
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Inventory|Throwables")
+	void ThrowCurrentThrowable();
+	
 	UFUNCTION(BlueprintCallable, Category = "Inventory|Throwables")
 	UAMTA_BASE_Throwable* GetCurrThrowableRefernce() const;
 	//////////////////////////////////////////////////////////////

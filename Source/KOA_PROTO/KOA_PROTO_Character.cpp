@@ -143,7 +143,7 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("Jump", IE_Released, this, &AKOA_PROTO_Character::PlayerStopJump);
 	// Inventory //
 	InputComponent->BindAction("OpenInventory", IE_Pressed, this, &AKOA_PROTO_Character::OpenInventory);
-	
+	InputComponent->BindAction("ThrowThrowable", IE_Pressed, this, &AKOA_PROTO_Character::ThrowCurrentThrowable);
 	// Ability Bindings //
 	// Q //
 	InputComponent->BindAction("AbilityQ", IE_Pressed, this, &AKOA_PROTO_Character::PressCurrentAbilityQ);
@@ -391,7 +391,7 @@ UAMTA_BASE_Throwable* AKOA_PROTO_Character::GetCurrThrowableRefernce() const {
 	}
 	return ptr;
 }
-
+//void AKOA_PROTO_Character::ThrowCurrentThrowable() {}
 //////////////////////////////////////////////////////////////
 // 					  STATUS EFFECTS 						//
 //		Methods to handle dealing with status effects 		//

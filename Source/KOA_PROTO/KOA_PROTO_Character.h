@@ -4,6 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
+#include "AMTA_BASE_Throwable.h"
 #include "KOA_BASE_Artifact.h"
 #include "KOA_PROTO_Wall.h"
 #include "KOA_PROTO_Character.generated.h"
@@ -207,6 +208,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Player|Jump")
 	FPlayerJumpVariables JumpStats;
 	//////////////////////////////////////////////////////////////
+	// 						Throwables 							//
+	//////////////////////////////////////////////////////////////
+	UPROPERTY(EditAnywhere, Category = "Inventory|Throwables")
+	ETYPEOF_Throwable CurrentThrowable;
+	UPROPERTY(EditAnywhere, Category = "Inventory|Throwables")
+	TArray<TSubclassOf<UAMTA_BASE_Throwable>> CollectedThrowables;
+	
+	//////////////////////////////////////////////////////////////
 	// 						STATUS EFFECTS 						//
 	////////////////////////////////////////////////////////////// 
 	//------------------------- BLEED --------------------------//
@@ -291,6 +300,11 @@ public:
 	void StartWallSlide();
 	void LoseGripAndFall();
 	
+	//********************** INVENTORY *************************//
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Inventory")
+	void OpenInventory();
+	UFUNCTION(BlueprintCallable, Category = "Inventory|Throwables")
+	UAMTA_BASE_Throwable* GetCurrThrowableRefernce() const;
 	//////////////////////////////////////////////////////////////
 	// 						STATUS EFFECTS 						//
 	//////////////////////////////////////////////////////////////

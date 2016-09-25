@@ -31,6 +31,9 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	//JumpStats.EnableDoubleJumping();
 	IsSlidingDownWall = false;
 	
+	// Inventory //
+	CurrentThrowable = ETYPEOF_Throwable::NONE;
+	
 	SE_BLEED_MaxAmount = 120.0f;
 	SE_BURN_MaxAmount = 15.0f;
 	SE_POISON_MaxAmount = 25.0f;
@@ -138,6 +141,9 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("Run", IE_Released, this, &AKOA_PROTO_Character::SetMoveSpeedToWalk);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AKOA_PROTO_Character::PlayerJump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AKOA_PROTO_Character::PlayerStopJump);
+	// Inventory //
+	InputComponent->BindAction("OpenInventory", IE_Pressed, this, &AKOA_PROTO_Character::OpenInventory);
+	
 	// Ability Bindings //
 	// Q //
 	InputComponent->BindAction("AbilityQ", IE_Pressed, this, &AKOA_PROTO_Character::PressCurrentAbilityQ);
@@ -154,7 +160,7 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	// Artifact Bindings //
 	InputComponent->BindAction("EquipArtifact_DualDaggers", IE_Pressed, this, &AKOA_PROTO_Character::EquipDualDaggers);
 	InputComponent->BindAction("EquipArtifact_FireGlove", IE_Pressed, this, &AKOA_PROTO_Character::EquipFireGlove);
-
+	// Basic Attacks //
 	InputComponent->BindAction("LightAttack",IE_Pressed, this, &AKOA_PROTO_Character::UseCurrBasicAttackLight);
 	//TODO: QuickArtifactSelect press release
 }
@@ -371,6 +377,19 @@ void AKOA_PROTO_Character::LoseGripAndFall() {
 	IsSlidingDownWall = false;
 	// Clear the wall slide timer
 	ClearWallSlideTimer();
+}
+//////////////////////////////////////////////////////////////
+// 						 INVENTORY 							//
+//				Methods to handle inventory 				//
+//////////////////////////////////////////////////////////////
+
+//void AKOA_PROTO_Character::OpenInventory() 
+UAMTA_BASE_Throwable* AKOA_PROTO_Character::GetCurrThrowableRefernce() const {
+	UAMTA_BASE_Throwable* ptr = nullptr;
+	if (CurrentThrowable != ETYPEOF_Throwable::NONE) {
+		ptr = CollectedThrowables[(uint8)CurrentThrowable]->GetDefaultObject<UAMTA_BASE_Throwable>();
+	}
+	return ptr;
 }
 
 //////////////////////////////////////////////////////////////

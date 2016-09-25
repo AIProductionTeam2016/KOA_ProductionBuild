@@ -37,4 +37,8 @@ public:
 	UAMTA_BASE_Throwable();
 	~UAMTA_BASE_Throwable();
 
+	UFUNCTION(BlueprintCallable, Category = "Icons")
+	UTexture* GetIcon() const {
+		return Icon;
+	}
 };

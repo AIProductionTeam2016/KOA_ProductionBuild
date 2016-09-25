@@ -6,11 +6,11 @@
 #include "ATMA_StatusEffects.h"
 #include "AMTA_BASE_Throwable.generated.h"
 
-UENUM(Blueprinttype)
+UENUM(BlueprintType)
 enum class ETYPEOF_Throwable : uint8 {
 	KNIFE = 0	UMETA(DisplayName = "Knife"),
 	BOMB		UMETA(DisplayName = "Bomb"),
-	NUM,
+	NUM	,
 	NONE = 99	UMETA(DisplayName = "None")
 };
 

@@ -5,6 +5,7 @@
 #include "KOA_PROTO_Character.h"
 #include "KOA_PROTO_CharacterMovementSlide.h"
 #include "KOA_BASE_Artifact.h"
+#include "UTIL_MouseFunctionality.h"
 
 //////////////////////////////////////////////////////////////
 // 				CONSTRUCTORS AND INITIALIZERS 				//
@@ -129,6 +130,7 @@ void AKOA_PROTO_Character::Tick( float DeltaTime ) {
 
 // Called to bind functionality to input
 void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* InputComponent) {
+	
 	Super::SetupPlayerInputComponent(InputComponent);
 	check(InputComponent);
 
@@ -143,6 +145,8 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("Jump", IE_Released, this, &AKOA_PROTO_Character::PlayerStopJump);
 	// Inventory //
 	InputComponent->BindAction("OpenInventory", IE_Pressed, this, &AKOA_PROTO_Character::OpenInventory);
+	// Throwables //
+	InputComponent->BindAction("ThrowThrowable", IE_Pressed, this, &AKOA_PROTO_Character::AimCurrentThrowable);
 	InputComponent->BindAction("ThrowThrowable", IE_Pressed, this, &AKOA_PROTO_Character::ThrowCurrentThrowable);
 	// Ability Bindings //
 	// Q //
@@ -164,7 +168,12 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("LightAttack",IE_Pressed, this, &AKOA_PROTO_Character::UseCurrBasicAttackLight);
 	//TODO: QuickArtifactSelect press release
 }
-
+//////////////////////////////////////////////////////////////
+// 						  UTILITY 							//
+//////////////////////////////////////////////////////////////
+FVector AKOA_PROTO_Character::GetMousePositionInPlayerPlane() {
+	return UTIL_MouseFunctionality::GetMousePosInPlayerPlane(this->GetWorldPtr());
+}
 //////////////////////////////////////////////////////////////
 // 						PLAYER STATS 						//
 //				Methods to manage player stats.				//

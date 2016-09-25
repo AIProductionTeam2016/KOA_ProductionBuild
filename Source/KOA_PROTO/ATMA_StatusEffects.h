@@ -42,19 +42,19 @@ public:
 	bool HasPoison;
 
 	// Status effect amount per tick
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Amount")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Amount", meta = (EditCondition = "HasBleed"))
 	float BleedAmount;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Amount")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Amount", meta = (EditCondition = "HasBurn"))
 	float BurnAmount;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Amount")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Amount", meta = (EditCondition = "HasPoison"))
 	float PoisonAmount;
 
 	// Tick frequency in seconds
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Rate")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Rate", meta = (EditCondition = "HasBleed"))
 	float BleedFrequency;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Rate")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Rate", meta = (EditCondition = "HasBurn"))
 	float BurnFrequency;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Rate")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tick|Rate", meta = (EditCondition = "HasPoison"))
 	float PoisonFrequency;
 	
 public:
@@ -72,7 +72,7 @@ public:
 	BurnFrequency = 0.0f;
 	PoisonFrequency = 0.0f;
 	}
-	
+	//virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 };
 
 

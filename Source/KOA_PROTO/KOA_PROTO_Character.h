@@ -273,7 +273,11 @@ public:
 
 	/****** TICK ******/
 	virtual void Tick(float DeltaSeconds) override;
-
+	//////////////////////////////////////////////////////////////
+	// 						  UTILITY 							//
+	//////////////////////////////////////////////////////////////
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Utility|Mouse")
+	FVector GetMousePositionInPlayerPlane();
 	//////////////////////////////////////////////////////////////
 	// 						PLAYER STATS 						//
 	//////////////////////////////////////////////////////////////
@@ -305,7 +309,8 @@ public:
 	void OpenInventory();
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Inventory|Throwables")
 	void ThrowCurrentThrowable();
-	
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Inventory|Throwables")
+	void AimCurrentThrowable();
 	UFUNCTION(BlueprintCallable, Category = "Inventory|Throwables")
 	UAMTA_BASE_Throwable* GetCurrThrowableRefernce() const;
 	//////////////////////////////////////////////////////////////

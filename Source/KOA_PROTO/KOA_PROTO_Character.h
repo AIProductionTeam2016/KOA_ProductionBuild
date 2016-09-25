@@ -211,6 +211,8 @@ public:
 	// 						Throwables 							//
 	//////////////////////////////////////////////////////////////
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory|Throwables")
+	bool IsAimingThrowable;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory|Throwables")
 	ETYPEOF_Throwable CurrentThrowable;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory|Throwables")
 	TArray<TSubclassOf<UAMTA_BASE_Throwable>> CollectedThrowables;

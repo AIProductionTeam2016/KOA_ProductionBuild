@@ -33,6 +33,7 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	IsSlidingDownWall = false;
 	
 	// Inventory //
+	IsAimingThrowable = false;
 	CurrentThrowable = ETYPEOF_Throwable::NONE;
 	
 	SE_BLEED_MaxAmount = 120.0f;
@@ -147,7 +148,7 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("OpenInventory", IE_Pressed, this, &AKOA_PROTO_Character::OpenInventory);
 	// Throwables //
 	InputComponent->BindAction("ThrowThrowable", IE_Pressed, this, &AKOA_PROTO_Character::AimCurrentThrowable);
-	InputComponent->BindAction("ThrowThrowable", IE_Pressed, this, &AKOA_PROTO_Character::ThrowCurrentThrowable);
+	InputComponent->BindAction("ThrowThrowable", IE_Released, this, &AKOA_PROTO_Character::ThrowCurrentThrowable);
 	// Ability Bindings //
 	// Q //
 	InputComponent->BindAction("AbilityQ", IE_Pressed, this, &AKOA_PROTO_Character::PressCurrentAbilityQ);

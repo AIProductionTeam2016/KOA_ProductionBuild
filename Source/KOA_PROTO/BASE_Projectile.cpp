@@ -26,7 +26,7 @@ void ABASE_Projectile::BeginPlay() {
 	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
 	{
 		DoSquiggleMovement(true, 0, startLocation, TargetLocation, ProjLifeTime,
-			0, 30, 60, 0.4f, squigglyArcHeight);
+			0, 30, 60, 0.001f, squigglyArcHeight);
 	}
 }
 
@@ -37,7 +37,7 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
 	{
 		DoSquiggleMovement(false, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
-			existedTime, 30, 60, 0.4f, squigglyArcHeight);
+			existedTime, 30, 60, 0.001f, squigglyArcHeight);
 	}
 	if (existedTime > ProjLifeTime)
 	{
@@ -46,12 +46,32 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 }
 
 void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
-	float elapsedTime, float minAngle, float maxAngle, float arcWidth, float &arcHeight)
+	float elapsedTime, float minAngle, float maxAngle, float startVel, float &arcHeightAlpha)
 {
 	FVector previousPos = this->GetActorLocation();
-	//Calculate value between 0 and 1 saying how far we should be between the startPos and TargetPos
-	float alpha = elapsedTime / totalTime;
-	FVector nextPos = FMath::Lerp(startPos, targetPos, alpha);
-	velocity = previousPos - nextPos;
-	this->SetActorLocation(nextPos);
+	//Create the vectors that will make the x and y axis of a new coordinate system, for simplification purposes
+	FVector xVec = (targetPos - startPos);
+	xVec.Normalize();
+	FVector yVec = FVector::CrossProduct(xVec, FVector(1, 0, 0));
+	yVec.Normalize();
+
+	//Get our y velocity in our new coordinate system;
+	float yVel = FVector::DotProduct(velocity, yVec);
+	//If it's the first frame, set our y velocity based on the distance to the target
+	if (firstFrame)
+	{
+		//yVel = startVel * (startPos - targetPos).Size();
+	}
+	//Set our x velocity based on the distance to the target and the remaining time
+	float xVel = (targetPos - previousPos).Size() / (totalTime - elapsedTime);
+
+	//Get our distance from the startpos to targetpos line
+	float yPos = FVector::DotProduct(startPos - previousPos, yVec);
+
+	float targetAngle = FMath::Lerp(minAngle, maxAngle, arcHeightAlpha);
+
+	//convert our new coordinate system velocity back to the world coordinate system, and store it in velocity
+	velocity = xVec * xVel + yVec * yVel;
+	//apply velocity
+	this->SetActorLocation(previousPos + velocity * DeltaSeconds);
 }

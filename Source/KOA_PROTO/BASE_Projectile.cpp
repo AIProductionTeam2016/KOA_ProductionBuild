@@ -3,7 +3,8 @@
 #include "KOA_PROTO.h"
 #include "BASE_Projectile.h"
 
-
+static const float SMALL_VALUE = 0.05f; //used to prefent the projectile from moving to crazily at the end of its lifetime
+static const float BIG_VALUE = 100000; //multiplied in when determining acceleration
 // Sets default values
 ABASE_Projectile::ABASE_Projectile() {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -26,7 +27,7 @@ void ABASE_Projectile::BeginPlay() {
 	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
 	{
 		DoSquiggleMovement(true, 0, startLocation, TargetLocation, ProjLifeTime,
-			0, 30, 60, 0.001f, squigglyArcHeight);
+			0, 1.5, 0.5, 1.0, 20.0f, squigglyArcHeight);
 	}
 }
 
@@ -37,7 +38,7 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
 	{
 		DoSquiggleMovement(false, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
-			existedTime, 30, 60, 0.001f, squigglyArcHeight);
+			existedTime, 1.5, 0.5, 1.0, 20.0f, squigglyArcHeight);
 	}
 	if (existedTime > ProjLifeTime)
 	{
@@ -46,8 +47,9 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 }
 
 void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
-	float elapsedTime, float minAngle, float maxAngle, float startVel, float &arcHeightAlpha)
+	float elapsedTime, float forceMultMax, float forceMultMin, float frequency, float startVel, float &forceMult)
 {
+	float totalLength = (startPos - targetPos).Size();
 	FVector previousPos = this->GetActorLocation();
 	//Create the vectors that will make the x and y axis of a new coordinate system, for simplification purposes
 	FVector xVec = (targetPos - startPos);
@@ -60,18 +62,33 @@ void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, F
 	//If it's the first frame, set our y velocity based on the distance to the target
 	if (firstFrame)
 	{
-		//yVel = startVel * (startPos - targetPos).Size();
+		yVel = startVel * totalLength / totalTime;
 	}
+
+	//Get the distance from ourselves to the startpos to targetpos line
+	float yPos = FVector::DotProduct(previousPos - startPos, yVec);
+
+	//Get the previousPos projected onto the line from the startPos to the targetPos
+	FVector projectedPos = previousPos - (yVec * yPos);
+
 	//Set our x velocity based on the distance to the target and the remaining time
-	float xVel = (targetPos - previousPos).Size() / (totalTime - elapsedTime);
+	float xVel = (targetPos - projectedPos).Size() / (totalTime - elapsedTime);
 
-	//Get our distance from the startpos to targetpos line
-	float yPos = FVector::DotProduct(startPos - previousPos, yVec);
+	//Find the best acceleration
+	float targetAccel = yPos * BIG_VALUE * frequency * forceMult / (totalLength) / FMath::Pow(totalTime - elapsedTime + SMALL_VALUE, 2) / totalTime;
 
-	float targetAngle = FMath::Lerp(minAngle, maxAngle, arcHeightAlpha);
+	//Add the acceleration
+	yVel -= targetAccel * DeltaSeconds;
 
 	//convert our new coordinate system velocity back to the world coordinate system, and store it in velocity
 	velocity = xVec * xVel + yVec * yVel;
 	//apply velocity
 	this->SetActorLocation(previousPos + velocity * DeltaSeconds);
+
+	float newYPos = FVector::DotProduct(this->GetActorLocation() - startPos, yVec);
+
+	if (FMath::Sign(yPos) != FMath::Sign(newYPos))
+	{
+		forceMult = FMath::FRandRange(forceMultMin, forceMultMax);
+	}
 }

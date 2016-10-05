@@ -3,8 +3,7 @@
 #include "KOA_PROTO.h"
 #include "BASE_Projectile.h"
 
-static const float SMALL_VALUE = 0.05f; //used to prefent the projectile from moving to crazily at the end of its lifetime
-static const float BIG_VALUE = 100000; //multiplied in when determining acceleration
+static const float SMALL_VALUE = 0.1f; //used to prefent the projectile from moving to crazily at the end of its lifetime
 static const float ACCEL_CLAMP = 1000000; //clamp the acceleration to prevent crazy movement
 // Sets default values
 ABASE_Projectile::ABASE_Projectile() {
@@ -28,7 +27,7 @@ void ABASE_Projectile::BeginPlay() {
 	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
 	{
 		DoSquiggleMovement(true, 0, startLocation, TargetLocation, ProjLifeTime,
-			0, 1.5, 0.5, 1.0, 20.0f, squigglyArcHeight);
+			0, 1, 1, 0.5, 20.0f, squigglyArcHeight);
 	}
 }
 
@@ -39,7 +38,7 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
 	{
 		DoSquiggleMovement(false, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
-			existedTime, 1.5, 0.5, 1.0, 20.0f, squigglyArcHeight);
+			existedTime, 1, 1, 0.5, 20.0f, squigglyArcHeight);
 	}
 	if (existedTime > ProjLifeTime)
 	{
@@ -80,7 +79,7 @@ void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, F
 		xVel = -xVel;
 
 	//Find the best acceleration
-	float targetAccel = yPos * BIG_VALUE * frequency * forceMult / (totalLength) / FMath::Pow(totalTime - elapsedTime + SMALL_VALUE, 2) / totalTime;
+	float targetAccel = yPos * frequency * forceMult * totalLength / FMath::Pow(totalTime - elapsedTime + SMALL_VALUE, 2) / totalTime;
 
 	targetAccel = FMath::Clamp(targetAccel, -ACCEL_CLAMP, ACCEL_CLAMP);
 

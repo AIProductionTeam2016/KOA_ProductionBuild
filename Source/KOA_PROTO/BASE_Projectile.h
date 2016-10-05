@@ -49,7 +49,7 @@ private:
 	float Gravity;
 
 	void DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
-		float elapsedTime, float forceMultMax, float forceMultMin, float frequency, float startVel, float &forceMult);
+		float elapsedTime, float forceMultMin, float forceMultMax, float frequency, float startVel, float &forceMult);
 
 protected:
 	FVector velocity;

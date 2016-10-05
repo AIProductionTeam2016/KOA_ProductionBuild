@@ -3,7 +3,7 @@
 #include "KOA_PROTO.h"
 #include "BASE_Projectile.h"
 
-static const float SMALL_VALUE = 0.1f; //used to prefent the projectile from moving to crazily at the end of its lifetime
+static const float SMALL_VALUE = 0.2f; //used to prefent the projectile from moving to crazily at the end of its lifetime
 static const float ACCEL_CLAMP = 1000000; //clamp the acceleration to prevent crazy movement
 // Sets default values
 ABASE_Projectile::ABASE_Projectile() {
@@ -24,22 +24,25 @@ void ABASE_Projectile::BeginPlay() {
 	Super::BeginPlay();
 	startLocation = this->GetActorLocation();
 	existedTime = 0;
-	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
-	{
-		DoSquiggleMovement(true, 0, startLocation, TargetLocation, ProjLifeTime,
-			0, 1, 1, 0.5, 20.0f, squigglyArcHeight);
-	}
 }
 
 // Called every frame
 void ABASE_Projectile::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
-	existedTime += DeltaTime;
 	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
 	{
-		DoSquiggleMovement(false, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
-			existedTime, 1, 1, 0.5, 20.0f, squigglyArcHeight);
+		if (existedTime == 0)
+		{
+			DoSquiggleMovement(true, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
+				existedTime, 0.4, 3, 0.5, 2.0f, squigglyArcHeight);
+		}
+		else
+		{
+			DoSquiggleMovement(false, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
+				existedTime, 0.4, 3, 0.5, 2.0f, squigglyArcHeight);
+		}
 	}
+	existedTime += DeltaTime;
 	if (existedTime > ProjLifeTime)
 	{
 		this->Destroy();
@@ -47,7 +50,7 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 }
 
 void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
-	float elapsedTime, float forceMultMax, float forceMultMin, float frequency, float startVel, float &forceMult)
+	float elapsedTime, float forceMultMin, float forceMultMax, float frequency, float startVel, float &forceMult)
 {
 
 	float totalLength = (startPos - targetPos).Size();

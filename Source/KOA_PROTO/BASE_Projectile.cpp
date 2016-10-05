@@ -5,6 +5,7 @@
 
 static const float SMALL_VALUE = 0.05f; //used to prefent the projectile from moving to crazily at the end of its lifetime
 static const float BIG_VALUE = 100000; //multiplied in when determining acceleration
+static const float ACCEL_CLAMP = 1000000; //clamp the acceleration to prevent crazy movement
 // Sets default values
 ABASE_Projectile::ABASE_Projectile() {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -49,6 +50,7 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
 	float elapsedTime, float forceMultMax, float forceMultMin, float frequency, float startVel, float &forceMult)
 {
+
 	float totalLength = (startPos - targetPos).Size();
 	FVector previousPos = this->GetActorLocation();
 	//Create the vectors that will make the x and y axis of a new coordinate system, for simplification purposes
@@ -73,9 +75,14 @@ void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, F
 
 	//Set our x velocity based on the distance to the target and the remaining time
 	float xVel = (targetPos - projectedPos).Size() / (totalTime - elapsedTime);
+	//Make xVel negative if the target moves behind
+	if (FVector::DotProduct(targetPos - projectedPos, xVec) < 0)
+		xVel = -xVel;
 
 	//Find the best acceleration
 	float targetAccel = yPos * BIG_VALUE * frequency * forceMult / (totalLength) / FMath::Pow(totalTime - elapsedTime + SMALL_VALUE, 2) / totalTime;
+
+	targetAccel = FMath::Clamp(targetAccel, -ACCEL_CLAMP, ACCEL_CLAMP);
 
 	//Add the acceleration
 	yVel -= targetAccel * DeltaSeconds;

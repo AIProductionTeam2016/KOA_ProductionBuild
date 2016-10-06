@@ -12,6 +12,7 @@ enum class EProjectileTrajectory : uint8 {
 	PT_PARABOLIC	UMETA(DisplayName="Parabola"),
 	PT_SQUIGGLY		UMETA(DisplayName="Squiggly"),
 	PT_FIXEDSEEK    UMETA(DisplayName="FixedTimeSeek"),
+	PT_HELIXSEEK    UMETA(DisplayName = "FixedSeekHelix"),
 	NUM				UMETA(Hidden),
 	NONE			UMETA(DisplayName="None")
 };
@@ -57,9 +58,13 @@ private:
 	void DoFixedSeekMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
 		float elapsedTime, float startVelMax, float damping);
 
+	void DoHelixSeekMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
+		float elapsedTime, float startVelMax, float spinMax, float damping);
+
 protected:
 	FVector velocity;
 	FVector startLocation;
 	float existedTime;
 	float squigglyArcHeight;
+	float spin;
 };

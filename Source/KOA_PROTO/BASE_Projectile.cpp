@@ -57,6 +57,19 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 				existedTime, 500, 20);
 		}
 	}
+	else if (ProjTrajectory == EProjectileTrajectory::PT_HELIXSEEK)
+	{
+		if (existedTime == 0)
+		{
+			DoHelixSeekMovement(true, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
+				existedTime, 500, 100, 20);
+		}
+		else if (existedTime <= ProjLifeTime)
+		{
+			DoHelixSeekMovement(false, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
+				existedTime, 500, 100, 20);
+		}
+	}
 	if (existedTime > ProjTimeBeforeDelete)
 	{
 		this->Destroy();
@@ -153,6 +166,42 @@ void ABASE_Projectile::DoFixedSeekMovement(bool firstFrame, float DeltaSeconds, 
 
 	//Dampen y velocity
 	yVel /= FMath::Pow(1+damping, DeltaSeconds);
+
+	//convert our new coordinate system velocity back to the world coordinate system, and store it in velocity
+	velocity = xVec * xVel + yVec * yVel;
+	//apply velocity
+	this->SetActorLocation(currentPos + velocity * DeltaSeconds);
+}
+
+void ABASE_Projectile::DoHelixSeekMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
+	float elapsedTime, float startVelMax, float spinMax, float damping)
+{
+	if (firstFrame)
+	{
+		this->SetActorLocation(startPos);
+	}
+	FVector currentPos = this->GetActorLocation();
+	//Create the vectors that will make the x and y axis of a new coordinate system, for simplification purposes
+	//The x axis will be in the direction of the line from our current position to the targetPos
+	FVector xVec = (targetPos - currentPos);
+	xVec.Normalize();
+	FVector yVec = FVector::CrossProduct(xVec, FVector(1, 0, 0));
+	yVec.Normalize();
+
+	//Get our y velocity in our new coordinate system;
+	float yVel = FVector::DotProduct(velocity, yVec);
+
+	//If it's the first frame, set the y velocity to add a "curve" to the trajectory
+	if (firstFrame)
+	{
+		yVel = FMath::FRandRange(-startVelMax, startVelMax);
+	}
+
+	//Set our x velocity based on the distance to the target and the remaining time
+	float xVel = (targetPos - currentPos).Size() / (totalTime - elapsedTime + VERY_SMALL_VALUE);
+
+	//Dampen y velocity
+	yVel /= FMath::Pow(1 + damping, DeltaSeconds);
 
 	//convert our new coordinate system velocity back to the world coordinate system, and store it in velocity
 	velocity = xVec * xVel + yVec * yVel;

@@ -28,6 +28,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float ProjLifeTime;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float ProjTimeBeforeDelete;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	FVector TargetLocation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	EProjectileTrajectory ProjTrajectory;

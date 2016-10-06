@@ -14,6 +14,7 @@ ABASE_Projectile::ABASE_Projectile() {
 	ProjDamage = 0.0f;
 	ProjMaxRange = 0.0f;
 	ProjLifeTime = 0.0f;
+	ProjTimeBeforeDelete = 0.0f;
 	TargetLocation = FVector(0.0,0.0,0.0);
 	ProjTrajectory = EProjectileTrajectory::NONE;
 	ProjMesh = nullptr;
@@ -36,17 +37,17 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 			DoSquiggleMovement(true, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
 				existedTime, 0.4, 3, 0.5, 2.0f, squigglyArcHeight);
 		}
-		else
+		else if (existedTime <= ProjLifeTime)
 		{
 			DoSquiggleMovement(false, DeltaTime, startLocation, TargetLocation, ProjLifeTime,
 				existedTime, 0.4, 3, 0.5, 2.0f, squigglyArcHeight);
 		}
 	}
-	existedTime += DeltaTime;
-	if (existedTime > ProjLifeTime)
+	if (existedTime > ProjTimeBeforeDelete)
 	{
 		this->Destroy();
 	}
+	existedTime += DeltaTime;
 }
 
 void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,

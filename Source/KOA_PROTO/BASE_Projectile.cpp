@@ -67,7 +67,8 @@ void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, F
 	//If it's the first frame, set our y velocity based on the distance to the target
 	if (firstFrame)
 	{
-		yVel = startVel * totalLength / totalTime;
+		int randomlyNegative = FMath::RandBool() ? -1 : 1;
+		yVel = startVel * randomlyNegative * totalLength / totalTime;
 	}
 
 	//Get the distance from ourselves to the startpos to targetpos line

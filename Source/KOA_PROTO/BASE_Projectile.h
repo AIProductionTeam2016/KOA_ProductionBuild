@@ -11,6 +11,7 @@ enum class EProjectileTrajectory : uint8 {
 	PT_LINEAR = 0 	UMETA(DisplayName="Linear"),
 	PT_PARABOLIC	UMETA(DisplayName="Parabola"),
 	PT_SQUIGGLY		UMETA(DisplayName="Squiggly"),
+	PT_FIXEDSEEK    UMETA(DisplayName="FixedTimeSeek"),
 	NUM				UMETA(Hidden),
 	NONE			UMETA(DisplayName="None")
 };
@@ -52,6 +53,9 @@ private:
 
 	void DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
 		float elapsedTime, float forceMultMin, float forceMultMax, float frequency, float startVel, float &forceMult);
+
+	void DoFixedSeekMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
+		float elapsedTime, float startVelMax, float damping);
 
 protected:
 	FVector velocity;

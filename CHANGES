@@ -1,3 +1,91 @@
+Version 0.3.11:
+ - MEOW!!!! All 3 typeof CatGuards received the following anims: - Idle - Walk - Run - Light Attack - Heavy Attack - DEATH!!!! - Maybe Moar@-@
+ - Removed shit files. Stuff.
+ - Added key ring. Wall Sconce. Other stuff.
+ - Added catguard AI from Landon's branch.
+ - Added multiple catguards. Fire glove has a particle on equipping.
+ - Got status effect particles working on Jester with debug commands.
+ - Grabbing assets from Rylie
+ - Hooked up status effects to the Jester.
+ - Added shield asset: Content/Game/Assets/Weapons/Shields
+ - Added particle system for the burning status effect.
+ - Added SKT_PS_StatusEffect sockets to 3 Skeletons: - Jester, CatGuard, BOSS_Executioner
+ - Added Particle Systems for the SE_BLEEDING && SE_POISONED
+ - Added particle systems for BLEED and POISON status effects
+ - Updated cooldowns for testing.
+ - Jester W now applies stacks of bleed.
+
+Version 0.3.10:
+ - Added anims. Oh, and maybe added status effects to the Jester and his HUD.... MAYBE
+ - Added new anims for the Jester.
+ - Removed outdated files.
+ - Added POISON stuffs. Renamed stuff. Did other stuff. Stuff.
+ - Deleted old shit. Beganthe process of adding bleed to the UI.
+ - Added status effects and Bleed effect to Enemy UI.
+ - Added UI elements for Status Effects.
+ - Updated socket locations.
+ - Jester can now equip / unequip FireGlove.
+ - Hooked up FG icons
+ - Updating my branch with changes.
+ - More stuff.
+ - Added FireGlove icons to the engine
+ - Added Bag O Holding to the jester
+ - Added new key assets. Added sockets on Jester for key ring and bag o holding.
+ - Adjustments
+ - Updating local branch with changes from remote.
+ - Added the FireGlove assets to the artifact folder. Renamed VampDagger/Mesh -> VampDagger/Model
+ - Updating branch with current BOSSFIGHTAI progress.
+ - Adjusted number on VD
+ - Chicken 4 Dayz
+ - Added a bunch of weapons
+ - Added roll for the Executioner.
+ - Added testing levelfor the boss fight.
+ - Boss now jump attacks
+ - Boss now only charge attacks sometimes
+ - Boss backdashes and charge attacks
+ - boss attacks
+ - Added anims for the boss and stuff.
+ - BLOOD STORM UNLOCKED
+ - Added UI Icons for the Artifacts
+ - Added Landon's initial AI for the boss.
+ - Stuff
+ - Merge branch 'hotfix-UpdateMeshAndAnims' of https://github.com/AIProductionTeam2016/KOA_ProductionBuild into hotfix-UpdateMeshAndAnims
+ - Merge branch 'hotfix-UpdateMeshAndAnims' of https://github.com/AIProductionTeam2016/KOA_ProductionBuild into hotfix-UpdateMeshAndAnims
+ - Stuffs happen with the boss.
+ - Added more assets!
+ - Moved things arround
+ - Began setting up the boss.
+ - Added TMP BOSS_Executioner Mesh
+ - Added colored VD.
+ - Migrated assets from feature-importAssets.
+ - Add VD_W ANIM
+ - Hooked up VD_Q.
+ - Added catguard to proto level.
+ - Restructured file organization. Hooked up a better light basic attack anim.
+ - began moving files to a new folder structure.
+ - Added Light Basic Attack ANIM for the VD.
+ - Added ANIM_Jester_Death
+ - Reorangized various things.
+ - Created a new level to work on prototyping feature.
+ - Renamed our main game mode.
+ - Updated Jester Equip / Unequip artifact Now is dynamic to be flexible for any addition weapons down the road.
+ - Added an EArtifactID to the BASE artifact.
+ - Renamed the Jester's Physics Assets and SKeleton to follow the new namingconventions. Added Artifact Equuip and unequip anims.
+ - Deleted old mannequin assets.
+ - Deleted old anims.
+ - Added sockets to Jester's skeleton. Fixed dagger scale and position.
+ - Removed floaty dagger
+ - Updated Jester Model and IdleWalkRun anims. Deleted deprecated and outdated files. Cleaned up the blueprint. Variables have been renamed for clarity.
+ - Super old character is no longer in the game... Rylie.
+ - Hooked up CatGuards ANIMBP to his most recent state With new, PROPERLY SCALED anims. Deleted DEPRECATED assets.
+ - DEPRECATED the ANIMBP for CG. Making a new one to replace it with the proper mesh.
+ - Moved old anims to a deprecated folder. Moved CatGuard's ANIMBP to the main CatGuard folder.
+ - Jester AND CatGuard HAVE COLOR :D Uploaded new meshes; They are scaled correctly this time.
+ - Added a simple box static mesh to represent the jester scale.
+ - Added references to verify Jester mesh got updated.
+ - Added a new skeletal mesh for the Jester.
+ - Moved the current CatGuard files to an Outdated folder.
+
 Version 0.3.9:
 
 

@@ -71,7 +71,7 @@ public:
 	static const FWallInformation StickyWallInfo;
 	
 	UFUNCTION(Category = "Proximity")
-	void FallOffDetection(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void FallOffDetection(UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	// Primarily a debug function, used to print the name of the Enum established at the top of this .h
 	static FORCEINLINE FString GetEnumValueToString(const FString& EnumName, EWallFrictionType EnumValue) {

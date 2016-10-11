@@ -6,9 +6,14 @@
 
 UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	// STATS //
+	ArtifactID = EArtifactID::ID_NULL;
 	ArtifactName = "INVALID";
+	ArtifactIconTexture = nullptr;
+	ArtifactMesh = nullptr;
 	LightBasicAttackLockDuration = 5.0f;
-
+	// ABILITY //
+	IsArtifactStormUnlocked = false;
+	
 	// Initialize private member variables //
 	PlayerReference = nullptr;
 	CurrentHeldAbilityButton = EAbilityID::NONE;

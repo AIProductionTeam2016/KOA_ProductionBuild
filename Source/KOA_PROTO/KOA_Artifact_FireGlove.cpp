@@ -4,6 +4,7 @@
 #include "KOA_Artifact_FireGlove.h"
 
 UKOA_Artifact_FireGlove::UKOA_Artifact_FireGlove() : Super() {
+	ArtifactID = EArtifactID::ID_FireGlove;  
 	ArtifactName = "Definitely NOT the Pyromancy Glove";
 	AbilityQ.AbilityName = "Kamehame-FI-ha Ball";
 	AbilityQ.AbilityOnCooldown = false;

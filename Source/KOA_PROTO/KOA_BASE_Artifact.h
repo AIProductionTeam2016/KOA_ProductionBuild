@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Object.h"
+#include "ATMA_StatusEffects.h"
 #include "KOA_BASE_Artifact.generated.h"
 
 // Forward Declaration of classes
@@ -50,6 +51,8 @@ public:
 	float MaxCastRange;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	bool AbilityOnCooldown;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatusEffects")
+	FStatusEffects StatusEffects;
 public:
 	FAbilityStats() {
 		AbilityName = "INVALID NAME";
@@ -67,6 +70,7 @@ public:
  		this->MaxCastRange = Stats.MaxCastRange;
  		this->AbilityCooldownDuration = Stats.AbilityCooldownDuration;
  		this->AbilityOnCooldown = Stats.AbilityOnCooldown;
+		this->StatusEffects = Stats.StatusEffects;
 	}
 };
 
@@ -93,6 +97,8 @@ public:
 	bool AbilityOnCooldown;
 	FTimerHandle AbilityCooldownTimer;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatusEffects")
+	FStatusEffects StatusEffects;
 public:
 	FAbility() {
 		AbilityName = "INVALID";
@@ -123,6 +129,7 @@ public:
 		stats.MaxCastRange = this->MaxCastRange;
 		stats.AbilityCooldownDuration = this->AbilityCooldownDuration;
 		stats.AbilityOnCooldown = this->AbilityOnCooldown;
+		stats.StatusEffects = this->StatusEffects;
 		return stats;
 	}
 };
@@ -158,13 +165,20 @@ class KOA_PROTO_API UKOA_BASE_Artifact : public UObject
 	GENERATED_BODY()
 public:
 	//** STATS **//
+	UPROPERTY(BlueprintReadWrite, Category = "Artifact")
+	EArtifactID ArtifactID;
 	UPROPERTY(EditAnywhere, Category = "Stats")
 	FString ArtifactName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Texture")
+	UTexture* ArtifactIconTexture;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+	UStaticMesh* ArtifactMesh;
 	UPROPERTY(EditAnywhere, Category = "Stats|Combat")
 	float LightBasicAttackLockDuration;
 	//UPROPERTY(EditAnywhere, Category = "Stats|Combat")
 	//float HeavyBasicAttackLockDuration;
-
+	UPROPERTY(EditAnywhere, Category = "Stats|Combat|StatusEffects")
+	FStatusEffects BasicAttackStatusEffects;
 	//** ABILITIES **//
 	UPROPERTY(EditAnywhere, Category = "Ability")
 	FAbility AbilityQ;
@@ -174,7 +188,9 @@ public:
 	FAbility AbilityE;
 	UPROPERTY(EditAnywhere, Category = "Ability")
 	FAbility AbilityR;
-
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Storm")
+	bool IsArtifactStormUnlocked;
 	//** TIMERS **//
 	FTimerHandle BasicAttackTimer;
 	UPROPERTY(BlueprintReadOnly, Category = "Ability|Timer")

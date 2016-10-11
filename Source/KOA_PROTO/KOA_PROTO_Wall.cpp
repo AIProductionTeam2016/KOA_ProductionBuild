@@ -17,7 +17,7 @@ AKOA_PROTO_Wall::AKOA_PROTO_Wall() {
 	RootComponent = WallMesh;
 
 	FallOffPoint = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Fall Off Point"));
-	FallOffPoint->AttachTo(WallMesh);
+	FallOffPoint->AttachToComponent(WallMesh, FAttachmentTransformRules::KeepWorldTransform);
 	// Add our FallOffDetection function to run when an actor begins to overlap it.
 	FallOffPoint->OnComponentBeginOverlap.AddDynamic(this, &AKOA_PROTO_Wall::FallOffDetection);
 }
@@ -48,6 +48,6 @@ FWallInformation AKOA_PROTO_Wall::GetWallInfo() {
 	return wallInfo;
 }
 
-void AKOA_PROTO_Wall::FallOffDetection(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+void AKOA_PROTO_Wall::FallOffDetection(UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "SOMETHING HIT ME COLLIDER");
 }

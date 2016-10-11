@@ -5,10 +5,11 @@
 #include "KOA_PROTO_Character.h"
 #include "KOA_PROTO_CharacterMovementSlide.h"
 #include "KOA_BASE_Artifact.h"
+#include "UTIL_MouseFunctionality.h"
 
-/**************************************************************************
-	CONSTRUCTORS AND INITIALIZERS
-**************************************************************************/
+//////////////////////////////////////////////////////////////
+// 				CONSTRUCTORS AND INITIALIZERS 				//
+//////////////////////////////////////////////////////////////
 // Default Constructor
 AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<UKOA_PROTO_CharacterMovementSlide>(ACharacter::CharacterMovementComponentName))
@@ -30,7 +31,15 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	IsMovementInputDisabled = false;
 	//JumpStats.EnableDoubleJumping();
 	IsSlidingDownWall = false;
-
+	
+	// Inventory //
+	IsAimingThrowable = false;
+	CurrentThrowable = ETYPEOF_Throwable::NONE;
+	
+	SE_BLEED_MaxAmount = 120.0f;
+	SE_BURN_MaxAmount = 15.0f;
+	SE_POISON_MaxAmount = 25.0f;
+	
 	// Initialize Current Artifact
 	CurrentArtifact = EArtifactID::ID_NULL;
 
@@ -56,23 +65,30 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 void AKOA_PROTO_Character::BeginPlay() {
 	Super::BeginPlay();	
 }
-
+// Clears up things like timers and variables
 void AKOA_PROTO_Character::EndPlay(const EEndPlayReason::Type EndPlayReason) {
-	
-	//TODO:: GetWorldPtr()->GetTimerManager().ClearTimer()
 	for (int n = 0; n < CollectedArtifacts.Num(); ++n) {
 		UKOA_BASE_Artifact* artifact = CollectedArtifacts[n]->GetDefaultObject<UKOA_BASE_Artifact>();
+		
+		// Reset Attack Cooldowns
+		artifact->UninitializeBasicAttacks();
+		
 		// Reset Ability Cooldowns
 		artifact->AbilityQ.ResetAbilityCooldown();
 		artifact->AbilityW.ResetAbilityCooldown();
 		artifact->AbilityE.ResetAbilityCooldown();
 		artifact->AbilityR.ResetAbilityCooldown();
+		
 		// Reset Timer Handles
 		FAbilityTimerHandles TimerHandles = artifact->GetArtifactAbilityTimerHandles();
+		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.LightAttackTimer);
 		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityQTimer);
 		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityWTimer);
 		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityETimer);
 		GetWorldPtr()->GetTimerManager().ClearTimer(TimerHandles.AbilityRTimer);	
+		
+		// Enable Movement input
+		SetIsMovementInputDisabled(false);
 	}
 	Super::EndPlay(EndPlayReason);
 }
@@ -115,6 +131,7 @@ void AKOA_PROTO_Character::Tick( float DeltaTime ) {
 
 // Called to bind functionality to input
 void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* InputComponent) {
+	
 	Super::SetupPlayerInputComponent(InputComponent);
 	check(InputComponent);
 
@@ -127,6 +144,11 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("Run", IE_Released, this, &AKOA_PROTO_Character::SetMoveSpeedToWalk);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AKOA_PROTO_Character::PlayerJump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AKOA_PROTO_Character::PlayerStopJump);
+	// Inventory //
+	InputComponent->BindAction("OpenInventory", IE_Pressed, this, &AKOA_PROTO_Character::OpenInventory);
+	// Throwables //
+	InputComponent->BindAction("ThrowThrowable", IE_Pressed, this, &AKOA_PROTO_Character::AimCurrentThrowable);
+	InputComponent->BindAction("ThrowThrowable", IE_Released, this, &AKOA_PROTO_Character::ThrowCurrentThrowable);
 	// Ability Bindings //
 	// Q //
 	InputComponent->BindAction("AbilityQ", IE_Pressed, this, &AKOA_PROTO_Character::PressCurrentAbilityQ);
@@ -143,41 +165,42 @@ void AKOA_PROTO_Character::SetupPlayerInputComponent(class UInputComponent* Inpu
 	// Artifact Bindings //
 	InputComponent->BindAction("EquipArtifact_DualDaggers", IE_Pressed, this, &AKOA_PROTO_Character::EquipDualDaggers);
 	InputComponent->BindAction("EquipArtifact_FireGlove", IE_Pressed, this, &AKOA_PROTO_Character::EquipFireGlove);
-
+	// Basic Attacks //
 	InputComponent->BindAction("LightAttack",IE_Pressed, this, &AKOA_PROTO_Character::UseCurrBasicAttackLight);
 	//TODO: QuickArtifactSelect press release
 }
+//////////////////////////////////////////////////////////////
+// 						  UTILITY 							//
+//////////////////////////////////////////////////////////////
+FVector AKOA_PROTO_Character::GetMousePositionInPlayerPlane() {
+	return UTIL_MouseFunctionality::GetMousePosInPlayerPlane(this->GetWorldPtr());
+}
+//////////////////////////////////////////////////////////////
+// 						PLAYER STATS 						//
+//				Methods to manage player stats.				//
+//////////////////////////////////////////////////////////////
+void AKOA_PROTO_Character::DamagePlayer(float Amount) {
+	(HealthCurrent - Amount) < 0.0f ? HealthCurrent = 0.0f : HealthCurrent -= Amount;
+	//TODO: Tell the player he is dead if HealthCurrent <= 0.0f
+}
+void AKOA_PROTO_Character::HealPlayer(float Amount) {
+	(HealthCurrent + Amount) > HealthMax ? HealthCurrent = HealthMax : HealthCurrent += Amount;
+}
 
-/**************************************************************************
-	PLAYER STATS - 
-		Methods to manage player stats.
-**************************************************************************/
-	void AKOA_PROTO_Character::DamagePlayer(float Amount) {
-		(HealthCurrent - Amount) < 0.0f ? HealthCurrent = 0.0f : HealthCurrent -= Amount;
-		//TODO: Tell the player he is dead if HealthCurrent <= 0.0f
-	}
-	void AKOA_PROTO_Character::HealPlayer(float Amount) {
-		(HealthCurrent + Amount) > HealthMax ? HealthCurrent = HealthMax : HealthCurrent += Amount;
-	}
-/**************************************************************************
-	MOVEMENT - 
-		Methods to handle player movement. 
-		Walking, Running, Jumping, Sliding
-**************************************************************************/
-// SetMoveSpeedToRun(): 
-//		Set's the player's MaxWalkSpeed to RunSpeed
+//////////////////////////////////////////////////////////////
+// 						   MOVEMENT 						//
+//				Methods to handle movement.					//
+//				Walking, Running, Jumping, Sliding			//
+//////////////////////////////////////////////////////////////
 void AKOA_PROTO_Character::SetMoveSpeedToRun() {
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
-
-// SetMoveSpeedToWalk(): 
-//		Set's the player's MaxWalkSpeed to WalkSpeed
 void AKOA_PROTO_Character::SetMoveSpeedToWalk() {
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 // MoveRight(Amount): 
-//		Move right if Amount > 0; left if Amount is < 0
+//	 Move right if Amount > 0; left if Amount is < 0
 void AKOA_PROTO_Character::MoveRight(float Amount) {
 	// Only move if the controller is set up and Amount is not 0
 	if (Controller && Amount && GetIsMovementInputDisabled() == false) {
@@ -193,18 +216,10 @@ void AKOA_PROTO_Character::SetIsMovementInputDisabled(bool IsDisabled) {
 	IsMovementInputDisabled = IsDisabled;
 }
 
-//bool AKOA_PROTO_Character::GetCanDodge() const {
-//	return CanDodge;
-//}
-//
-//void AKOA_PROTO_Character::SetCanDodge(bool Value) {
-//	CanDodge = Value;
-//}
-
-/**************************************************************************
-	JUMPING -
-		Methods used to handle jumping logic.
-**************************************************************************/
+//////////////////////////////////////////////////////////////
+// 						   JUMPING 							//
+//				Methods to handle jumping logic.			//
+//////////////////////////////////////////////////////////////
 // DetectWall():
 //		Used to detect if there is a wall the player can jump off of.
 //		If there is, it returns info detailing the wall's properties.
@@ -373,12 +388,67 @@ void AKOA_PROTO_Character::LoseGripAndFall() {
 	// Clear the wall slide timer
 	ClearWallSlideTimer();
 }
+//////////////////////////////////////////////////////////////
+// 						 INVENTORY 							//
+//				Methods to handle inventory 				//
+//////////////////////////////////////////////////////////////
 
-
-/**************************************************************************
-	ARTIFACTS -
-		Methods to handle equipping artifacts 
-**************************************************************************/
+//void AKOA_PROTO_Character::OpenInventory() 
+UAMTA_BASE_Throwable* AKOA_PROTO_Character::GetCurrThrowableRefernce() const {
+	UAMTA_BASE_Throwable* ptr = nullptr;
+	if (CurrentThrowable != ETYPEOF_Throwable::NONE) {
+		ptr = CollectedThrowables[(uint8)CurrentThrowable]->GetDefaultObject<UAMTA_BASE_Throwable>();
+	}
+	return ptr;
+}
+//void AKOA_PROTO_Character::ThrowCurrentThrowable() {}
+//////////////////////////////////////////////////////////////
+// 					  STATUS EFFECTS 						//
+//		Methods to handle dealing with status effects 		//
+//////////////////////////////////////////////////////////////
+//************************ BLEED ***************************//
+void AKOA_PROTO_Character::ApplyBLEEDBuildUp(float Amount){
+	if (SE_BLEED_BuildUp + Amount >= SE_BLEED_MaxAmount) {
+		ApplyBLEED();
+	} else {
+		SE_BLEED_BuildUp += Amount;
+	}
+}
+void AKOA_PROTO_Character::ApplyBLEED() {
+	if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.7f, FColor::Red, "ApplyBLWEED");
+	SE_BLEED_BuildUp = 0.0;
+	IsBLEEDING = true;
+}
+//************************* BURN ***************************//	
+void AKOA_PROTO_Character::ApplyBURNBuildUp(float Amount) {
+	if (SE_BURN_BuildUp + Amount >= SE_BURN_MaxAmount) {
+		ApplyBURN();
+	} else {
+		SE_BURN_BuildUp += Amount;
+	}
+}
+void AKOA_PROTO_Character::ApplyBURN() {
+	if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.7f, FColor::Red, "ApplyBURN");
+	SE_BURN_BuildUp = 0.0;
+	IsBURNING = true;
+}
+//************************* POISON ***************************//
+void AKOA_PROTO_Character::ApplyPOISONBuildUp(float Amount) {
+	if (SE_POISON_BuildUp + Amount >= SE_POISON_MaxAmount) {
+		ApplyPOISON();
+	} else {
+		SE_POISON_BuildUp += Amount;
+	}
+}
+void AKOA_PROTO_Character::ApplyPOISON() {
+	if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.7f, FColor::Red, "ApplyPOISON");
+	SE_POISON_BuildUp = 0.0;
+	IsPOISONED = true;
+}
+//////////////////////////////////////////////////////////////
+// 						  ARTIFACTS 						//
+//				Methods to handle artifacts 				//
+//////////////////////////////////////////////////////////////
 // EquipDualDaggers():
 //		Wrapper method used for binding DualDaggers to a button for gameplay / debug.
 void AKOA_PROTO_Character::EquipDualDaggers() {
@@ -392,10 +462,10 @@ void AKOA_PROTO_Character::EquipDualDaggers() {
 		StartArtifactSwapLockTimer(ArtifactSwapLockDuration);
 	}
 }
-
 // EquipFireGlove():
 //		Same as DualDaggers, except with the FireGlove...
 void AKOA_PROTO_Character::EquipFireGlove() {
+	
 	if (!GetIsArtifactSwapLocked() && SetCurrentArtifact(EArtifactID::ID_FireGlove)) {
 		DEBUG_EquipCurrentArtifact();
 		// Lock artifact swaping
@@ -466,9 +536,13 @@ bool AKOA_PROTO_Character::SetCurrentArtifact(EArtifactID Artifact) {
 	// If you have collected the artifact at this point, you can equip it...
 	// Also make sure you don't have it equipped
 	if (CollectedArtifacts.Num() > (uint8)Artifact && Artifact != CurrentArtifact) {
-		CurrentArtifact = Artifact;
-		SetCurrArtifactPlayerReference();
-		return true;
+		UKOA_BASE_Artifact* artifact = nullptr;
+		artifact = CollectedArtifacts[(uint8)Artifact]->GetDefaultObject<UKOA_BASE_Artifact>();
+		if (artifact != nullptr) {
+			CurrentArtifact = Artifact;
+			SetCurrArtifactPlayerReference();
+			return true;
+		}
 	} 
 	return false;
 }
@@ -553,13 +627,16 @@ void AKOA_PROTO_Character::PressCurrentAbility(EAbilityID AbilityID) {
 				break;
 			case EAbilityID::ABID_R:
 				// If R isn't on cooldown...
-				if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
-					// Lock ability use until you release the button
-					IsAbilityUseLocked = true;
-					SetWhichAbilityPressed(EAbilityID::ABID_R);
-					// Run the abilityR press on current artifact
-					artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_R);
-					artifact->PressAbilityR();
+				// TODO: CHECK IF STORM IS UNLOCKED
+				if (artifact->IsArtifactStormUnlocked == true) {
+					if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
+						// Lock ability use until you release the button
+						IsAbilityUseLocked = true;
+						SetWhichAbilityPressed(EAbilityID::ABID_R);
+						// Run the abilityR press on current artifact
+						artifact->SetCurrentHeldAbilityButton(EAbilityID::ABID_R);
+						artifact->PressAbilityR();
+					}
 				}
 				break;
 			}
@@ -608,6 +685,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 					artifact->ReleaseAbilityW();
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
 			}
 			break;
@@ -618,6 +698,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 					artifact->ReleaseAbilityE();
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}
 			}
 			break;
@@ -626,6 +709,9 @@ void AKOA_PROTO_Character::ReleaseCurrentAbility(EAbilityID AbilityID) {
 				if (artifact->AbilityR.IsAbilityOnCooldown() == false) {
 					artifact->AbilityR.SetAbilityOnCooldown();
 					artifact->ReleaseAbilityR();
+					AbilityPressed = EAbilityID::NONE;
+					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
+				} else {
 					AbilityPressed = EAbilityID::NONE;
 					artifact->SetCurrentHeldAbilityButton(EAbilityID::NONE);
 				}

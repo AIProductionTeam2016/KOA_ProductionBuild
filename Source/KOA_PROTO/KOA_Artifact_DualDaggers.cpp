@@ -8,6 +8,7 @@
 
 UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer) 
 	: Super() {
+	ArtifactID = EArtifactID::ID_DualDaggers;
 	ArtifactName = "Dual Daggers of Something, Probably";
 	// ABILITY Q //
 	AbilityQ.AbilityName = "Vampire's Kiss with Blood; Not Sparkles";
@@ -15,7 +16,8 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	AbilityQ.MaxCastRange = 100.0f;
 	ABILQ_HealAmount = 42.0f;
 	// ABILITY W //
-	
+	AbilityW.AbilityCooldownDuration = 10.0f;
+	AbilityW.MaxCastRange = 150.0f;
 	// ABILITY E //
 	AbilityE.MaxCastRange = 500.0f; 
 	LightBasicAttackLockDuration = 1.0f;
@@ -36,6 +38,8 @@ void UKOA_Artifact_DualDaggers::PressAbilityQ() {
 }
 void UKOA_Artifact_DualDaggers::PressAbilityW() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::W");
+	AbilityW.SetAbilityOnCooldown();
+	StartAbilityCooldownTimer(EAbilityID::ABID_W);
 }
 void UKOA_Artifact_DualDaggers::PressAbilityE() {
 	AKOA_PROTO_Character* player = GetPlayerReference();
@@ -52,7 +56,7 @@ void UKOA_Artifact_DualDaggers::ReleaseAbilityQ() {
 }
 void UKOA_Artifact_DualDaggers::ReleaseAbilityW() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released DualDagger::W");
-	StartAbilityCooldownTimer(EAbilityID::ABID_W);
+	//StartAbilityCooldownTimer(EAbilityID::ABID_W);
 }
 void UKOA_Artifact_DualDaggers::ReleaseAbilityE() {
 	// Set the aiming mesh component visibility to false

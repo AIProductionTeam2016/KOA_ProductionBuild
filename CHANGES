@@ -1,3 +1,114 @@
+Version 0.4.0:
+ - Merge 'origin/hotfix-bossFight' into develop
+ - Updated codebase in accordance with the 4.12.5 API.
+ - Updating new engine version with new map.
+ - Updated assets.
+ - Added level asset (needs to be scaled up && textured.)
+ - Level tweaks.
+ - 'Finished' setting up poison trap / learn Q area.
+ - Added room to contain chest and target lock.
+ - Tweaks.
+ - Updating my branch with rylie's changes.
+ - Finished up first draft of new level design.
+ - Added various floor tile assets for the Dungeon.
+ - More level modifications.
+ - Added Spikes, SpikePit, and "Ceiling"
+ - Cat guard shield behavior tree blackboard fixed, debris spawner adds player to cat guard patrol target
+ - fixed Cat Guard so that spawned cat guards have AI
+ - Fixed bad nodes.
+ - Pulled the artifact viewer into the project.
+ - Pull the initial dissolve texture.
+ - Swap cursor when aiming.
+ - Boss now dissolves after you kill him.
+ - Created utility function to get mouse position from blueprint.
+ - Renamed MATI_Executioner -> MATI_ExecutionerDissolve
+ - Created EVENT_Dissolve in BP_BOSS_Executioner that should fire when the boss dies.
+ - Created a Base Dissolve Material to be used when enemies die and despawn. Created a Material Instance of this for the Executioner model.
+ - Added BASE_Projectile and ThrowingKnife
+ - Jester now has a throwing animation
+ - Added in throw functionality on jester.
+ - Removed outdated files.
+ - Added new input.
+ - Sped up throw anim and added a NOTIFY.
+ - Jester now equips a little throwy dagger on his belt when you equip it.
+ - Inventory Screen / Throwables UI Pull up Inventory with 'i' Click on the throwable to equip it to the jester ui.
+ - Added prototyping levels.
+ - Added poof particle to when the executioner dies.
+ - Updating hotfix with initial throwables.
+ - Added things.
+ - Boss flashing fixed, boss debris spawner fixed
+ - Added new input: OpenInventory
+ - fixed boss fight to reference correct jester class
+ - merging changes.
+ - fixed glitch where cat guards would fall through world when dying
+ - shield cat guard fully functional
+ - 2 handed cat guard fully functional
+ - fixed tasks for Shield and 2hand catguards
+ - fixed shield Anim BP's animstates
+ - fixed 2hand Anim BP's animstates
+ - fixed 2H and SH catguard decorators
+ - Added new tasks and decorators for 2 Handed and Shield cat guards
+ - cat guard AI: Duplicated and remade animBPs, added endanim to anims, created behavior trees for 2handed
+ - improved refactoring of Dual Wield cat guard further
+ - refactored catguard AI (only Dual Wield works now)
+ - BASE Throwable created. ThrowingKnife created.
+ - Setup the foundation for an Artifact Viewer UI window
+ - Tiding up
+ - Fixed anims for catguard and boss.
+ - Jester's movement disabled when splat. Fixed a bad couple of nodes in the keys and locked door asset."
+ - Jester now jumps and shit.
+ - Added new anims for the jester being in air, falling, jumping, landing.
+ - Renamed file.
+ - Renamed file
+ - fixed jump attack for cat guard
+ - Fixed Catguard AI (for Dual Wield)
+ - Created unique behavior trees for each catguard.
+ - Removed old files.
+ - Jester now has a jump anim and a particle effect plays when he does.
+ - Fixed CGSWSH 1DBS
+ - Hooked up SWSH catguard anims.
+ - Further progress on fixing catguards.
+ - CatGuard models have been reduced to a single BP.
+ - Fixed a decorator on Boss AI Should work fine now.
+ - ah
+ - Demo level is SO close. Need to turn off door colliders when they open.
+ - fixed merge conflicts
+ - Level layout demo 'finished'
+ - Keys work.
+ - Fixed merege conflicts
+ - Finished level blockout
+ - Added Locked Door Asset.
+ - Stuff with keys and doors and doors and keys.
+ - Updating local branch with changes from remote.
+ - Added wall jump region to basement (ZONE A). Updated Jump Wall BP with correct Static Mesh.
+ - Snagging rylie's changes for my build.
+ - Added more world building tools for the Dungeon level. Updated LVL_00_Dungeon
+ - Can pick up keys.
+ - Created another 'SectionofDungeon' for world building
+ - Added TEMP (untextured) placeholder assets to engine
+ - Removed old setup level.
+ - Tweeaked hall.
+ - Began creating scene assets.
+ - 'Finished' SoDWall
+ - Add wall to SoDWall.
+ - Created init construction of scene blocks
+ - Began Settingup catguards AI.
+ - Created First of CGAI2.0: The Dual-Meowder!
+ - Removed outdated AI.
+ - Migrated example AI.
+ - Created initial FINAL version of Tutorial Dungeon.
+ - Fixed glitch where boss would wall kick with no wall
+ - Boss wall kick spawns multiple pieces of debris
+ - Boss spawns debris, also no longer falls through world when dying
+ - Created ceiling debris and debris spawner classes
+ - Boss no longer collides with enemies
+ - fixed blueprint errors, reduced dagger e time, moved camera back
+ - Updated your branch with a buncha stuffs. I will answer any questions when I wake up tomorrow.
+ - improved testing level
+ - Kicks wall, but no debris yet
+ - boss now does powerup animation on stage 3
+ - Backroll now has proper animation
+
 Version 0.3.11:
  - MEOW!!!! All 3 typeof CatGuards received the following anims: - Idle - Walk - Run - Light Attack - Heavy Attack - DEATH!!!! - Maybe Moar@-@
  - Removed shit files. Stuff.

@@ -6,8 +6,8 @@
 #include "KOA_PROTO_MouseFollowComponent.generated.h"
 
 
-//UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-UCLASS()
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+//UCLASS()
 class KOA_PROTO_API UKOA_PROTO_MouseFollowComponent : public UActorComponent
 {
 	GENERATED_BODY()

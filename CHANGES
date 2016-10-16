@@ -1,3 +1,32 @@
+Version 0.4.1:
+ - Merge branch 'feature-Camera_v2.0' into develop Bring in Landon's amazing new camera to the project.
+ - Set default camera mode to TrackPlayer
+ - Camera now keeps up with the player vertically
+ - added AddScaleVelocity option to PlayerTrack to assist the camera in keeping up with the player's Y value
+ - added acceleration and deceleration variables to PlayerTrack camera mode
+ - fixed editor lines not appearing at low framerates
+ - added better comments to the DoMode_CursorAim function
+ - CursorAim camera completed
+ - CursorAim camera almost completed
+ - Camera: hyperbolic zooming in CursorAim mode works, with cubic falloff
+ - Camera: improved documentation of code, variables, functions, etc
+ - Camera: Added hyperbolic slope function
+ - Camera: Added hyperbolic function, debug screen for CursorAim mode, and fixed Draw Debug Line function
+ - started CursorAim camera mode (not yet implemented)
+ - camera now has clearAverageZoomActors method
+ - fixed camera transition
+ - added drawdebug bool to camera
+ - Added average/zoom camera
+ - Camera now avoids scrolling into walls
+ - Horizontal scrolling system created for camera
+ - Turned MovePhysOverTime into a function and cleaned it up
+ - Finally fixed camera framerate issues with custom tick function
+ - Camera vertical movement tries to account for framerate
+ - Fixed minor jittering issue with vertical movement
+ - camera has physics based vertical movement
+ - Camera tracks vertical movement and draws debug line
+ - Disabled the DefaultFeature. : Bloom, AutoExposure, MotionBlur, LensFlare to false
+
 Version 0.4.0:
  - Merge 'origin/hotfix-bossFight' into develop
  - Updated codebase in accordance with the 4.12.5 API.

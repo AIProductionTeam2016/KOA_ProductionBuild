@@ -3,9 +3,9 @@
 #include "KOA_PROTO.h"
 #include "BASE_Projectile.h"
 
-static const float SMALL_VALUE_SQUIGGLY = 0.2f; //used to prevent the projectile from moving to crazily at the end of its lifetime
-static const float VERY_SMALL_VALUE = 0.01f; //used to prevent the projectile from moving to crazily at the end of its lifetime
-static const float ACCEL_CLAMP = 1000000; //clamp the acceleration to prevent crazy movement
+//static const float SMALL_VALUE_SQUIGGLY = 0.2f; //used to prevent the projectile from moving to crazily at the end of its lifetime
+//static const float VERY_SMALL_VALUE = 0.01f; //used to prevent the projectile from moving to crazily at the end of its lifetime
+//static const float ACCEL_CLAMP = 1000000; //clamp the acceleration to prevent crazy movement
 // Sets default values
 ABASE_Projectile::ABASE_Projectile() {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -14,8 +14,8 @@ ABASE_Projectile::ABASE_Projectile() {
 	// INIT //
 	ProjDamage = 0.0f;
 	ProjMaxRange = 0.0f;
-	ProjLifeTime = 0.0f;
-	ProjTimeBeforeDelete = 0.0f;
+	//ProjLifeTime = 0.0f;
+	//ProjTimeBeforeDelete = 0.0f;
 	TargetLocation = FVector(0.0,0.0,0.0);
 	ProjTrajectory = EProjectileTrajectory::NONE;
 	ProjMesh = nullptr;
@@ -24,14 +24,14 @@ ABASE_Projectile::ABASE_Projectile() {
 // Called when the game starts or when spawned
 void ABASE_Projectile::BeginPlay() {
 	Super::BeginPlay();
-	startLocation = this->GetActorLocation();
-	existedTime = 0;
+	/*startLocation = this->GetActorLocation();
+	existedTime = 0;*/
 }
 
 // Called every frame
 void ABASE_Projectile::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
-	if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
+	/*if (ProjTrajectory == EProjectileTrajectory::PT_SQUIGGLY)
 	{
 		if (existedTime == 0)
 		{
@@ -74,10 +74,10 @@ void ABASE_Projectile::Tick( float DeltaTime ) {
 	{
 		this->Destroy();
 	}
-	existedTime += DeltaTime;
+	existedTime += DeltaTime;*/
 }
 
-void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
+/*void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
 	float elapsedTime, float forceMultMin, float forceMultMax, float frequency, float startVel, float &forceMult)
 {
 	if (firstFrame)
@@ -135,9 +135,9 @@ void ABASE_Projectile::DoSquiggleMovement(bool firstFrame, float DeltaSeconds, F
 	{
 		forceMult = FMath::FRandRange(forceMultMin, forceMultMax);
 	}
-}
+}*/
 
-void ABASE_Projectile::DoFixedSeekMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
+/*void ABASE_Projectile::DoFixedSeekMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
 	float elapsedTime, float startVelMax, float damping)
 {
 	if (firstFrame)
@@ -217,4 +217,4 @@ void ABASE_Projectile::DoHelixSeekMovement(bool firstFrame, float DeltaSeconds, 
 	velocity = xVec * xVel + yVec * yVel + zVec * zVel;
 	//apply velocity
 	this->SetActorLocation(currentPos + velocity * DeltaSeconds);
-}
+}*/

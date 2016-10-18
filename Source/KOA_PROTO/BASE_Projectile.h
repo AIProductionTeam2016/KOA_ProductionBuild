@@ -27,10 +27,10 @@ public:
 	float ProjDamage;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float ProjMaxRange;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float ProjLifeTime;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float ProjTimeBeforeDelete;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	//float ProjLifeTime;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	//float ProjTimeBeforeDelete;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	FVector TargetLocation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
@@ -52,19 +52,19 @@ public:
 private: 
 	float Gravity;
 
-	void DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
+	/*void DoSquiggleMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
 		float elapsedTime, float forceMultMin, float forceMultMax, float frequency, float startVel, float &forceMult);
 
 	void DoFixedSeekMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
 		float elapsedTime, float startVelMax, float damping);
 
 	void DoHelixSeekMovement(bool firstFrame, float DeltaSeconds, FVector startPos, FVector targetPos, float totalTime,
-		float elapsedTime, float startVelMax, float spinMax, float damping);
+		float elapsedTime, float startVelMax, float spinMax, float damping);*/
 
 protected:
-	FVector velocity;
+	/*FVector velocity;
 	FVector startLocation;
 	float existedTime;
 	float squigglyArcHeight;
-	float spin;
+	float spin;*/
 };

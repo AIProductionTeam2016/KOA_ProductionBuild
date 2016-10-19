@@ -6,6 +6,7 @@
 #include "ATMA_StatusEffects.h"
 #include "BASE_Projectile.generated.h"
 
+
 UENUM(BlueprintType)
 enum class EProjectileTrajectory : uint8 {
 	PT_LINEAR = 0 	UMETA(DisplayName="Linear"),
@@ -25,7 +26,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float ProjMaxRange;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	FVector TargetLocation;
+	float Gravity;	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	FVector StartVelocity;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	EProjectileTrajectory ProjTrajectory;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|StatusEffects")
@@ -42,6 +45,12 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-private: 
-	float Gravity;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnReachedMaxDistance();
+
+protected:
+	FVector velocity;
+	FVector startPos;
+	bool hasExcededMaxRange;
 };

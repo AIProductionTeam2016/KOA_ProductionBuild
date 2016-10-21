@@ -25,13 +25,13 @@ void ABASE_Projectile::BeginPlay() {
 	{
 		velocity = StartVelocity * FVector(0,1,1);
 		startPos = this->GetActorLocation();
-		hasExcededMaxRange = false;
+		hasExceededMaxRange = false;
 	}
 	else if (ProjTrajectory == EProjectileTrajectory::PT_PARABOLIC)
 	{
 		velocity = StartVelocity * FVector(0, 1, 1);
 		startPos = this->GetActorLocation();
-		hasExcededMaxRange = false;
+		hasExceededMaxRange = false;
 	}
 }
 
@@ -40,7 +40,7 @@ void ABASE_Projectile::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 	if (ProjTrajectory == EProjectileTrajectory::PT_LINEAR)
 	{
-		if (!hasExcededMaxRange)
+		if (!hasExceededMaxRange)
 		{
 			FHitResult outSweepHitResult;
 			FVector newLocation = this->GetActorLocation() + velocity * DeltaTime;
@@ -48,13 +48,13 @@ void ABASE_Projectile::Tick(float DeltaTime) {
 			if ((newLocation - startPos).Size() >= ProjMaxRange)
 			{
 				OnReachedMaxDistance();
-				hasExcededMaxRange = true;
+				hasExceededMaxRange = true;
 			}
 		}
 	}
 	else if (ProjTrajectory == EProjectileTrajectory::PT_PARABOLIC)
 	{
-		if (!hasExcededMaxRange)
+		if (!hasExceededMaxRange)
 		{
 			velocity += FVector(0, 0, -Gravity) * DeltaTime;
 			FHitResult outSweepHitResult;
@@ -63,7 +63,7 @@ void ABASE_Projectile::Tick(float DeltaTime) {
 			if ((newLocation - startPos).Size() >= ProjMaxRange)
 			{
 				OnReachedMaxDistance();
-				hasExcededMaxRange = true;
+				hasExceededMaxRange = true;
 			}
 		}
 	}

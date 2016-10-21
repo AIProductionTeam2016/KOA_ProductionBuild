@@ -52,5 +52,5 @@ public:
 protected:
 	FVector velocity;
 	FVector startPos;
-	bool hasExcededMaxRange;
+	bool hasExceededMaxRange;
 };

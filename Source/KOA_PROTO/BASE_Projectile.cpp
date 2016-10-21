@@ -45,7 +45,7 @@ void ABASE_Projectile::Tick(float DeltaTime) {
 			FHitResult outSweepHitResult;
 			FVector newLocation = this->GetActorLocation() + velocity * DeltaTime;
 			SetActorLocation(newLocation, true, &outSweepHitResult);
-			if ((newLocation - startPos).Size() >= ProjMaxRange)
+			if (ProjMaxRange != 0 && (newLocation - startPos).Size() >= ProjMaxRange)
 			{
 				OnReachedMaxDistance();
 				hasExceededMaxRange = true;
@@ -60,7 +60,7 @@ void ABASE_Projectile::Tick(float DeltaTime) {
 			FHitResult outSweepHitResult;
 			FVector newLocation = this->GetActorLocation() + velocity * DeltaTime;
 			SetActorLocation(newLocation, true, &outSweepHitResult);
-			if ((newLocation - startPos).Size() >= ProjMaxRange)
+			if (ProjMaxRange != 0 && (newLocation - startPos).Size() >= ProjMaxRange)
 			{
 				OnReachedMaxDistance();
 				hasExceededMaxRange = true;

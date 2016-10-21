@@ -45,6 +45,8 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	UFUNCTION(BlueprintPure, Category = Projectiles)
+	void GetVelocity(FVector& outVelocity);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnReachedMaxDistance();

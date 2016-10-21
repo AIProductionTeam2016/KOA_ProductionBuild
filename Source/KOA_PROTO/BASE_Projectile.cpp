@@ -69,3 +69,7 @@ void ABASE_Projectile::Tick(float DeltaTime) {
 	}
 }
 
+void ABASE_Projectile::GetVelocity(FVector& outVelocity)
+{
+	outVelocity = velocity;
+}

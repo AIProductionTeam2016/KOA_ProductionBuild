@@ -32,15 +32,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnReachedMaxDistance();
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnEndOfLifetime();
 	UFUNCTION(BlueprintImplementableEvent)
-	void OnBounce(int& bounceNum, FHitResult& hitResult);
+	void OnBounce(int bounceNum, FHitResult hitResult);
 	UFUNCTION(BlueprintImplementableEvent)
-	void OnLastBounce(FHitResult& hitResult);
+	void OnLastBounce(FHitResult hitResult);
 
 protected:
 	int nTimesBounced;

@@ -42,7 +42,7 @@ void AAMTA_Projectile_Bouncing::Tick(float DeltaTime) {
 		velocity += FVector(0, 0, -Gravity) * DeltaTime;
 		FHitResult sweepHitResult;
 		FVector newLocation = this->GetActorLocation() + velocity * DeltaTime;
-		bool didHit = SetActorLocation(newLocation, true, &sweepHitResult);
+		SetActorLocation(newLocation, true, &sweepHitResult);
 		if (ProjMaxRange != 0 && (newLocation - startPos).Size() >= ProjMaxRange)
 		{
 			OnReachedMaxDistance();
@@ -53,7 +53,7 @@ void AAMTA_Projectile_Bouncing::Tick(float DeltaTime) {
 			OnEndOfLifetime();
 			hasExceededLifetime = true;
 		}
-		if (didHit)
+		if (sweepHitResult.bBlockingHit)
 		{
 			nTimesBounced++;
 			OnBounce(nTimesBounced, sweepHitResult);
@@ -62,7 +62,7 @@ void AAMTA_Projectile_Bouncing::Tick(float DeltaTime) {
 				OnLastBounce(sweepHitResult);
 				hasReachedMaxBounces = true;
 			}
-			FVector normal = sweepHitResult.Normal;
+			FVector normal = sweepHitResult.ImpactNormal;
 			normal.X = 0;
 			normal.Normalize();
 			velocity -= FVector::DotProduct(velocity, normal) * normal * (1 + ProjBounceHeightMult);

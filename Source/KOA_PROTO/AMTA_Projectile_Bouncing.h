@@ -19,6 +19,8 @@ public:
 	int ProjMaxBounces;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float ProjLifetime;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float ProjBounceHeightMult;
 	
 public:
 	// Sets default values for this actor's properties

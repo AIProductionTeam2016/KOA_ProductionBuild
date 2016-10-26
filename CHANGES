@@ -1,3 +1,8 @@
+Version 0.4.2:
+ - Merge branch 'feature-addBloodPS' into develop
+ - Spikes now damage Player and Catguard
+ - Added Blood and Dagger trail
+
 Version 0.4.1:
  - Merge branch 'feature-Camera_v2.0' into develop Bring in Landon's amazing new camera to the project.
  - Set default camera mode to TrackPlayer

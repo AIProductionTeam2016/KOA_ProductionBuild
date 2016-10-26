@@ -1,3 +1,33 @@
+Version 0.4.3:
+ - Merge branch 'feature-UTILProjectile' into develop
+ - Merge branch 'feature-projectilePathTypes' into develop
+ - Set it so projectiles have infinite max range if max range is 0
+ - Fixed glitchy behavior with bouncing projectile class
+ - Added Blueprint function GetVelocity to base Projectile class
+ - Bouncing projectiles now functional, although a bit glitchy
+ - fixed spelling mistake of hasExceededMaxRange, started creating bouncing projectile class
+ - Added functionality for BASE_Projectile linear and parabola movement, as well as an event when it reaches the max distance
+ - replaced BASE_Projectile cpp and h file with develop versions
+ - refactored helix seek projectile code into new class
+ - refactored squiggly projectile code to its own class
+ - added squiggly and helix projectile classes, reparented the BP classes to those
+ - Updated Projectile branch with the current version of develop.
+ - made new blueprint to show off what the blood storm ult will look like
+ - finished helix seek projectile
+ - added Helix Seek projectile movement (unfinished)
+ - added fixedseek projectile
+ - Squiggly projectile start velocity has random chance of being negative
+ - Squiggly projectile no longer deletes immediately upon reaching target
+ - Arc height for squiggly projectile is reduced when target is closer
+ - Fixed problem where Squiggly projectile would wiggle too much when target is close
+ - Squiggly projectile now follows moving targets correctly
+ - Squiggling added to squiggly projectile, with randomness
+ - Refactored the squiggly projectile code to prepare to add squiggling
+ - Added test ribbon particle to squiggly projectile
+ - Revert "Added particle trail"
+ - Added particle trail
+ - Squiggly projectile and test environment created, moves in straight line
+
 Version 0.4.2:
  - Merge branch 'feature-addBloodPS' into develop
  - Spikes now damage Player and Catguard

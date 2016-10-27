@@ -30,6 +30,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	FVector StartVelocity;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	FVector TargetLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	EProjectileTrajectory ProjTrajectory;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|StatusEffects")
 	FStatusEffects ProjStatusEffects;

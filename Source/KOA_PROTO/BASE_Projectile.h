@@ -30,6 +30,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	FVector StartVelocity;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	FVector TargetLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	EProjectileTrajectory ProjTrajectory;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|StatusEffects")
 	FStatusEffects ProjStatusEffects;
@@ -46,7 +48,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION(BlueprintPure, Category = Projectiles)
-	void GetVelocity(FVector& outVelocity);
+	void GetProjectileVelocity(FVector& outVelocity);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnReachedMaxDistance();

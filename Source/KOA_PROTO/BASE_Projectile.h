@@ -48,7 +48,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION(BlueprintPure, Category = Projectiles)
-	void GetVelocity(FVector& outVelocity);
+	void GetProjectileVelocity(FVector& outVelocity);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnReachedMaxDistance();

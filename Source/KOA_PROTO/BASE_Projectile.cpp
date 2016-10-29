@@ -14,6 +14,7 @@ ABASE_Projectile::ABASE_Projectile() {
 	ProjMaxRange = 0.0f;
 	Gravity = 0.0f;
 	StartVelocity = FVector(0, 0, 0);
+	TargetLocation = FVector(0, 0, 0);
 	ProjTrajectory = EProjectileTrajectory::NONE;
 	ProjMesh = nullptr;
 }
@@ -69,7 +70,7 @@ void ABASE_Projectile::Tick(float DeltaTime) {
 	}
 }
 
-void ABASE_Projectile::GetVelocity(FVector& outVelocity)
+void ABASE_Projectile::GetProjectileVelocity(FVector& outVelocity)
 {
 	outVelocity = velocity;
 }

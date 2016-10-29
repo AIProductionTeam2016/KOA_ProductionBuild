@@ -1,3 +1,21 @@
+Version [2~[3~0.4.4:
+ - Merge branch 'feature-projectileSplines' into develop
+ - Grabbing the fix from feature-projectilePathTypes
+ - Arc Aim Indicator: added SetTargetToCursor function
+ - Arc Aim Indicator: fixed blueprint runtime error bug
+ - Pressing E on Arc Aim test level now shoots projectile that follows the path
+ - Arc Aim Indicator: cones now animated
+ - Arc Aim Indicator: Added cones and transparency
+ - Arc Aim Indicator: created max velocity magnitude variable and clamped the initial velocity to it
+ - Arc Aim Indicator: optimized so spline mesh components aren't created/deleted every frame
+ - Arc Aim Indicator now has 'enabled' variable
+ - Arc Aim Indicator stops when it hits an object
+ - Arc Aim Indicator now follows correct curve path
+ - fixed some files that shouldn't have changed
+ - Spline mesh works, only straight line for now
+ - Fixed incompatability with Base projectile and Helix/Squiggly projectiles
+ - Fixed incompatability with UTILProjectile
+
 Version 0.4.3:
  - Merge branch 'feature-UTILProjectile' into develop
  - Merge branch 'feature-projectilePathTypes' into develop

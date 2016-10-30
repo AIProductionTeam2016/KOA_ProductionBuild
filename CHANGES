@@ -1,7 +1,4 @@
 Version 0.4.4:
-
-
-Version 0.4.4:
  - Merge branch 'feature-projectileSplines' into develop
  - Grabbing the fix from feature-projectilePathTypes
  - Arc Aim Indicator: added SetTargetToCursor function

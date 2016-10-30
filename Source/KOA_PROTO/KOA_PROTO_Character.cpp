@@ -21,6 +21,7 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	PlayerName = "Chester";
 
 	// Stats
+	IsDead = false;
 	HealthCurrent = 75.0f;
 	HealthMax = 100.0f;
 
@@ -57,7 +58,7 @@ AKOA_PROTO_Character::AKOA_PROTO_Character(const FObjectInitializer& ObjectIniti
 	VD_E_AimingCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("VD_E_AimingCapsule"));
 	
 	VD_E_AimingMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VD_E_AimingMeshComponent"));
-	VD_E_AimingMeshComponent->AttachTo(VD_E_AimingCapsule);
+	VD_E_AimingMeshComponent->AttachToComponent(VD_E_AimingCapsule, FAttachmentTransformRules::KeepWorldTransform);
 	
 }
 
@@ -180,11 +181,18 @@ FVector AKOA_PROTO_Character::GetMousePositionInPlayerPlane() {
 //				Methods to manage player stats.				//
 //////////////////////////////////////////////////////////////
 void AKOA_PROTO_Character::DamagePlayer(float Amount) {
-	(HealthCurrent - Amount) < 0.0f ? HealthCurrent = 0.0f : HealthCurrent -= Amount;
-	//TODO: Tell the player he is dead if HealthCurrent <= 0.0f
+	if ((HealthCurrent - Amount) < 0.0f) {
+		HealthCurrent = 0.0f;
+		OnDeath();
+	} else {
+		HealthCurrent -= Amount;
+	}
 }
 void AKOA_PROTO_Character::HealPlayer(float Amount) {
 	(HealthCurrent + Amount) > HealthMax ? HealthCurrent = HealthMax : HealthCurrent += Amount;
+}
+void AKOA_PROTO_Character::OnDeath() {
+	IsDead = true;
 }
 
 //////////////////////////////////////////////////////////////

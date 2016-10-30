@@ -394,6 +394,8 @@ public:
 	
 /********************* PRIVATE VARIABLES *********************/
 private:
+	/***** STATS *****/
+	bool IsDead;
 	/***** MOVEMENT *****/
 	bool CanDodge;
 	bool IsSlidingDownWall;
@@ -416,6 +418,7 @@ private:
 
 /********************* PRIVATE METHODS *********************/
 private:
+	void OnDeath();
 	void UnlockAbilityUse();
 	void UnlockArtifactSwap();
 	void DEBUG_EquipCurrentArtifact();

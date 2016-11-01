@@ -57,7 +57,7 @@ public: // Methods
 		CurrentCapsuleLocation = location;
 	}
 
-	UFUNCTION(BlueprintCallable, Category = "World Context Object")
+	UFUNCTION(BlueprintPure, Category = "World Context Object")
 		AKOA_PROTO_Character* GetPlayer();
 
 private: // Variables

@@ -10,7 +10,7 @@
  */
 class AKOA_PROTO_Character;
 
-UCLASS()
+UCLASS(meta = (ShowWorldContextPin))
 class KOA_PROTO_API UKOA_Artifact_DualDaggers : public UKOA_BASE_Artifact
 {
 	GENERATED_BODY()
@@ -41,6 +41,11 @@ public: // Methods
 	void ReleaseAbilityW();
 	void ReleaseAbilityE();
 	void ReleaseAbilityR();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
+	void OnPressAbilityE();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
+	void OnReleaseAbilityE();
 
 	// GETTERS //
 	FORCEINLINE FVector GetCurrentECapsuleLocation() const {
@@ -51,6 +56,10 @@ public: // Methods
 	void SetCurrentCapsuleLocation(const FVector& location) {
 		CurrentCapsuleLocation = location;
 	}
+
+	UFUNCTION(BlueprintCallable, Category = "World Context Object")
+		AKOA_PROTO_Character* GetPlayer();
+
 private: // Variables
 	FVector CurrentCapsuleLocation;
 private: // Methods

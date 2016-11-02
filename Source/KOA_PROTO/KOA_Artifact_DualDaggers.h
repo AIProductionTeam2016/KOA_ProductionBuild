@@ -17,6 +17,10 @@ class KOA_PROTO_API UKOA_Artifact_DualDaggers : public UKOA_BASE_Artifact
 public: // Variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Stats")
 	float ABILQ_HealAmount;
+
+	// Actor references
+	UPROPERTY(BlueprintReadOnly, Category = "Actor References")
+	AActor* BloodStormSphere;
 	
 public: // Methods
 	UKOA_Artifact_DualDaggers(const FObjectInitializer& ObjectInitializer);
@@ -46,6 +50,12 @@ public: // Methods
 	void OnPressAbilityE();
 	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
 	void OnReleaseAbilityE();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
+	void OnPressAbilityR();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
+	void OnReleaseAbilityR();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Tick")
+	void OnTick(float deltaTime);
 
 	// GETTERS //
 	FORCEINLINE FVector GetCurrentECapsuleLocation() const {
@@ -62,6 +72,8 @@ public: // Methods
 
 private: // Variables
 	FVector CurrentCapsuleLocation;
+	TSubclassOf<AActor> BloodStormSphereClass;
+	bool bBloodStormSphereFound;
 private: // Methods
 	void E_LocationSwap();
 };

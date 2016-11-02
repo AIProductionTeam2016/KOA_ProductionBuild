@@ -23,6 +23,17 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	LightBasicAttackLockDuration = 1.0f;
 	
 	// ABILITY R //
+	BloodStormSphere = nullptr;
+	static ConstructorHelpers::FClassFinder<AActor> BloodStormSphereBP(TEXT("/Game/Artifacts/VampireDaggers/BP_BloodStormSphere"));
+	if (BloodStormSphereBP.Succeeded())
+	{
+		BloodStormSphereClass = BloodStormSphereBP.Class;
+		bBloodStormSphereFound = true;
+	}
+	else
+	{
+		bBloodStormSphereFound = false;
+	}
 }
 //********** USE BASIC ATTACKS **********//
 void UKOA_Artifact_DualDaggers::UseLightAttack() {
@@ -49,6 +60,14 @@ void UKOA_Artifact_DualDaggers::PressAbilityE() {
 }
 void UKOA_Artifact_DualDaggers::PressAbilityR() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::R");
+	if (BloodStormSphere == nullptr)
+	{
+		if (bBloodStormSphereFound)
+		{
+			BloodStormSphere = GetPlayer()->GetWorld()->SpawnActor(BloodStormSphereClass);
+		}
+	}
+	OnPressAbilityR();
 }
 
 //********** RELEASE ABILITY **********//
@@ -71,6 +90,12 @@ void UKOA_Artifact_DualDaggers::ReleaseAbilityE() {
 void UKOA_Artifact_DualDaggers::ReleaseAbilityR() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released DualDagger::R");
 	StartAbilityCooldownTimer(EAbilityID::ABID_R);
+	if (BloodStormSphere != nullptr && BloodStormSphere->IsValidLowLevel())
+	{
+		BloodStormSphere->Destroy();
+		BloodStormSphere = nullptr;
+	}
+	OnReleaseAbilityR();
 }
 
 //******************** GET PLAYER ********************//
@@ -128,6 +153,7 @@ void UKOA_Artifact_DualDaggers::Tick(float DeltaTime) {
 	default:
 		break;
 	}
+	OnTick(DeltaTime);
 }
 
 

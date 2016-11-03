@@ -34,6 +34,26 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	{
 		bBloodStormSphereFound = false;
 	}
+	static ConstructorHelpers::FClassFinder<AActor> SquigglyProjBP(TEXT("/Game/Artifacts/VampireDaggers/BP_VDBS_SquigglyProjectile"));
+	if (SquigglyProjBP.Succeeded())
+	{
+		SquigglyProjClass = SquigglyProjBP.Class;
+		bSquigglyProjFound = true;
+	}
+	else
+	{
+		bSquigglyProjFound = false;
+	}
+	static ConstructorHelpers::FClassFinder<AActor> HelixProjBP(TEXT("/Game/Artifacts/VampireDaggers/BP_VDBSHelixSeekProjectile"));
+	if (HelixProjBP.Succeeded())
+	{
+		HelixProjClass = HelixProjBP.Class;
+		bHelixProjFound = true;
+	}
+	else
+	{
+		bHelixProjFound = false;
+	}
 }
 //********** USE BASIC ATTACKS **********//
 void UKOA_Artifact_DualDaggers::UseLightAttack() {
@@ -60,6 +80,8 @@ void UKOA_Artifact_DualDaggers::PressAbilityE() {
 }
 void UKOA_Artifact_DualDaggers::PressAbilityR() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed DualDagger::R");
+	AKOA_PROTO_Character* player = GetPlayerReference();
+	player->SetIsMovementInputDisabled(true);
 	if (BloodStormSphere == nullptr)
 	{
 		if (bBloodStormSphereFound)
@@ -89,6 +111,8 @@ void UKOA_Artifact_DualDaggers::ReleaseAbilityE() {
 }
 void UKOA_Artifact_DualDaggers::ReleaseAbilityR() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released DualDagger::R");
+	AKOA_PROTO_Character* player = GetPlayerReference();
+	player->SetIsMovementInputDisabled(false);
 	StartAbilityCooldownTimer(EAbilityID::ABID_R);
 	if (BloodStormSphere != nullptr && BloodStormSphere->IsValidLowLevel())
 	{
@@ -102,6 +126,29 @@ void UKOA_Artifact_DualDaggers::ReleaseAbilityR() {
 
 AKOA_PROTO_Character* UKOA_Artifact_DualDaggers::GetPlayer() {
 	return GetPlayerReference();
+}
+
+//******************** SPAWN PROJECTILES ********************//
+
+AActor* UKOA_Artifact_DualDaggers::SpawnSquigglyProjectile() {
+	if (bSquigglyProjFound)
+	{
+		return GetPlayer()->GetWorld()->SpawnActor(SquigglyProjClass);
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+AActor* UKOA_Artifact_DualDaggers::SpawnHelixProjectile() {
+	if (bHelixProjFound)
+	{
+		return GetPlayer()->GetWorld()->SpawnActor(HelixProjClass);
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 
 //******************** TICK ********************//

@@ -46,6 +46,7 @@ public: // Methods
 	void ReleaseAbilityE();
 	void ReleaseAbilityR();
 	
+	// Custom Events
 	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
 	void OnPressAbilityE();
 	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
@@ -56,6 +57,12 @@ public: // Methods
 	void OnReleaseAbilityR();
 	UFUNCTION(BlueprintImplementableEvent, Category = "Tick")
 	void OnTick(float deltaTime);
+
+	// Spawning Projectiles
+	UFUNCTION(BlueprintCallable, Category = "Projectile Spawning")
+	AActor* SpawnSquigglyProjectile();
+	UFUNCTION(BlueprintCallable, Category = "Projectile Spawning")
+	AActor* SpawnHelixProjectile();
 
 	// GETTERS //
 	FORCEINLINE FVector GetCurrentECapsuleLocation() const {
@@ -74,6 +81,10 @@ private: // Variables
 	FVector CurrentCapsuleLocation;
 	TSubclassOf<AActor> BloodStormSphereClass;
 	bool bBloodStormSphereFound;
+	TSubclassOf<AActor> SquigglyProjClass;
+	bool bSquigglyProjFound; 
+	TSubclassOf<AActor> HelixProjClass;
+	bool bHelixProjFound;
 private: // Methods
 	void E_LocationSwap();
 };

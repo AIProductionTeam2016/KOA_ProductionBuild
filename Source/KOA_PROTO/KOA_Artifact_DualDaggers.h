@@ -18,8 +18,15 @@ public: // Variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Stats")
 	float ABILQ_HealAmount;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Stats")
+	float ABILR_SquigglyTendrilLifeTime;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Stats")
+	float ABILR_HelixTendrilLifeTime;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Stats")
+	float ABILR_HealAmount;
+
 	// Actor references
-	UPROPERTY(BlueprintReadOnly, Category = "Actor References")
+	UPROPERTY(BlueprintReadOnly, Category = "Ability|Actor References")
 	AActor* BloodStormSphere;
 	
 public: // Methods
@@ -47,22 +54,26 @@ public: // Methods
 	void ReleaseAbilityR();
 	
 	// Custom Events
-	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability|Events")
 	void OnPressAbilityE();
-	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability|Events")
 	void OnReleaseAbilityE();
-	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability|Events")
 	void OnPressAbilityR();
-	UFUNCTION(BlueprintImplementableEvent, Category = "Attacks/Ablities")
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability|Events")
 	void OnReleaseAbilityR();
-	UFUNCTION(BlueprintImplementableEvent, Category = "Tick")
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability|Tick")
 	void OnTick(float deltaTime);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability|BloodStorm")
+	void OnBloodStormDamage();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Ability|BloodStorm")
+	void OnBloodStormHeal();
 
 	// Spawning Projectiles
-	UFUNCTION(BlueprintCallable, Category = "Projectile Spawning")
-	AActor* SpawnSquigglyProjectile();
-	UFUNCTION(BlueprintCallable, Category = "Projectile Spawning")
-	AActor* SpawnHelixProjectile();
+	UFUNCTION(BlueprintCallable, Category = "Ability|Projectile Spawning")
+	AActor* SpawnSquigglyProjectile(FVector startPosition);
+	UFUNCTION(BlueprintCallable, Category = "Ability|Projectile Spawning")
+	AActor* SpawnHelixProjectile(FVector startPosition);
 
 	// GETTERS //
 	FORCEINLINE FVector GetCurrentECapsuleLocation() const {
@@ -74,7 +85,7 @@ public: // Methods
 		CurrentCapsuleLocation = location;
 	}
 
-	UFUNCTION(BlueprintPure, Category = "World Context Object")
+	UFUNCTION(BlueprintPure, Category = "Ability|Player")
 		AKOA_PROTO_Character* GetPlayer();
 
 private: // Variables
@@ -85,6 +96,9 @@ private: // Variables
 	bool bSquigglyProjFound; 
 	TSubclassOf<AActor> HelixProjClass;
 	bool bHelixProjFound;
+
+	FTimerHandle hnd_BS_TimerBeforeDamage;
+	FTimerHandle hnd_BS_TimerBeforeHeal;
 private: // Methods
 	void E_LocationSwap();
 };

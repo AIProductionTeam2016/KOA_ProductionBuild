@@ -23,6 +23,9 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	LightBasicAttackLockDuration = 1.0f;
 	
 	// ABILITY R //
+	ABILR_SquigglyTendrilLifeTime = 1.0f;
+	ABILR_HelixTendrilLifeTime = 1.0f;
+	ABILR_HealAmount = 10.0f;
 	BloodStormSphere = nullptr;
 	static ConstructorHelpers::FClassFinder<AActor> BloodStormSphereBP(TEXT("/Game/Artifacts/VampireDaggers/BP_BloodStormSphere"));
 	if (BloodStormSphereBP.Succeeded())
@@ -44,7 +47,7 @@ UKOA_Artifact_DualDaggers::UKOA_Artifact_DualDaggers(const FObjectInitializer& O
 	{
 		bSquigglyProjFound = false;
 	}
-	static ConstructorHelpers::FClassFinder<AActor> HelixProjBP(TEXT("/Game/Artifacts/VampireDaggers/BP_VDBSHelixSeekProjectile"));
+	static ConstructorHelpers::FClassFinder<AActor> HelixProjBP(TEXT("/Game/Artifacts/VampireDaggers/BP_VDBS_HelixSeekProjectile"));
 	if (HelixProjBP.Succeeded())
 	{
 		HelixProjClass = HelixProjBP.Class;
@@ -119,6 +122,8 @@ void UKOA_Artifact_DualDaggers::ReleaseAbilityR() {
 		BloodStormSphere->Destroy();
 		BloodStormSphere = nullptr;
 	}
+	GetPlayerReference()->GetWorld()->GetTimerManager().SetTimer(hnd_BS_TimerBeforeDamage, this, &UKOA_Artifact_DualDaggers::OnBloodStormDamage, ABILR_SquigglyTendrilLifeTime);
+	GetPlayerReference()->GetWorld()->GetTimerManager().SetTimer(hnd_BS_TimerBeforeHeal, this, &UKOA_Artifact_DualDaggers::OnBloodStormHeal, ABILR_SquigglyTendrilLifeTime + ABILR_HelixTendrilLifeTime);
 	OnReleaseAbilityR();
 }
 
@@ -130,20 +135,20 @@ AKOA_PROTO_Character* UKOA_Artifact_DualDaggers::GetPlayer() {
 
 //******************** SPAWN PROJECTILES ********************//
 
-AActor* UKOA_Artifact_DualDaggers::SpawnSquigglyProjectile() {
+AActor* UKOA_Artifact_DualDaggers::SpawnSquigglyProjectile(FVector startPosition) {
 	if (bSquigglyProjFound)
 	{
-		return GetPlayer()->GetWorld()->SpawnActor(SquigglyProjClass);
+		return GetPlayer()->GetWorld()->SpawnActor(SquigglyProjClass, &startPosition);
 	}
 	else
 	{
 		return nullptr;
 	}
 }
-AActor* UKOA_Artifact_DualDaggers::SpawnHelixProjectile() {
+AActor* UKOA_Artifact_DualDaggers::SpawnHelixProjectile(FVector startPosition) {
 	if (bHelixProjFound)
 	{
-		return GetPlayer()->GetWorld()->SpawnActor(HelixProjClass);
+		return GetPlayer()->GetWorld()->SpawnActor(HelixProjClass, &startPosition);
 	}
 	else
 	{

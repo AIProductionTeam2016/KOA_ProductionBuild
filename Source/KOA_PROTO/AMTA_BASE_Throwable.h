@@ -29,8 +29,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 	UStaticMesh* Mesh;
 	
+	//TODO: Move to projectile stats struct
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float Damage;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	FStatusEffects StatusEffects;
 public:
